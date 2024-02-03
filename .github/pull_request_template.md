@@ -13,5 +13,5 @@
 - [ ] 파일 혹은 폴더명 수정
 - [ ] 파일 혹은 폴더 삭제
 ### 관련 지라 및 위키 링크
-
+[KAKEULGAE-num](https://kaclga.atlassian.net/browse/KAKEULGAE-num)
 ### 리뷰어에게 하고 싶은 말
