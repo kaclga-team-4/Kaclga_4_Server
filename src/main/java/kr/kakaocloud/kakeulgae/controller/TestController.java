@@ -18,7 +18,7 @@ public class TestController {
         testService.createTest(t);
     }
     @GetMapping("{id}")
-    public ResponseEntity<TestResponse> getName(@PathVariable Long id) {
+    public ResponseEntity<TestResponse> getName(@PathVariable(value="id") Long id) {
         return ResponseEntity.ok(testService.getId(id));
     }
 }
