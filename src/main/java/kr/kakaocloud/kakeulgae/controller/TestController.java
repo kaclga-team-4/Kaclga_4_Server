@@ -1,9 +1,11 @@
 package kr.kakaocloud.kakeulgae.controller;
 
-import kr.kakaocloud.kakeulgae.domain.dto.TestPostRequest;
-import kr.kakaocloud.kakeulgae.domain.dto.TestResponse;
+import jakarta.validation.Valid;
+import kr.kakaocloud.kakeulgae.domain.dto.TestDtos.TestPostRequest;
+import kr.kakaocloud.kakeulgae.domain.dto.TestDtos.TestResponse;
 import kr.kakaocloud.kakeulgae.service.TestService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,11 +16,12 @@ public class TestController {
     private final TestService testService;
 
     @PostMapping()
-    public void createTest(@RequestBody TestPostRequest t){
+    public ResponseEntity<Void> createTest(@Valid @RequestBody TestPostRequest t){
         testService.createTest(t);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
     @GetMapping("{id}")
     public ResponseEntity<TestResponse> getName(@PathVariable Long id) {
-        return ResponseEntity.ok(testService.getId(id));
+        return new ResponseEntity<>(testService.getId(id), HttpStatus.OK);
     }
 }
