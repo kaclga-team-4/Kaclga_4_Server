@@ -3,7 +3,7 @@ package kr.kakaocloud.kakeulgae.service;
 import kr.kakaocloud.kakeulgae.domain.dto.TestPostRequest;
 import kr.kakaocloud.kakeulgae.domain.dto.TestResponse;
 import kr.kakaocloud.kakeulgae.domain.entity.TestEntity;
-import kr.kakaocloud.kakeulgae.domain.repository.TestRepository;
+import kr.kakaocloud.kakeulgae.repository.TestRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
