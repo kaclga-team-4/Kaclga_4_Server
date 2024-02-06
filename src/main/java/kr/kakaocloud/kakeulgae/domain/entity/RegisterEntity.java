@@ -7,7 +7,7 @@ import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
-@Entity
+/*@Entity
 @AllArgsConstructor
 @NoArgsConstructor
 public class RegisterEntity extends ModifyEntity{
@@ -15,4 +15,4 @@ public class RegisterEntity extends ModifyEntity{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-}
+}*/
