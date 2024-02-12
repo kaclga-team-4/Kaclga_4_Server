@@ -32,4 +32,10 @@ public class TestController {
     public List<String> saveImage(@ModelAttribute TestPostRequest imageSaveDto) {
         return imageService.saveImages(imageSaveDto);
     }
+
+    @PostMapping("/db-import")
+    @ResponseStatus(HttpStatus.OK)
+    public void importData(@RequestBody String content) {
+        testService.importData(content);
+    }
 }
