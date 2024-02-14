@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import kr.kakaocloud.kakeulgae.domain.dto.TestPostRequest;
 import kr.kakaocloud.kakeulgae.domain.dto.TestResponse;
+import kr.kakaocloud.kakeulgae.domain.entity.JobCategory;
+import kr.kakaocloud.kakeulgae.domain.entity.JobDetail;
 import kr.kakaocloud.kakeulgae.domain.entity.TestEntity;
 import kr.kakaocloud.kakeulgae.domain.entity.TestImage;
 import kr.kakaocloud.kakeulgae.domain.repository.DataRepository;
@@ -81,22 +83,53 @@ public class TestService {
 
 
     @Transactional
-    public void importData(String content, int num) {
-        //dataRepository.updateByIdIn(List.of((long) ));
+    public void updateData(String content, Long num) {
+        List<String> list = new ArrayList<>();
+        String[] splts = content.split("\\)");
+        for (String s : splts) {
+            int index = s.indexOf("(");
+            list.add(s.substring(0, index));
+        }
+        List<JobDetail> a = dataRepository.findByJobIdAndTypeIgnoreCase(2L, "a");
+        JobCategory jobCategory = dataRepository2.findById(num).orElseThrow();
+        for (JobDetail jobDetail : a) {
+            jobDetail.setJobCategory(jobCategory);
+        }
+
+        dataRepository.saveAll(a);
     }
-    /*
+
     @Transactional
     public void importData(String content) {
-        List<JobDetail> list = new ArrayList<>();
+        /*List<JobDetail> list = new ArrayList<>();
         String[] splts = content.split("\r\n");
         for (String s : splts) {
             String[] splts2 = s.split("\t+");
             Job region1st = dataRepository.findById(Long.parseLong(splts2[0])).orElseThrow();
             list.add(new JobDetail(Long.parseLong(splts2[2]), splts2[3], region1st));
         }
-        dataRepository2.saveAll(list);
+        dataRepository2.saveAll(list);*/
     }
 
+    @Transactional
+    public List<String> exportData(String content) {
+        List<String> list = new ArrayList<>();
+        List<String> region1st = new ArrayList<>();
+        String[] splts = content.split("\\)");
+        for (String s : splts) {
+            int end = s.indexOf(" ");
+            String result = s.substring(0, end);
+            list.add(result);
+            region1st.add(dataRepository.findByJobIdAndTypeIgnoreCase(2L, result).stream().map(
+                JobDetail::getType)));
+        }
+
+        for (String s : region1st) {
+            list.remove(String.valueOf(s));
+        }
+        return list;
+    }
+/*
     @Transactional
     public void importData(String content) {
         List<Job> list = new ArrayList<>();

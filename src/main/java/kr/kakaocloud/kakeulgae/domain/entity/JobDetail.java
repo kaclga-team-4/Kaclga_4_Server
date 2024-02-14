@@ -8,6 +8,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.NotNull;
+import lombok.Setter;
 
 @Entity
 @Table(
@@ -15,6 +16,7 @@ import jakarta.validation.constraints.NotNull;
     uniqueConstraints = @UniqueConstraint(name = "job_detail_uk", columnNames = {"type", "job_id"}),
     indexes = @Index(name = "job_detail_idx_type", columnList = "type")
 )
+@Setter
 public class JobDetail {
 
     @Id
@@ -39,5 +41,9 @@ public class JobDetail {
 
     public JobDetail() {
 
+    }
+
+    public String getType() {
+        return type;
     }
 }

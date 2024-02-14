@@ -6,5 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface DataRepository extends JpaRepository<JobDetail, Long> {
 
-    public void updateByIdIn(List<Long> id);
+    List<JobDetail> findByJobIdAndTypeIgnoreCase(Long num2, String type2);
+
 }

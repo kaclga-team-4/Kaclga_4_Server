@@ -43,14 +43,19 @@ public class TestController {
 
     @PostMapping("/db-import")
     @ResponseStatus(HttpStatus.OK)
-    public void importData(@RequestBody String content, @PathVariable int num) {
-        testService.importData(content, num);
+    public void importData(@RequestBody String content) {
+        testService.importData(content);
     }
 
-    /*@PostMapping("/db-export")
+    @PostMapping("/db-update/{num}")
     @ResponseStatus(HttpStatus.OK)
-    public String exportData(@RequestBody String content) {
-        testService.exportData(content);
-        return "success";
-    }*/
+    public void updateData(@RequestBody String content, @PathVariable Long num) {
+        testService.updateData(content, num);
+    }
+
+    @PostMapping("/db-export")
+    @ResponseStatus(HttpStatus.OK)
+    public List<String> exportData(@RequestBody String content) {
+        return testService.exportData(content);
+    }
 }
