@@ -1,5 +1,6 @@
 package kr.kakaocloud.kakeulgae.service;
 
+import kr.weit.odya.security.FirebaseTokenHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,7 +14,7 @@ public class AuthenticationService() {
     private FirebaseTokenHelper firebaseTokenHelper;
     private UsersDocumentRepository usersDocumentRepository;
 
-    public void googleLoginProcess(String googleUsername) {
+    public void googleLoginProcess(Long googleUsername) {
         if (!userRepository.existsByUsername(googleUsername)) {
             throw UnRegisteredUserException("$googleUsername: 존재하지 않는 회원입니다");
         }
@@ -51,7 +52,9 @@ public class AuthenticationService() {
         }
     }
 
-    public String getUsernameByIdToken(idToken:String):String =firebaseTokenHelper.getUid(idToken)
+    public String getUsernameByIdToken(String idToken) {
+        firebaseTokenHelper.getUid(idToken);
+    }
 
 
     private public String getBearerToken(

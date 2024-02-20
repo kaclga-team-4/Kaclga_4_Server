@@ -1,18 +1,17 @@
 package kr.kakaocloud.kakeulgae.domain.dto;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 import java.time.LocalDate;
-import kr.kakaocloud.kakeulgae.domain.dto.AuthDto.GoogleRegisterRequest.RegisterRequest;
 
 public class AuthDto {
     public class GoogleLoginRequest{
         @NotBlank
-        String idToken;
+        public String idToken;
     }
 public class  GoogleRegisterRequest extends RegisterRequest {
         @NotBlank
