@@ -40,22 +40,4 @@ public class TestController {
     public List<String> saveImage(@ModelAttribute TestPostRequest imageSaveDto) {
         return imageService.saveImages(imageSaveDto);
     }
-
-    @PostMapping("/db-import")
-    @ResponseStatus(HttpStatus.OK)
-    public void importData(@RequestBody String content) {
-        testService.importData(content);
-    }
-
-    @PostMapping("/db-update/{num}")
-    @ResponseStatus(HttpStatus.OK)
-    public void updateData(@RequestBody String content, @PathVariable Long num) {
-        testService.updateData(content, num);
-    }
-
-    @PostMapping("/db-export")
-    @ResponseStatus(HttpStatus.OK)
-    public List<String> exportData(@RequestBody String content) {
-        return testService.exportData(content);
-    }
 }
