@@ -12,7 +12,7 @@ import kr.kakaocloud.kakeulgae.domain.dto.AuthDto.GoogleRegisterRequest.Register
 public class AuthDto {
     public class GoogleLoginRequest{
         @NotBlank
-        String idToken;
+        public String idToken;
     }
 public class  GoogleRegisterRequest extends RegisterRequest {
         @NotBlank

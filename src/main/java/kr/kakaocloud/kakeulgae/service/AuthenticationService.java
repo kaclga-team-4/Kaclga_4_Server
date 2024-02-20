@@ -9,7 +9,6 @@ public class AuthenticationService() {
 
     private static final String OAUTH_ACCESS_TOKEN_TYPE = "BEARER";
     private UserRepository userRepository;
-    private ProfileColorService profileColorService;
     private FirebaseTokenHelper firebaseTokenHelper;
     private UsersDocumentRepository usersDocumentRepository;
 
@@ -39,19 +38,19 @@ public class AuthenticationService() {
         }
     }
 
-    public void validateEmail(email:String) {
+    public void validateEmail(String email) {
         if (userRepository.existsByEmail(email)) {
             throw ExistResourceException("$email: 이미 존재하는 이메일입니다")
         }
     }
 
-    public void validatePhoneNumber(phoneNumber:String) {
+    public void validatePhoneNumber(String phoneNumber) {
         if (userRepository.existsByPhoneNumber(phoneNumber)) {
             throw ExistResourceException("$phoneNumber: 이미 존재하는 전화번호입니다")
         }
     }
 
-    public String getUsernameByIdToken(idToken:String):String =firebaseTokenHelper.getUid(idToken)
+    public String getUsernameByIdToken(String idToken) {firebaseTokenHelper.getUid(idToken)}
 
 
     private public String getBearerToken(
