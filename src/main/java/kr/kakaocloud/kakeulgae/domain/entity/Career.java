@@ -1,5 +1,6 @@
 package kr.kakaocloud.kakeulgae.domain.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Index;
@@ -16,6 +17,7 @@ import jakarta.validation.constraints.NotEmpty;
 public class Career {
 
     @Id
+    @Column()
     private Long id;
     @NotEmpty
     private String type;

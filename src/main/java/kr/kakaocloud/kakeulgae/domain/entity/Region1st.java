@@ -17,7 +17,6 @@ import jakarta.validation.constraints.NotEmpty;
 public class Region1st {
 
     @Id
-    @Column(name = "region1st_id")
     private Long id;
 
     @NotEmpty

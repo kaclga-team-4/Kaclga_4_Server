@@ -27,11 +27,11 @@ public class JobDetail {
     private String type;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "job_id")
+    @JoinColumn(name = "id")
     private Job job;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "job_category_id")
+    @JoinColumn(name = "id")
     private JobCategory jobCategory;
 
     public JobDetail(long l, String splt, Job job) {

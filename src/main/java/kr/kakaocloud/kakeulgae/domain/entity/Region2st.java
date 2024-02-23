@@ -25,7 +25,7 @@ public class Region2st {
     private String type;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "region1st_id")
+    @JoinColumn(name = "id")
     private Region1st region1st;
 
     public Region2st(long l, String splt, Region1st region1st) {
