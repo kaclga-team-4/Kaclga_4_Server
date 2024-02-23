@@ -1,5 +1,6 @@
 package kr.kakaocloud.kakeulgae.domain.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
@@ -25,7 +26,7 @@ public class Region2nd {
     private String type;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "region_1st_id")
     private Region1st region1st;
 
     public Region2nd(long l, String splt, Region1st region1st) {

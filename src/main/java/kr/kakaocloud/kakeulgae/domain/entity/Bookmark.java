@@ -18,10 +18,10 @@ public class Bookmark {
     private LocalDateTime created_at;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "member_id")
     private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "job_posting_id")
     private JobPosting jobPosting;
 }

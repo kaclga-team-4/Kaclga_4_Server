@@ -1,5 +1,6 @@
 package kr.kakaocloud.kakeulgae.domain.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
@@ -27,11 +28,11 @@ public class JobDetail {
     private String type;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "job_id")
     private Job job;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "job_category_id")
     private JobCategory jobCategory;
 
     public JobDetail(long l, String splt, Job job) {

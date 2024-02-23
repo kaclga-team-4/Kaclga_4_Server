@@ -18,10 +18,10 @@ public class BookmarkController {
 
     private final BookmarkService bookmarkService;
 
-    @GetMapping("")
-    public ArrayList<BookmarkDto> list() {
-
-    }
+//    @GetMapping("")
+//    public ArrayList<BookmarkDto> list() {
+//
+//    }
 
     @PostMapping("/{bookmark_id}")
     public void add(@PathVariable("bookmark_id") Long id) {
