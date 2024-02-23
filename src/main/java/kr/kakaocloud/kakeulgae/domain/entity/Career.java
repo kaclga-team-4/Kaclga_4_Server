@@ -5,11 +5,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Index;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotEmpty;
 
 @Entity
 @Table(
-    name = "CAREER",
+    name = "career",
     uniqueConstraints = @UniqueConstraint(name = "career_uk", columnNames = "type"),
     indexes = @Index(name = "career_idx_type", columnList = "type")
 )
@@ -17,7 +17,7 @@ public class Career {
 
     @Id
     private Long id;
-    @NotNull
+    @NotEmpty
     private String type;
 
 }

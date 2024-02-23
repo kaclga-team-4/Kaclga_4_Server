@@ -1,18 +1,24 @@
 package kr.kakaocloud.kakeulgae.domain.entity;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Index;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
+import jakarta.validation.constraints.NotEmpty;
+
 @Entity
 @Table(
-        name="JOB",
-        uniqueConstraints = @UniqueConstraint(name= "job_uk", columnNames="type"),
-        indexes = @Index(name = "job_idx_type", columnList = "type")
+    name = "job",
+    uniqueConstraints = @UniqueConstraint(name = "job_uk", columnNames = "type"),
+    indexes = @Index(name = "job_idx_type", columnList = "type")
 )
 public class Job {
+
     @Id
     private Long id;
 
-    @NotNull
+    @NotEmpty
     private String type;
 
     public Job(long l, String splt) {
