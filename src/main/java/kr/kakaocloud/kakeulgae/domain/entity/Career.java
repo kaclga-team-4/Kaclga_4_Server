@@ -17,7 +17,6 @@ import jakarta.validation.constraints.NotEmpty;
 public class Career {
 
     @Id
-    @Column()
     private Long id;
     @NotEmpty
     private String type;

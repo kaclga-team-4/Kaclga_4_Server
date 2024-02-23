@@ -16,7 +16,7 @@ import jakarta.validation.constraints.NotEmpty;
     uniqueConstraints = @UniqueConstraint(name = "region_2st_uk", columnNames = "type"),
     indexes = @Index(name = "region_2st_idx_type", columnList = "type")
 )
-public class Region2st {
+public class Region2nd {
 
     @Id
     private Long id;
@@ -28,13 +28,13 @@ public class Region2st {
     @JoinColumn(name = "id")
     private Region1st region1st;
 
-    public Region2st(long l, String splt, Region1st region1st) {
+    public Region2nd(long l, String splt, Region1st region1st) {
         this.id = l;
         this.type = splt;
         this.region1st = region1st;
     }
 
-    public Region2st() {
+    public Region2nd() {
 
     }
 }
