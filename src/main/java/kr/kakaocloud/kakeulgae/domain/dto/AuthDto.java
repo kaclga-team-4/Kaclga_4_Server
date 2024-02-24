@@ -18,7 +18,7 @@ public class  GoogleRegisterRequest extends RegisterRequest {
         val idToken: String,
 
         @Email
-            override val email: String?,
+    override val email: String?,
 
         @PhoneNumber
             override val phoneNumber: String?,
