@@ -28,7 +28,7 @@ public class BookmarkController {
 
     }
 
-    @DeleteMapping("/{bookmark_id")
+    @DeleteMapping("/{bookmark_id}")
     public void delete(@PathVariable("bookmark_id") Long id) {
 
     }
