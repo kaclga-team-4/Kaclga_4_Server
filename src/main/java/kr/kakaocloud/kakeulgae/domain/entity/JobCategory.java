@@ -19,7 +19,7 @@ import jakarta.validation.constraints.NotEmpty;
 public class JobCategory {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Long id;
 
 

@@ -11,7 +11,7 @@ import jakarta.validation.constraints.NotEmpty;
 @Entity
 @Table(
     name = "work_type",
-    uniqueConstraints = @UniqueConstraint(name = "workType_uk", columnNames = "type"),
+    uniqueConstraints = @UniqueConstraint(name = "worktype_uk", columnNames = "type"),
     indexes = @Index(name = "idx_type", columnList = "type")
 )
 public class WorkType {

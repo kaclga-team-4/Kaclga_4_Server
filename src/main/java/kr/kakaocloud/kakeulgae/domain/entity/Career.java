@@ -2,6 +2,7 @@ package kr.kakaocloud.kakeulgae.domain.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Index;
 import jakarta.persistence.Table;
@@ -17,6 +18,7 @@ import jakarta.validation.constraints.NotEmpty;
 public class Career {
 
     @Id
+    @GeneratedValue
     private Long id;
     @NotEmpty
     private String type;
