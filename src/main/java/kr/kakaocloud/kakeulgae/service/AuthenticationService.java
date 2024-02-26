@@ -1,92 +1,79 @@
 package kr.kakaocloud.kakeulgae.service;
 
-import kr.weit.odya.security.FirebaseTokenHelper;
+import kr.kakaocloud.kakeulgae.domain.entity.member.Member;
+import kr.kakaocloud.kakeulgae.repository.MemberRepository;
+import kr.kakaocloud.kakeulgae.security.FirebaseTokenHelper;
+import kr.kakaocloud.kakeulgae.service.dto.member.AuthDto.GoogleRegisterRequest;
+import kr.kakaocloud.kakeulgae.service.dto.member.RegisterRequest;
+import kr.kakaocloud.kakeulgae.support.exception.KakeulgaeException.ExistResourceException;
+import kr.kakaocloud.kakeulgae.support.exception.KakeulgaeException.UnRegisteredMemberException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
-public class AuthenticationService() {
+public class AuthenticationService {
 
-    private static final String OAUTH_ACCESS_TOKEN_TYPE = "BEARER";
-    private UserRepository userRepository;
-    private FirebaseTokenHelper firebaseTokenHelper;
-    private UsersDocumentRepository usersDocumentRepository;
+    static final String OAUTH_ACCESS_TOKEN_TYPE = "BEARER";
+    MemberRepository memberRepository;
+    FirebaseTokenHelper firebaseTokenHelper;
 
-    public void googleLoginProcess(Long googleUsername) {
-        if (!userRepository.existsByUsername(googleUsername)) {
-            throw UnRegisteredUserException("$googleUsername: 존재하지 않는 회원입니다");
+    public void googleLoginProcess(String googleMemberName) {
+        if (!memberRepository.existsAllByMemberName(googleMemberName)) {
+            throw new UnRegisteredMemberException("$googleMemberName: 존재하지 않는 회원입니다");
         }
     }
 
     @Transactional
-    public void register(RegisterRequest registerRequest) {
-        val termsIdList = registerRequest.termsIdList
-        termsService.checkRequiredTerms(termsIdList)
-        validateRegisterInformation(registerRequest)
-        val randomProfileColor = profileColorService.getRandomProfileColor()
-        val user = userRepository.save(createUser(registerRequest, randomProfileColor))
-        if (registerRequest.socialType == SocialType.KAKAO) {
-            firebaseTokenHelper.createFirebaseUser(registerRequest.username)
-        }
-        termsService.saveAllAgreedTerms(user, termsIdList)
-        usersDocumentRepository.save(UsersDocument(user))
+    public void register(GoogleRegisterRequest registerRequest) {
+        validateRegisterInformation(registerRequest);
+        memberRepository.save(createMember(registerRequest));
     }
 
-    public void validateNickname(String nickname) {
-        if (userRepository.existsByNickname(nickname)) {
-            throw ExistResourceException(nickname + "이미 존재하는 닉네임입니다")
+    private void validateRegisterInformation(RegisterRequest registerRequest) {
+        if (memberRepository.existsAllByMemberName(registerRequest.memberName)) {
+            throw new ExistResourceException(STR."\{registerRequest.memberName} : 이미 존재하는 회원입니다");
         }
+        validateEmail(registerRequest.email);
+        validatePhoneNumber(registerRequest.phoneNumber);
+        validateNickname(registerRequest.nickname);
     }
 
-    public void validateEmail(String email) {
-        if (userRepository.existsByEmail(email)) {
-            throw ExistResourceException("$email: 이미 존재하는 이메일입니다")
+    private void validateNickname(String nickname) {
+        if (memberRepository.existsByNickname(nickname)) {
+            throw new ExistResourceException(
+                STR."\{nickname}이미 존재하는 닉네임입니다");//대표적인 JDK21의 기능 (nickname+"이미 존재하는 닉네임입니다")으로 안 해도됨
         }
     }
 
-    public void validatePhoneNumber(String phoneNumber) {
-        if (userRepository.existsByPhoneNumber(phoneNumber)) {
-            throw ExistResourceException("$phoneNumber: 이미 존재하는 전화번호입니다")
+    private void validateEmail(String email) {
+        if (memberRepository.existsByEmail(email)) {
+            throw new ExistResourceException(STR."\{email}: 이미 존재하는 이메일입니다");
         }
     }
 
-    public String getUsernameByIdToken(String idToken) {
-        firebaseTokenHelper.getUid(idToken);
-    }
-
-
-    private public String getBearerToken(
-        oAuthAccessToken:String) ="$OAUTH_ACCESS_TOKEN_TYPE $oAuthAccessToken"
-
-    private public void validateRegisterInformation(registerRequest:RegisterRequest) {
-        if (userRepository.existsByUsername(registerRequest.username)) {
-            throw ExistResourceException("${registerRequest.username}: 이미 존재하는 회원입니다")
-        }
-
-        registerRequest.apply {
-            email ?.apply {
-                validateEmail(this)
-            }
-            phoneNumber ?.apply {
-                validatePhoneNumber(this)
-            }
-            validateNickname(nickname)
+    private void validatePhoneNumber(String phoneNumber) {
+        if (memberRepository.existsByPhoneNumber(phoneNumber)) {
+            throw new ExistResourceException(STR."\{phoneNumber}: 이미 존재하는 전화번호입니다");
         }
     }
 
-    private User createUser(
-        registerRequest:RegisterRequest
-    ) {
-        User(
-            username = registerRequest.username,
-            email = registerRequest.email ?.trim(),
-            nickname = registerRequest.nickname.trim(),
-            phoneNumber = registerRequest.phoneNumber ?.trim(),
-            gender = registerRequest.gender,
-            birthday = registerRequest.birthday,
-            socialType = registerRequest.socialType,
-            profile = Profile(profileColor = randomProfileColor),
-    )
+    public String getMemberNameByIdToken(String idToken) {
+        return firebaseTokenHelper.getUid(idToken);
+    }
+
+    private Member createMember(
+        RegisterRequest registerRequest) {
+        return Member.builder()
+            .email(registerRequest.email)
+            .memberName(registerRequest.memberName)
+            .nickname(registerRequest.nickname)
+            .phoneNumber(registerRequest.phoneNumber)
+            .gender(registerRequest.gender)
+            .birthday(registerRequest.birthday)
+            .socialType(registerRequest.socialType)
+            .memberRole(registerRequest.memberRole)
+            //.profile(new Profile())
+            .build();
     }
 }

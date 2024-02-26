@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Validated
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/user")
-public class UserController {
+@RequestMapping("/member")
+public class MemberController {
 
 }

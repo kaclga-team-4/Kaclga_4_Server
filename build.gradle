@@ -8,7 +8,15 @@ group = 'kr.kakaocloud'
 version = '0.0.1-SNAPSHOT'
 
 java {
-    sourceCompatibility = '17'
+    sourceCompatibility = '21'
+}
+
+compileJava {
+    options.compilerArgs += ['--enable-preview']
+}
+
+compileTestJava {
+    options.compilerArgs += ['--enable-preview']
 }
 
 configurations {
@@ -38,4 +46,5 @@ dependencies {
 
 tasks.named('test') {
     useJUnitPlatform()
+    jvmArgs(['--enable-preview'])
 }

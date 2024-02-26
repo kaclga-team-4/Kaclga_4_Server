@@ -2,35 +2,34 @@ package kr.kakaocloud.kakeulgae.support.validator;
 
 
 import jakarta.validation.Constraint;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
+import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.lang.reflect.Array;
 import java.util.regex.Pattern;
+import javax.annotation.Nullable;
 
-class Nickname {
+@Target(ElementType.FIELD)//Annotation 이 어디에 사용 가능한지를 제한하는 데 사용됩니다
+@Retention(RetentionPolicy.RUNTIME)//Annotation 의 Scope 를 제한하는데 사용
+@Constraint(validatedBy = NicknameValidator.class)
+public @interface Nickname {
 
-        private final String NICKNAME_REGEXP = "[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9\\s]+";
-        private final  NICKNAME_PATTERN =Pattern.compile(NICKNAME_REGEXP);
+    String message = "유효하지 않은 닉네임 패턴입니다";
+    Array groups = null;
+    Array payload = null;
+}
 
-        @MustBeDocumented
-        @Target(AnnotationTarget.FIELD)
-        @Retention(AnnotationRetention.RUNTIME)
-        @Constraint(validatedBy =[NicknameValidator::class])
+class NicknameValidator implements ConstraintValidator<Nickname, String> {
 
-    annotation class Nickname(
-            val message:String="유효하지 않은 닉네임 패턴입니다",
-            val groups:Array<KClass<*>>=[],
-            val payload:Array<KClass<out Payload>>=[],
-            )
+    private final String NICKNAME_REGEXP = "[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9\\s]+";
+    private final Pattern NICKNAME_PATTERN = Pattern.compile(NICKNAME_REGEXP);
 
-        class NicknameValidator extends ConstraintValidator<Nickname, String?>
-        {
-            override fun initialize(contactNumber:Nickname){
-        }
-            override fun isValid(
-            contactField:String ?,
-            cxt:ConstraintValidatorContext ?,
-    ):Boolean {
-            return !contactField.isNullOrBlank() && NICKNAME_PATTERN.matcher(contactField).matches()
-        }
-        }
+    @Override
+    public boolean isValid(@Nullable String contactField,
+        @Nullable ConstraintValidatorContext constraintValidatorContext) {
+        return !contactField.isEmpty() && NICKNAME_PATTERN.matcher(contactField).matches();
     }
+}

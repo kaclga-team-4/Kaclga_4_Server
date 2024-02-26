@@ -1,31 +1,37 @@
-package kr.weit.odya.support.validator
+package kr.kakaocloud.kakeulgae.support.validator;
 
-import jakarta.validation.Constraint
-import jakarta.validation.ConstraintValidator
-import jakarta.validation.ConstraintValidatorContext
-import jakarta.validation.Payload
-import java.util.regex.Pattern
-import kotlin.reflect.KClass
+import jakarta.validation.Constraint;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+import java.lang.reflect.Array;
+import java.util.regex.Pattern;
+import javax.annotation.Nullable;
 
-private const val PHONE_NUMBER_REGEXP = "^\\d{3}-\\d{3,4}-\\d{4}$"
-private val PHONE_NUMBER_PATTERN = Pattern.compile(PHONE_NUMBER_REGEXP)
+@Target(ElementType.FIELD)
+@Retention(RetentionPolicy.RUNTIME)
+@Constraint(validatedBy = PhoneNumberValidator.class)
+public @interface PhoneNumber {
 
-@MustBeDocumented
-@Target(AnnotationTarget.FIELD)
-@Retention(AnnotationRetention.RUNTIME)
-@Constraint(validatedBy = [PhoneNumberValidator::class])
-annotation class PhoneNumber(
-    val message: String = "유효하지 않은 전화번호 패턴입니다",
-    val groups: Array<KClass<*>> = [],
-    val payload: Array<KClass<out Payload>> = [],
-)
+    String message = "유효하지 않은 전화번호 패턴입니다";
+    Array groups = null;
+    Array payload = null;
 
-class PhoneNumberValidator : ConstraintValidator<PhoneNumber, String?> {
-    override fun initialize(contactNumber: PhoneNumber) {}
-    override fun isValid(
-        contactField: String?,
-        cxt: ConstraintValidatorContext?,
-    ): Boolean {
-        return contactField == null || PHONE_NUMBER_PATTERN.matcher(contactField).matches()
+}
+
+class PhoneNumberValidator implements ConstraintValidator<PhoneNumber, String> {
+
+    private final String PHONE_NUMBER_REGEXP = "^\\d{3}-\\d{3,4}-\\d{4}$";
+
+    private final Pattern PHONE_NUMBER_PATTERN = Pattern.compile(PHONE_NUMBER_REGEXP);
+
+    @Override
+    public boolean isValid(@Nullable String contactField,
+        @Nullable ConstraintValidatorContext constraintValidatorContext) {
+        //값이 널이거나 패턴이랑 다르거나
+        return contactField == null || PHONE_NUMBER_PATTERN.matcher(contactField).matches();
     }
 }

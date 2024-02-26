@@ -10,7 +10,7 @@ public enum ErrorCode {
     FORBIDDEN(HttpStatus.FORBIDDEN, -10002, "Forbidden"),
     NO_SUCH_ELEMENT(HttpStatus.NOT_FOUND, -10003, "No such element"),
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, -10004, "Internal server error"),
-    UNREGISTERED_USER(HttpStatus.UNAUTHORIZED, -10005, "Unregistered user"),
+    UNREGISTERED_MEMBER(HttpStatus.UNAUTHORIZED, -10005, "Unregistered member"),
     EXIST_RESOURCE(HttpStatus.CONFLICT, -10006, "Exist resource"),
     NOT_FOUND_DEFAULT_RESOURCE(HttpStatus.INTERNAL_SERVER_ERROR, -10007,
         "Not found default resource"),
@@ -20,7 +20,8 @@ public enum ErrorCode {
     FIREBASE_CUSTOM_TOKEN_CREATION_FAIL(HttpStatus.INTERNAL_SERVER_ERROR, -11002,
         "Firebase custom token creation fail"),
     FIREBASE_USER_WITHDRAW_FAIL(HttpStatus.NOT_FOUND, -11003,
-        "Firebase user withdraw fail(USER_NOT_FOUND)");
+        "Firebase user withdraw fail(USER_NOT_FOUND)"),
+    OBJECT_STORAGE_EXCEPTION(HttpStatus.INTERNAL_SERVER_ERROR, -12000, "object storage exception");
 
     private HttpStatus httpStatus;
     private int i;
