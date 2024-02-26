@@ -1,5 +1,6 @@
 package kr.kakaocloud.kakeulgae.domain.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -7,11 +8,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Index;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotEmpty;
 
 @Entity
 @Table(
-    name = "JOB_CATEGORY",
+    name = "job_category",
     uniqueConstraints = @UniqueConstraint(name = "job_category_uk", columnNames = "type"),
     indexes = @Index(name = "job_category_idx_type", columnList = "type")
 )
@@ -21,7 +22,8 @@ public class JobCategory {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
+
+    @NotEmpty
     private String type;
 
     public JobCategory(String content) {
