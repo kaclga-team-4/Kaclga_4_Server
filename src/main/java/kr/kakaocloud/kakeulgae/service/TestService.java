@@ -2,23 +2,25 @@ package kr.kakaocloud.kakeulgae.service;
 
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.ObjectMetadata;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import kr.kakaocloud.kakeulgae.domain.TestEntity;
-import kr.kakaocloud.kakeulgae.domain.TestImage;
-import kr.kakaocloud.kakeulgae.repository.TestImageRepository;
-import kr.kakaocloud.kakeulgae.repository.TestRepository;
-import kr.kakaocloud.kakeulgae.service.dto.TestPostRequest;
-import kr.kakaocloud.kakeulgae.service.dto.TestResponse;
+import kr.kakaocloud.kakeulgae.domain.dto.TestPostRequest;
+import kr.kakaocloud.kakeulgae.domain.dto.TestResponse;
+import kr.kakaocloud.kakeulgae.domain.entity.TestEntity;
+import kr.kakaocloud.kakeulgae.domain.entity.TestImage;
+import kr.kakaocloud.kakeulgae.domain.repository.TestImageRepository;
+import kr.kakaocloud.kakeulgae.domain.repository.TestRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class TestService {
+    private final TestRepository testRepository;
 
     private static String bucketName = "kaclgae-s3";
     private final TestRepository testRepository;

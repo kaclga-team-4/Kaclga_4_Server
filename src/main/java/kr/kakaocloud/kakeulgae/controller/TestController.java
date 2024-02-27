@@ -1,6 +1,7 @@
 package kr.kakaocloud.kakeulgae.controller;
 
-import java.util.List;
+import kr.kakaocloud.kakeulgae.domain.dto.TestPostRequest;
+import kr.kakaocloud.kakeulgae.domain.dto.TestResponse;
 import kr.kakaocloud.kakeulgae.service.TestService;
 import kr.kakaocloud.kakeulgae.service.dto.TestPostRequest;
 import kr.kakaocloud.kakeulgae.service.dto.TestResponse;
