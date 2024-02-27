@@ -33,7 +33,7 @@ public class Member extends BaseModifiableEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id = 0L;
+    private Long id;
 
     @Column(nullable = false, updatable = false, unique = true)
     private String memberName;
