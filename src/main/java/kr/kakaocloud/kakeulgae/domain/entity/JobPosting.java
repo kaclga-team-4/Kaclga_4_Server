@@ -10,8 +10,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import java.time.LocalDate;
+import lombok.Getter;
 
 @Entity
+@Getter
 public class JobPosting {
 
     @Id
@@ -36,6 +38,10 @@ public class JobPosting {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "career_id", foreignKey = @ForeignKey(name = "fk_job_posting_career_id"))
     private Career career;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "worktype_id", foreignKey = @ForeignKey(name = "fk_job_posting_worktype_id"))
+    private WorkType workType;
 
     private String url;
 

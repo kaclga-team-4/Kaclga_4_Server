@@ -9,6 +9,7 @@ import jakarta.persistence.Index;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.NotEmpty;
+import lombok.Getter;
 
 @Entity
 @Table(
@@ -16,6 +17,7 @@ import jakarta.validation.constraints.NotEmpty;
     uniqueConstraints = @UniqueConstraint(name = "career_uk", columnNames = "type"),
     indexes = @Index(name = "career_idx_type", columnList = "type")
 )
+@Getter
 public class Career {
 
     @Id
