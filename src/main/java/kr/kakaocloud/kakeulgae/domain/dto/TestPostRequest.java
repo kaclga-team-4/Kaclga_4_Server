@@ -13,6 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TestPostRequest {
+
     private String name;
 
     private List<MultipartFile> images = new ArrayList<>();
