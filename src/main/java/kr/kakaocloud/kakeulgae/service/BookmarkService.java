@@ -2,10 +2,12 @@ package kr.kakaocloud.kakeulgae.service;
 
 import kr.kakaocloud.kakeulgae.domain.dto.BookmarkRequest;
 import kr.kakaocloud.kakeulgae.domain.entity.Bookmark;
-import kr.kakaocloud.kakeulgae.domain.entity.TestEntity;
+import kr.kakaocloud.kakeulgae.domain.dto.BookmarkResponse;
 import kr.kakaocloud.kakeulgae.domain.repository.BookmarkRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 
 @Service
 @RequiredArgsConstructor
@@ -19,5 +21,14 @@ public class BookmarkService {
                                 .jobPostingId(bookmarkRequest.getJobPostingId())
                                 .build();
         bookmarkRepository.save(bookmark);
+    }
+
+    public ArrayList<BookmarkResponse> getBookmark(Long id){
+
+        //Bookmark bookmark = bookmarkRepository.findById(id).orElseThrow();
+
+        ArrayList<Long> bookmarkArray =  bookmarkRepository.findJobPostingIdsByUserId(id);
+
+        return BookmarkResponse.of(bookmarkArray);
     }
 }
