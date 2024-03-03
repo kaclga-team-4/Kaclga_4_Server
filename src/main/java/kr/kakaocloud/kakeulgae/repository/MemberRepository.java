@@ -1,7 +1,9 @@
 package kr.kakaocloud.kakeulgae.repository;
 
+import javax.annotation.Nullable;
 import kr.kakaocloud.kakeulgae.domain.entity.member.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
+
 
 public interface MemberRepository extends JpaRepository<Member, Long> {
 
@@ -13,4 +15,8 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
     boolean existsAllByMemberName(String memberName);
 
+    @Nullable
+    Member findByMemberName(String memberName);
+
+    Member findByIdOrNull(long id);
 }

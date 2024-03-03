@@ -17,7 +17,6 @@ import lombok.Getter;
 public class AuthDto {
 
     public class GoogleLoginRequest {
-
         @NotBlank
         public String idToken;
     }

@@ -9,8 +9,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @Validated
@@ -45,21 +47,21 @@ public class AuthController {
         return ResponseEntity.noContent().build();
     }
 
-//    @GetMapping("/validate/nickname")
-//    public ResponseEntity<Void> validateNickname(@RequestParam("value") String value ){
-//        authenticationService.validateNickname(value);
-//        return ResponseEntity.noContent().build();
-//    }
-//
-//    @GetMapping("/validate/email")
-//    public ResponseEntity<Void> validateEmail(@RequestParam("value") String value){
-//        authenticationService.validateEmail(value);
-//        return ResponseEntity.noContent().build();
-//    }
-//
-//    @GetMapping("/validate/phone-number")
-//    public ResponseEntity<Void> validatePhoneNumber(@RequestParam("value") String value) {
-//        authenticationService.validatePhoneNumber(value);
-//        return ResponseEntity.noContent().build();
-//    }
+    @GetMapping("/validate/nickname")
+    public ResponseEntity<Void> validateNickname(@RequestParam("nickName") String value ){
+        authenticationService.validateNickname(value);
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/validate/email")
+    public ResponseEntity<Void> validateEmail(@RequestParam("email") String value){
+        authenticationService.validateEmail(value);
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/validate/phone-number")
+    public ResponseEntity<Void> validatePhoneNumber(@RequestParam("phoneNumber") String value) {
+        authenticationService.validatePhoneNumber(value);
+        return ResponseEntity.noContent().build();
+    }
 }

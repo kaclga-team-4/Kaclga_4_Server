@@ -23,13 +23,13 @@ public enum ErrorCode {
         "Firebase user withdraw fail(USER_NOT_FOUND)"),
     OBJECT_STORAGE_EXCEPTION(HttpStatus.INTERNAL_SERVER_ERROR, -12000, "object storage exception");
 
-    private HttpStatus httpStatus;
-    private int i;
-    private String s;
+    public HttpStatus httpStatus;
+    public int code;
+    public String errorMessage;
 
-    ErrorCode(HttpStatus httpStatus, int i, String s) {
+    ErrorCode(HttpStatus httpStatus, int code, String errorMessage) {
         this.httpStatus = httpStatus;
-        this.i = i;
-        this.s = s;
+        this.code = code;
+        this.errorMessage = errorMessage;
     }
 }

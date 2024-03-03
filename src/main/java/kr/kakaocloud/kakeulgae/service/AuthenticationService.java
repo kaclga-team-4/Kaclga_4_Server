@@ -39,20 +39,20 @@ public class AuthenticationService {
         validateNickname(registerRequest.nickname);
     }
 
-    private void validateNickname(String nickname) {
+    public void validateNickname(String nickname) {
         if (memberRepository.existsByNickname(nickname)) {
             throw new ExistResourceException(
                 STR."\{nickname}이미 존재하는 닉네임입니다");//대표적인 JDK21의 기능 (nickname+"이미 존재하는 닉네임입니다")으로 안 해도됨
         }
     }
 
-    private void validateEmail(String email) {
+    public void validateEmail(String email) {
         if (memberRepository.existsByEmail(email)) {
             throw new ExistResourceException(STR."\{email}: 이미 존재하는 이메일입니다");
         }
     }
 
-    private void validatePhoneNumber(String phoneNumber) {
+    public void validatePhoneNumber(String phoneNumber) {
         if (memberRepository.existsByPhoneNumber(phoneNumber)) {
             throw new ExistResourceException(STR."\{phoneNumber}: 이미 존재하는 전화번호입니다");
         }
