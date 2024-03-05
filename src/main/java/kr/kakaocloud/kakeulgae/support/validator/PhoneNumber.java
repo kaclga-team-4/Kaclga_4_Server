@@ -3,11 +3,11 @@ package kr.kakaocloud.kakeulgae.support.validator;
 import jakarta.validation.Constraint;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
+import jakarta.validation.Payload;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-import java.lang.reflect.Array;
 import java.util.regex.Pattern;
 import javax.annotation.Nullable;
 
@@ -15,10 +15,9 @@ import javax.annotation.Nullable;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = PhoneNumberValidator.class)
 public @interface PhoneNumber {
-
-    String message = "유효하지 않은 전화번호 패턴입니다";
-    Array groups = null;
-    Array payload = null;
+    String message() default  "유효하지 않은 전화번호 패턴입니다";
+    Class<?>[] groups() default {};
+    Class<? extends Payload>[] payload() default {};
 
 }
 

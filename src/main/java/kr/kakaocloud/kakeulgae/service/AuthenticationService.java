@@ -1,22 +1,24 @@
 package kr.kakaocloud.kakeulgae.service;
 
 import kr.kakaocloud.kakeulgae.domain.entity.member.Member;
+import kr.kakaocloud.kakeulgae.domain.entity.member.Profile;
 import kr.kakaocloud.kakeulgae.repository.MemberRepository;
 import kr.kakaocloud.kakeulgae.security.FirebaseTokenHelper;
-import kr.kakaocloud.kakeulgae.service.dto.member.AuthDto.GoogleRegisterRequest;
-import kr.kakaocloud.kakeulgae.service.dto.member.RegisterRequest;
+import kr.kakaocloud.kakeulgae.service.dto.auth.RegisterRequest;
 import kr.kakaocloud.kakeulgae.support.exception.KakeulgaeException.ExistResourceException;
 import kr.kakaocloud.kakeulgae.support.exception.KakeulgaeException.UnRegisteredMemberException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
+@RequiredArgsConstructor
 public class AuthenticationService {
 
-    static final String OAUTH_ACCESS_TOKEN_TYPE = "BEARER";
-    MemberRepository memberRepository;
-    FirebaseTokenHelper firebaseTokenHelper;
+    final String OAUTH_ACCESS_TOKEN_TYPE = "BEARER";
+   final MemberRepository memberRepository;
+    final FirebaseTokenHelper firebaseTokenHelper;
 
     public void googleLoginProcess(String googleMemberName) {
         if (!memberRepository.existsAllByMemberName(googleMemberName)) {
@@ -25,7 +27,7 @@ public class AuthenticationService {
     }
 
     @Transactional
-    public void register(GoogleRegisterRequest registerRequest) {
+    public void register(RegisterRequest registerRequest) {
         validateRegisterInformation(registerRequest);
         memberRepository.save(createMember(registerRequest));
     }
@@ -73,7 +75,7 @@ public class AuthenticationService {
             .birthday(registerRequest.birthday)
             .socialType(registerRequest.socialType)
             .memberRole(registerRequest.memberRole)
-            //.profile(new Profile())
+            .profile(new Profile("default", "default.jpg"))
             .build();
     }
 }

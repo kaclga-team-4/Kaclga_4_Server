@@ -4,11 +4,11 @@ package kr.kakaocloud.kakeulgae.support.validator;
 import jakarta.validation.Constraint;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
+import jakarta.validation.Payload;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-import java.lang.reflect.Array;
 import java.util.regex.Pattern;
 import javax.annotation.Nullable;
 
@@ -17,9 +17,11 @@ import javax.annotation.Nullable;
 @Constraint(validatedBy = NicknameValidator.class)
 public @interface Nickname {
 
-    String message = "유효하지 않은 닉네임 패턴입니다";
-    Array groups = null;
-    Array payload = null;
+    String message() default "유효하지 않은 닉네임 패턴입니다";
+
+    Class<?>[] groups() default {};
+
+    Class<? extends Payload>[] payload() default {};
 }
 
 class NicknameValidator implements ConstraintValidator<Nickname, String> {
@@ -30,6 +32,6 @@ class NicknameValidator implements ConstraintValidator<Nickname, String> {
     @Override
     public boolean isValid(@Nullable String contactField,
         @Nullable ConstraintValidatorContext constraintValidatorContext) {
-        return !contactField.isEmpty() && NICKNAME_PATTERN.matcher(contactField).matches();
+        return contactField != null && !contactField.isEmpty() && NICKNAME_PATTERN.matcher(contactField).matches();
     }
 }

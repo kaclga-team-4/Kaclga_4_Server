@@ -18,5 +18,4 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     @Nullable
     Member findByMemberName(String memberName);
 
-    Member findByIdOrNull(long id);
 }

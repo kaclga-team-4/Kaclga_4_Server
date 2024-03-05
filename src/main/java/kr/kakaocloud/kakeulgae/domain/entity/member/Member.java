@@ -59,11 +59,13 @@ public class Member extends BaseModifiableEntity {
     private String nickname;
 
     @Column(length = 13, unique = true)
-    private String phoneNumber;
+    @Builder.Default
+    private String phoneNumber = null;
 
     @Enumerated(EnumType.STRING)
     @Column(length = 50)
-    private Gender gender;
+    @Builder.Default
+    private Gender gender = null;
 
     @Column(updatable = false)
     private LocalDate birthday;

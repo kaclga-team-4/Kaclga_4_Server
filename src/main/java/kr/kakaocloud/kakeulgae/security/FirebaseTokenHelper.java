@@ -1,24 +1,16 @@
 package kr.kakaocloud.kakeulgae.security;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.UserRecord.CreateRequest;
-import kr.kakaocloud.kakeulgae.support.exception.firebaseException.CreateFirebaseUserException;
 import kr.kakaocloud.kakeulgae.support.exception.firebaseException.InvalidTokenException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class FirebaseTokenHelper {
 
-    private FirebaseAuth firebaseAuth;
-
-    public void createFirebaseUser(String memberName) {
-        try {
-            firebaseAuth.createUser(createUserRequest(memberName));
-        } catch (FirebaseAuthException ex) {
-            throw new CreateFirebaseUserException(STR."\{memberName} : 이미 등록된 사용자입니다");
-        }
-    }
+    private final FirebaseAuth firebaseAuth;
 
     public String getUid(String idToken) {
         try {

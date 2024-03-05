@@ -7,9 +7,9 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 import kr.kakaocloud.kakeulgae.security.FirebaseTokenHelper;
+import kr.kakaocloud.kakeulgae.security.UserCustomDetailsService;
 import kr.kakaocloud.kakeulgae.support.exception.ErrorCode;
 import lombok.Data;
 import org.springframework.http.HttpHeaders;
@@ -18,12 +18,16 @@ import org.springframework.http.MediaType;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 public class FirebaseTokenFilter extends OncePerRequestFilter {
-    public List<String> FIREBASE_TOKEN_FILTER_PERMITTED_PATTERNS = Arrays.stream(new String[]{"/api/v1/auth/**", "/ready", "/health", "/docs/index.html"}).toList();
+    public static List<String> FIREBASE_TOKEN_FILTER_PERMITTED_PATTERNS = List.of("/api/v1/auth/**", "/ready","/test/**");
     private final String BEARER = "Bearer ";
+
+    public FirebaseTokenFilter(UserCustomDetailsService userDetailsService, FirebaseTokenHelper firebaseTokenHelper) {
+        this.firebaseTokenHelper = firebaseTokenHelper;
+        this.userDetailsService = userDetailsService;
+    }
 
     @Data
     class TokenInvalidErrorResponse {
@@ -31,7 +35,7 @@ public class FirebaseTokenFilter extends OncePerRequestFilter {
         String errorMessage = ErrorCode.INVALID_FIREBASE_ID_TOKEN.errorMessage;
     }
 
-    UserDetailsService userDetailsService;
+    UserCustomDetailsService userDetailsService;
     FirebaseTokenHelper firebaseTokenHelper;
 
     private void setErrorResponse(HttpServletResponse response, RuntimeException ex) throws IOException {

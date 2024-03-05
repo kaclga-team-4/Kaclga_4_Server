@@ -1,16 +1,17 @@
 package kr.kakaocloud.kakeulgae.controller;
 
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import jakarta.validation.Valid;
+import java.util.HashMap;
 import kr.kakaocloud.kakeulgae.service.AuthenticationService;
-import kr.kakaocloud.kakeulgae.service.dto.member.AuthDto.GoogleLoginRequest;
-import kr.kakaocloud.kakeulgae.service.dto.member.AuthDto.GoogleRegisterRequest;
+import kr.kakaocloud.kakeulgae.service.dto.auth.GoogleLoginRequest;
+import kr.kakaocloud.kakeulgae.service.dto.auth.GoogleRegisterRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,6 +36,14 @@ public class AuthController {
 
         authenticationService.register(googleRegisterRequest);
         return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @PostMapping("/test")
+    public void googleRegister(
+        @RequestBody
+        HashMap<String, Object> body
+    ) {
+        System.out.println(body);
     }
 
     @PostMapping("/login/google")

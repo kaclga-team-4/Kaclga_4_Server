@@ -1,7 +1,6 @@
 package kr.kakaocloud.kakeulgae.service;
 
-import kr.kakaocloud.kakeulgae.domain.entity.JobPosting;
-import kr.kakaocloud.kakeulgae.domain.repository.BookmarkRepository;
+import kr.kakaocloud.kakeulgae.repository.BookmarkRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
