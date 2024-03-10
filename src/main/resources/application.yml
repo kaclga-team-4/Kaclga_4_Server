@@ -1,4 +1,9 @@
 spring:
+  profiles:
+    active: real
+---
+spring:
+  config.activate.on-profile: real
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://${DB_URL}?autoReconnect=true&useUnicode=true&characterEncoding=utf8&useSSL=false&requireSSL=false&serverTimezone=Asia/Seoul&allowMultiQueries=true
@@ -23,3 +28,29 @@ cloud:
       static: ap-northeast-2
     stack:
       auto: false
+---
+# 요 아래 설정들은 테스트 작성하실때 사용할 메모리 DB 연결 설정입니다!
+spring:
+  config.activate.on-profile: test
+
+  h2:
+    console:
+      enabled: true
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        format_sql: true
+    database: h2
+    generate-ddl: off
+  datasource:
+    url: jdbc:h2:mem:test;
+    username: SA
+    password: password
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:sql/schema-h2.sql
+      data-locations: classpath:sql/data-h2.sql

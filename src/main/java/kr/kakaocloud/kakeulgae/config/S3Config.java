@@ -22,11 +22,11 @@ public class S3Config {
 
     @Bean
     public AmazonS3Client amazonS3Client() {
-        BasicAWSCredentials credentials = new BasicAWSCredentials(accessKey, secretKey);
+        BasicAWSCredentials credentials = new BasicAWSCredentials(accessKey, secretKey); //AWS의 인증 정보를 담고있는 객체
 
         return (AmazonS3Client) AmazonS3ClientBuilder.standard()
-                .withCredentials(new AWSStaticCredentialsProvider(credentials))
-                .withRegion(region)
+                .withCredentials(new AWSStaticCredentialsProvider(credentials)) //AWS의 인증 정보를 설정
+                .withRegion(region) //AWS의 지역을 설정
                 .build();
     }
 }

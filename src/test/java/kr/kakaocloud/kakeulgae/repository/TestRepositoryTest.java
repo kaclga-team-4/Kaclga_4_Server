@@ -9,8 +9,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.ActiveProfiles;
 
 
+@ActiveProfiles("test")
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class TestRepositoryTest {
@@ -21,7 +23,9 @@ class TestRepositoryTest {
     @Test
     @DisplayName("TestEntity 생성")
     void createMember() {
-        TestEntity t1 = TestEntity.builder().name(TEST_NAME).build();
+        TestEntity t1 = TestEntity.builder()
+            .name(TEST_NAME)
+            .build();
     /*
     when
      */

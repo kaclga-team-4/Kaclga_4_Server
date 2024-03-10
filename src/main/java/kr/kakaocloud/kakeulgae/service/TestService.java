@@ -1,9 +1,16 @@
 package kr.kakaocloud.kakeulgae.service;
 
+import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.model.ObjectMetadata;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import kr.kakaocloud.kakeulgae.domain.dto.TestPostRequest;
 import kr.kakaocloud.kakeulgae.domain.dto.TestResponse;
 import kr.kakaocloud.kakeulgae.domain.entity.TestEntity;
-import kr.kakaocloud.kakeulgae.domain.repository.TestRepository;
+import kr.kakaocloud.kakeulgae.domain.entity.TestImage;
+import kr.kakaocloud.kakeulgae.repository.TestImageRepository;
+import kr.kakaocloud.kakeulgae.repository.TestRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -1,7 +1,7 @@
 package kr.kakaocloud.kakeulgae.support;
 
-import kr.kakaocloud.kakeulgae.domain.dto.TestDtos.TestPostRequest;
-import kr.kakaocloud.kakeulgae.domain.dto.TestDtos.TestResponse;
+import kr.kakaocloud.kakeulgae.domain.dto.TestPostRequest;
+import kr.kakaocloud.kakeulgae.domain.dto.TestResponse;
 
 
 public class TestFixtures {
