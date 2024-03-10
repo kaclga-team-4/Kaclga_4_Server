@@ -8,7 +8,7 @@ import kr.kakaocloud.kakeulgae.domain.entity.member.SocialType;
 import lombok.Getter;
 
 @Getter
-public class UserResponse{
+public class MemberResponse { //회원 정보 응답 클래스(회원 정보 조회시 사용) - 테스트
     Long memberId;
     String email;
     String nickname;
@@ -20,7 +20,7 @@ public class UserResponse{
     LocalDate birthday;
     SocialType socialType;
 
-    public UserResponse(Member member){
+    public MemberResponse(Member member){
         this.memberId = member.getId();
         this.email = member.getEmail();
         this.nickname = member.getNickname();

@@ -1,8 +1,8 @@
 package kr.kakaocloud.kakeulgae.controller;
 
 import jakarta.validation.Valid;
-import java.util.HashMap;
 import kr.kakaocloud.kakeulgae.service.AuthenticationService;
+import kr.kakaocloud.kakeulgae.service.dto.auth.GoogleImpomation;
 import kr.kakaocloud.kakeulgae.service.dto.auth.GoogleLoginRequest;
 import kr.kakaocloud.kakeulgae.service.dto.auth.GoogleRegisterRequest;
 import lombok.RequiredArgsConstructor;
@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-@Validated
+@Validated//이 어노테이션을 사용하면 @Valid 어노테이션을 사용하여 유효성 검사를 수행할 수 있음
 @RestController
-@RequiredArgsConstructor
+@RequiredArgsConstructor//final로 선언된 필드를 가지고 자동 생성자를 만들어줌
 @RequestMapping("/api/v1/auth")
 public class AuthController {
 
@@ -30,20 +30,11 @@ public class AuthController {
         @Valid
         GoogleRegisterRequest googleRegisterRequest
     ) {
-        String memberName = authenticationService.getMemberNameByIdToken(
+        GoogleImpomation googleImpomation = authenticationService.getGoogleinfomation(
             googleRegisterRequest.getIdToken());
-        googleRegisterRequest.updateMemberName(memberName);
-
-        authenticationService.register(googleRegisterRequest);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
-    }
-
-    @PostMapping("/test")
-    public void googleRegister(
-        @RequestBody
-        HashMap<String, Object> body
-    ) {
-        System.out.println(body);
+        googleRegisterRequest.updateMemberImpomation(googleImpomation);//구글 정보를 업데이트
+        authenticationService.register(googleRegisterRequest, googleImpomation.profileUrl);
+        return ResponseEntity.status(HttpStatus.CREATED).build();//201 반환
     }
 
     @PostMapping("/login/google")

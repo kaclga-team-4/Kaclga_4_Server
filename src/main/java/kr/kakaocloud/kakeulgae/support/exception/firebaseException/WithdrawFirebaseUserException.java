@@ -5,7 +5,7 @@ import kr.kakaocloud.kakeulgae.support.exception.ErrorCode;
 public class WithdrawFirebaseUserException extends FirebaseAuthException {
 
     public WithdrawFirebaseUserException(String message) {
-        super(ErrorCode.FIREBASE_USER_WITHDRAW_FAIL, message);
+        super(ErrorCode.FIREBASE_USER_WITHDRAW_FAIL, message);//firebase user 삭제 실패 예외
     }
 
 }

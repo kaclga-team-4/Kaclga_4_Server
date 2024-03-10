@@ -47,8 +47,7 @@ public class Member extends BaseModifiableEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    @Builder.Default
-    private MemberRole memberRole = MemberRole.ROLE_USER;
+    private MemberRole memberRole;
 
     @Column(nullable = false)
     @Builder.Default
@@ -59,20 +58,18 @@ public class Member extends BaseModifiableEntity {
     private String nickname;
 
     @Column(length = 13, unique = true)
-    @Builder.Default
-    private String phoneNumber = null;
+    private String phoneNumber;
 
     @Enumerated(EnumType.STRING)
     @Column(length = 50)
-    @Builder.Default
-    private Gender gender = null;
+    private Gender gender;
 
     @Column(updatable = false)
     private LocalDate birthday;
 
     @JoinColumn(name = "profile_id", nullable = false)
     @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE,
-        CascadeType.REMOVE})
+        CascadeType.REMOVE}) // member가 삭제되면 profile도 삭제
     private Profile profile;
 
     public Member(Long id, String MemberName,

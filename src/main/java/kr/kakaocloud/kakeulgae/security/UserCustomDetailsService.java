@@ -22,7 +22,7 @@ public class UserCustomDetailsService implements UserDetailsService {
         if (member == null) {
             throw new NoSuchElementException(STR."\{memberName}사용자가 존재하지 않습니다");
         } else {
-        return new User(member.getId().toString(),"", List.of(new SimpleGrantedAuthority(member.getMemberRole().name())));
+        return new User(member.getId().toString(),"", List.of(new SimpleGrantedAuthority(member.getMemberRole().name())));//SimpleGrantedAuthority는 권한을 나타내는 클래스
         }
     }
 }

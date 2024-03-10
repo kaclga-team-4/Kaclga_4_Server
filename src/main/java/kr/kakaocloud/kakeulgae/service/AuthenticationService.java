@@ -1,9 +1,13 @@
 package kr.kakaocloud.kakeulgae.service;
 
+import java.io.InputStream;
+import java.net.URL;
+import javax.annotation.Nullable;
 import kr.kakaocloud.kakeulgae.domain.entity.member.Member;
 import kr.kakaocloud.kakeulgae.domain.entity.member.Profile;
 import kr.kakaocloud.kakeulgae.repository.MemberRepository;
 import kr.kakaocloud.kakeulgae.security.FirebaseTokenHelper;
+import kr.kakaocloud.kakeulgae.service.dto.auth.GoogleImpomation;
 import kr.kakaocloud.kakeulgae.service.dto.auth.RegisterRequest;
 import kr.kakaocloud.kakeulgae.support.exception.KakeulgaeException.ExistResourceException;
 import kr.kakaocloud.kakeulgae.support.exception.KakeulgaeException.UnRegisteredMemberException;
@@ -16,9 +20,11 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class AuthenticationService {
 
-    final String OAUTH_ACCESS_TOKEN_TYPE = "BEARER";
-   final MemberRepository memberRepository;
-    final FirebaseTokenHelper firebaseTokenHelper;
+    private final static String OAUTH_ACCESS_TOKEN_TYPE = "BEARER";
+    final MemberRepository memberRepository;
+    final FirebaseTokenHelper firebaseTokenHelper; //firebaseTokenHelper는 구글 토큰을 파싱하는 클래스
+    final FileService fileService; //fileService는 파일을 저장하는 클래스
+
 
     public void googleLoginProcess(String googleMemberName) {
         if (!memberRepository.existsAllByMemberName(googleMemberName)) {
@@ -27,18 +33,19 @@ public class AuthenticationService {
     }
 
     @Transactional
-    public void register(RegisterRequest registerRequest) {
+    public void register(RegisterRequest registerRequest, @Nullable String profileUrl) {
         validateRegisterInformation(registerRequest);
-        memberRepository.save(createMember(registerRequest));
+
+        memberRepository.save(createMember(registerRequest,profileUrl));
     }
 
     private void validateRegisterInformation(RegisterRequest registerRequest) {
         if (memberRepository.existsAllByMemberName(registerRequest.memberName)) {
             throw new ExistResourceException(STR."\{registerRequest.memberName} : 이미 존재하는 회원입니다");
         }
-        validateEmail(registerRequest.email);
-        validatePhoneNumber(registerRequest.phoneNumber);
-        validateNickname(registerRequest.nickname);
+        validateEmail(registerRequest.email); //이메일 중복 검사
+        validatePhoneNumber(registerRequest.phoneNumber); //전화번호 중복 검사
+        validateNickname(registerRequest.nickname); //닉네임 중복 검사
     }
 
     public void validateNickname(String nickname) {
@@ -61,11 +68,40 @@ public class AuthenticationService {
     }
 
     public String getMemberNameByIdToken(String idToken) {
-        return firebaseTokenHelper.getUid(idToken);
+        return firebaseTokenHelper.getUid(idToken); //firebaseTokenHelper는 구글 토큰을 파싱하는 클래스
+    }
+
+    public GoogleImpomation getGoogleinfomation(String idToken) {
+        return new GoogleImpomation(firebaseTokenHelper.getEmail(idToken), firebaseTokenHelper.getProfileurl(idToken), getMemberNameByIdToken(idToken));
+    }
+
+    private String saveProfile(String profileUrl)  {
+        InputStream inputStream = null; //InputStream은 바이트 단위로 읽어들이는 클래스
+        try {
+            URL url = new URL(profileUrl);
+            inputStream = url.openStream(); //url.openStream()은 url을 통해 읽어들인 스트림을 반환
+            return fileService.saveProfile(inputStream);
+        } catch (Exception e) {
+        } finally {
+            if (inputStream != null) {
+                try {
+                    inputStream.close(); //inputStream을 닫음
+                } catch (Exception e) {
+                }
+            }
+        }
+        return null;
     }
 
     private Member createMember(
-        RegisterRequest registerRequest) {
+        RegisterRequest registerRequest, String profileUrl) {
+        String profileName = saveProfile(profileUrl);
+        Profile profile;
+        if (profileName != null) {
+             profile = new Profile(profileName);
+        }else {
+            profile = new Profile("default.webp");
+        }
         return Member.builder()
             .email(registerRequest.email)
             .memberName(registerRequest.memberName)
@@ -75,7 +111,7 @@ public class AuthenticationService {
             .birthday(registerRequest.birthday)
             .socialType(registerRequest.socialType)
             .memberRole(registerRequest.memberRole)
-            .profile(new Profile("default", "default.jpg"))
+            .profile(profile)
             .build();
     }
 }

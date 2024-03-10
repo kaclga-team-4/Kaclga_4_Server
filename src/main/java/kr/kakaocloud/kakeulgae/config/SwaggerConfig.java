@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
         info = @Info(title = "API 명세서",
         description = "IT's GOAL KEEPER API 명세서",
         version = "v1"))
-@Configuration
+@Configuration //스프링 컨테이너에게 해당 클래스를 Bean 구성 클래스임을 알려준다.
 public class SwaggerConfig {
 
 }

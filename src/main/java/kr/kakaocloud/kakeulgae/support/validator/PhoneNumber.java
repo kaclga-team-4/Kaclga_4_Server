@@ -23,7 +23,7 @@ public @interface PhoneNumber {
 
 class PhoneNumberValidator implements ConstraintValidator<PhoneNumber, String> {
 
-    private final String PHONE_NUMBER_REGEXP = "^\\d{3}-\\d{3,4}-\\d{4}$";
+    private final String PHONE_NUMBER_REGEXP = "^\\d{3}-\\d{3,4}-\\d{4}$"; //앞 3자리 - 중간 3~4자리 - 뒤 4자리
 
     private final Pattern PHONE_NUMBER_PATTERN = Pattern.compile(PHONE_NUMBER_REGEXP);
 
