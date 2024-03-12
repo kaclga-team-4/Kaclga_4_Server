@@ -1,4 +1,4 @@
-package kr.kakaocloud.kakeulgae.domain.repository;
+package kr.kakaocloud.kakeulgae.repository;
 
 import java.util.List;
 import kr.kakaocloud.kakeulgae.domain.entity.JobDetail;

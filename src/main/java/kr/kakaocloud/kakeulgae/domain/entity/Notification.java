@@ -14,6 +14,7 @@ import kr.kakaocloud.kakeulgae.domain.entity.member.Member;
 
 @Entity
 public class Notification {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

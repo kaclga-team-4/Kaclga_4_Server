@@ -1,9 +1,10 @@
 package kr.kakaocloud.kakeulgae.repository;
 
-import kr.kakaocloud.kakeulgae.domain.entity.TestEntity;
+import kr.kakaocloud.kakeulgae.domain.TestEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface TestRepository extends JpaRepository<TestEntity,Long> {
+public interface TestRepository extends JpaRepository<TestEntity, Long> {
+
 }

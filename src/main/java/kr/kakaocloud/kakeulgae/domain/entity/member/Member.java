@@ -15,6 +15,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
+import javax.annotation.Nullable;
 import kr.kakaocloud.kakeulgae.support.domain.BaseModifiableEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -42,14 +43,14 @@ public class Member extends BaseModifiableEntity {
     private String email;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, updatable = false,columnDefinition = "enum")
+    @Column(nullable = false, updatable = false, columnDefinition = "enum")
     private SocialType socialType;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false,columnDefinition = "enum")
     private MemberRole memberRole;
 
-    @Column(nullable = false,columnDefinition = "enum")
+    @Column(nullable = false, columnDefinition = "enum")
     @Builder.Default
     @Enumerated(EnumType.STRING)
     private NoticeCheck noticeCheck = NoticeCheck.CHECKED;
@@ -72,6 +73,7 @@ public class Member extends BaseModifiableEntity {
         CascadeType.REMOVE}) // member가 삭제되면 profile도 삭제
     private Profile profile;
 
+    //TODO 사용 안하면 지우기
     public Member(Long id, String MemberName,
         String email,
         @Nullable String nickname,
@@ -96,6 +98,7 @@ public class Member extends BaseModifiableEntity {
         this.noticeCheck = noticeCheck;
     }
 
+    //TODO 사용 안하면 지우기
     public void changeProfile(String profileName, String originFileName) {
         profile.changeProfile(profileName, originFileName);
     }
