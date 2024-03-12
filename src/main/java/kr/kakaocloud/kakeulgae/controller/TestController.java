@@ -1,9 +1,11 @@
 package kr.kakaocloud.kakeulgae.controller;
 
+
+import java.util.HashMap;
 import java.util.List;
-import kr.kakaocloud.kakeulgae.domain.dto.TestPostRequest;
-import kr.kakaocloud.kakeulgae.domain.dto.TestResponse;
 import kr.kakaocloud.kakeulgae.service.TestService;
+import kr.kakaocloud.kakeulgae.service.dto.TestPostRequest;
+import kr.kakaocloud.kakeulgae.service.dto.TestResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,8 +28,10 @@ public class TestController {
     private final TestService imageService;
 
     @PostMapping()
-    public void createTest(@RequestBody TestPostRequest t) {
-        testService.createTest(t);
+    public void createTest(@RequestBody
+    HashMap<String, Object> body) {
+
+        System.out.println(body);
     }
 
     @GetMapping("{id}")
