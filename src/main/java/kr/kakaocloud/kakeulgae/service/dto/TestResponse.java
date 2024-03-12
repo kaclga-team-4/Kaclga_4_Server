@@ -1,6 +1,6 @@
-package kr.kakaocloud.kakeulgae.domain.dto;
+package kr.kakaocloud.kakeulgae.service.dto;
 
-import kr.kakaocloud.kakeulgae.domain.entity.TestEntity;
+import kr.kakaocloud.kakeulgae.domain.TestEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TestResponse {
+
     private String name;
 
     public static TestResponse of(TestEntity t) {
