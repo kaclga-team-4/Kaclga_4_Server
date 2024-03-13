@@ -10,7 +10,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import java.time.LocalDate;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class JobPosting {
 
@@ -23,11 +27,6 @@ public class JobPosting {
 
     @Column(name = "post_name")
     private String postName;
-
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "job_id", foreignKey = @ForeignKey(name = "fk_job_posting_job_id"))
-    private Job job;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "education_id", foreignKey = @ForeignKey(name = "fk_job_posting_education_id"))
@@ -43,4 +42,16 @@ public class JobPosting {
 
     @Column(name = "created_at")
     private LocalDate createdAt;
+
+    @Builder
+    public JobPosting(String companyName, String postName, Education education, Career career,
+        String url, LocalDate deadline, LocalDate createdAt) {
+        this.companyName = companyName;
+        this.postName = postName;
+        this.education = education;
+        this.career = career;
+        this.url = url;
+        this.deadline = deadline;
+        this.createdAt = createdAt;
+    }
 }
