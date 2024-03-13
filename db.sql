@@ -317,3 +317,6 @@ alter table job_detail_posting_relation
     add constraint fk_job_detail_posting_relation_job_detail_id
         foreign key (job_detail_id)
             references job_detail (id);
+
+alter table job_posting_work_type
+    add column work_type_id bigint

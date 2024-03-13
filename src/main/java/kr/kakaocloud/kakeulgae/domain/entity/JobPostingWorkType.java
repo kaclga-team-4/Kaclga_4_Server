@@ -22,7 +22,7 @@ public class JobPostingWorkType {
     private JobPosting jobPosting;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "job_postign",
+    @JoinColumn(name = "work_type_id",
         foreignKey = @ForeignKey(name = "fk_job_posting_work_type_work_type_id"))
     private WorkType workType;
 }
