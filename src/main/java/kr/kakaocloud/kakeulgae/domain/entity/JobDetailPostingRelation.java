@@ -29,9 +29,4 @@ public class JobDetailPostingRelation {
         foreignKey = @ForeignKey(name = "fk_job_detail_posting_relation_job_detail_id"))
     private JobDetail jobDetail;
 
-    @Builder
-    public JobDetailPostingRelation(JobPosting jobPosting, JobDetail jobDetail) {
-        this.jobPosting = jobPosting;
-        this.jobDetail = jobDetail;
-    }
 }

@@ -9,7 +9,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -33,6 +36,18 @@ public class JobPosting {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "education_id", foreignKey = @ForeignKey(name = "fk_job_posting_education_id"))
     private Education education;
+
+    @OneToMany(mappedBy = "jobPosting")
+    private List<JobDetailPostingRelation> jobDetailPostingRelations = new ArrayList<>();
+
+    @OneToMany(mappedBy = "jobPosting")
+    private List<JobPostingCareer> jobPostingCareers = new ArrayList<>();
+
+    @OneToMany(mappedBy = "jobPosting")
+    private List<JobPostingWorkType> jobPostingWorkTypes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "jobPosting")
+    private List<RegionPostingRelation> regionPostingRelations = new ArrayList<>();
 
     private String url;
 
