@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class RealBookmarkRequest {
+public class BookmarkRequest {
 
     private Long memberId;
     private Long jobPostingId;

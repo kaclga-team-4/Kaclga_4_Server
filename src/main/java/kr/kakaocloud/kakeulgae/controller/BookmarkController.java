@@ -3,11 +3,13 @@ package kr.kakaocloud.kakeulgae.controller;
 import java.util.ArrayList;
 import kr.kakaocloud.kakeulgae.security.LoginUserId;
 import kr.kakaocloud.kakeulgae.service.MemberService;
-import kr.kakaocloud.kakeulgae.service.dto.RealBookmarkRequest;
-import kr.kakaocloud.kakeulgae.service.dto.RealBookmarkResponse;
+import kr.kakaocloud.kakeulgae.service.dto.BookmarkRequest;
+import kr.kakaocloud.kakeulgae.service.dto.BookmarkResponse;
 import kr.kakaocloud.kakeulgae.service.BookmarkService;
+import kr.kakaocloud.kakeulgae.service.dto.SliceResponse;
 import kr.kakaocloud.kakeulgae.service.dto.member.MemberResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +24,7 @@ public class BookmarkController {
     private final MemberService memberService;
 
     @PostMapping("/register")
-    public ResponseEntity<String> handleBookmarkRequest(@RequestBody RealBookmarkRequest request) { // 즐겨찾기 등록 API
+    public ResponseEntity<String> handleBookmarkRequest(@RequestBody BookmarkRequest request) { // 즐겨찾기 등록 API
         try{
             bookmarkService.bookmarkRegister(request);
             return ResponseEntity.status(HttpStatus.OK).body("Register Success");
@@ -42,13 +44,13 @@ public class BookmarkController {
     }
 
     @GetMapping("/{id}") // 즐겨찾기 조회 API -> id를 통해 사용자 식별
-    public ResponseEntity<ArrayList<RealBookmarkResponse>> getBookmarkData(@PathVariable(value = "id") Long id) {
+    public ResponseEntity<ArrayList<BookmarkResponse>> getBookmarkData(@PathVariable(value = "id") Long id) {
         return ResponseEntity.ok(bookmarkService.getBookmark(id));
     }
 
-    @GetMapping("/mybookmark") // 즐겨찾기 조회 API -> 토큰을 통해 사용자 식별
-    public ResponseEntity<ArrayList<RealBookmarkResponse>> getMyBookmark(@LoginUserId Long id){
+    @GetMapping("/likes") // 즐겨찾기 조회 API -> 토큰을 통해 사용자 식별하고 페이지네이션을 활용하여 조회
+    public ResponseEntity<SliceResponse> getMyBookmark(@LoginUserId Long id, Pageable pageable){
         MemberResponse response = memberService.getInformation(id);
-        return ResponseEntity.ok(bookmarkService.getBookmark(response.getMemberId()));
+        return ResponseEntity.status(HttpStatus.OK).body(bookmarkService.getSliceBookmarkData(response.getMemberId(), pageable));
     }
 }
