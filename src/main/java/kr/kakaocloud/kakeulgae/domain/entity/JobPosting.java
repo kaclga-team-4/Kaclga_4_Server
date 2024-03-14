@@ -12,10 +12,12 @@ import jakarta.persistence.ManyToOne;
 import java.time.LocalDate;
 import lombok.AccessLevel;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
+@Getter
 public class JobPosting {
 
     @Id
@@ -32,10 +34,6 @@ public class JobPosting {
     @JoinColumn(name = "education_id", foreignKey = @ForeignKey(name = "fk_job_posting_education_id"))
     private Education education;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "career_id", foreignKey = @ForeignKey(name = "fk_job_posting_career_id"))
-    private Career career;
-
     private String url;
 
     private LocalDate deadline;
@@ -49,7 +47,6 @@ public class JobPosting {
         this.companyName = companyName;
         this.postName = postName;
         this.education = education;
-        this.career = career;
         this.url = url;
         this.deadline = deadline;
         this.createdAt = createdAt;
