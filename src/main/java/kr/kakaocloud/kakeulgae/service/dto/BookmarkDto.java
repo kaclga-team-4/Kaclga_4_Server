@@ -1,4 +1,4 @@
-package kr.kakaocloud.kakeulgae.domain.dto;
+package kr.kakaocloud.kakeulgae.service.dto;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;

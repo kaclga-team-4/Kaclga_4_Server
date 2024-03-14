@@ -1,4 +1,4 @@
-package kr.kakaocloud.kakeulgae.domain.dto;
+package kr.kakaocloud.kakeulgae.service.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,4 +11,5 @@ public class RealBookmarkRequest {
 
     private Long memberId;
     private Long jobPostingId;
+
 }

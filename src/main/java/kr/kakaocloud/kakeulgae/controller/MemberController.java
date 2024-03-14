@@ -17,9 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class MemberController {
     private final MemberService memberService;
     @GetMapping("/info")
-    public ResponseEntity<MemberResponse> googleLogin(
-        @LoginUserId Long memberId
-    ) {
+    public ResponseEntity<MemberResponse> googleLogin(@LoginUserId Long memberId) {
         MemberResponse response = memberService.getInformation(memberId);
         return ResponseEntity.ok(response);
     }

@@ -2,6 +2,8 @@ package kr.kakaocloud.kakeulgae.domain.entity;
 
 
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
+import kr.kakaocloud.kakeulgae.domain.entity.member.Member;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

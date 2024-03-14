@@ -1,4 +1,4 @@
-package kr.kakaocloud.kakeulgae.domain.dto;
+package kr.kakaocloud.kakeulgae.service.dto;
 
 import kr.kakaocloud.kakeulgae.domain.entity.JobPosting;
 import lombok.AllArgsConstructor;
@@ -20,15 +20,6 @@ public class RealBookmarkResponse {
     private String postName;
     private LocalDate deadline;
 
-    /*
-    public static ArrayList<RealBookmarkResponse> of(ArrayList<Long> arr) {
-        ArrayList<RealBookmarkResponse> bookmarkArray = new ArrayList<>();
-        for(Long ele : arr){
-            bookmarkArray.add(RealBookmarkResponse.builder().jobPostingId(ele).build());
-        }
-        return bookmarkArray;
-    }
-     */
     public static ArrayList<RealBookmarkResponse> of(ArrayList<JobPostingDto> arr) {
         ArrayList<RealBookmarkResponse> bookmarkResponses = new ArrayList<>();
         for (JobPostingDto ele : arr) {
