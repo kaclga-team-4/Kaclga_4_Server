@@ -8,11 +8,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.ArrayList;
+import org.springframework.stereotype.Repository;
 
 public interface BookmarkRepository extends JpaRepository<Bookmark, Long> {
-    @Query("SELECT b.jobPosting.id FROM Bookmark b WHERE b.member.id = :userId")
-    ArrayList<Long> findJobPostingIdsByUserId(@Param("userId") Long userId);
-
     // 사용자id와 bookmark DB의 memberId와 일치하는 인덱스를 받는다
     // -> JobPosting DB에 인덱스와 일치하는 공고 데이터를 가져온다
     @Query("SELECT a.companyName, a.postName, a.deadline \n"
@@ -20,4 +18,10 @@ public interface BookmarkRepository extends JpaRepository<Bookmark, Long> {
         + "JOIN Bookmark b ON a.id = b.jobPosting.id \n"
         + "WHERE b.member.id = :userId")
     Slice<Bookmark> findJobPostingIdsByUserIdToSlice(@Param("userId") Long userId, Pageable pageable);
+
+    @Query("SELECT a.companyName, a.postName, a.deadline \n"
+        + "FROM JobPosting a \n"
+        + "JOIN Bookmark b ON a.id = b.jobPosting.id \n"
+        + "WHERE b.member.id = :userId AND (a.companyName LIKE CONCAT('%',:keyword,'%') OR a.postName LIKE CONCAT('%',:keyword,'%'))")
+    Slice<Bookmark> findSearchJobPostingIdsByUserIdToSlice(@Param("userId") Long userId, @Param("keyword") String keyword, Pageable pageable);
 }

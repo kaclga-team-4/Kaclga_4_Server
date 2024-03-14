@@ -39,24 +39,13 @@ public class BookmarkService {
             .orElseThrow(() -> new NoSuchElementException("해당 유저가 존재하지 않습니다")));
     }
 
-    public ArrayList<BookmarkResponse> getBookmark(Long id) {
-        ArrayList<Long> bookmark = bookmarkRepository.findJobPostingIdsByUserId(id);
-        ArrayList<Long> bookmarkArray = new ArrayList<>();
-        for (Long ele : bookmark) {
-            if (!bookmarkArray.contains(ele)) {
-                bookmarkArray.add(ele);
-            }
-        }
-        ArrayList<JobPostingDto> jobPostingData = new ArrayList<>();
-        for (Long ele : bookmarkArray) {
-            JobPostingDto jpd = jobPostingRepository.findJobPostingNameByJobPostingId(ele);
-            jobPostingData.add(jpd);
-        }
-        return BookmarkResponse.of(jobPostingData);
-    }
-
     public SliceResponse getSliceBookmarkData(Long id, Pageable pageable){
         Slice<Bookmark> slice = bookmarkRepository.findJobPostingIdsByUserIdToSlice(id, pageable); // bookmark DB에 접근 -> 사용자가 찜한 공고글을 담아 Slice 객체에 삽입
+        return new SliceResponse(slice);
+    }
+
+    public SliceResponse getSliceSearchBookmarkData(Long id, String keyword, Pageable pageable){
+        Slice<Bookmark> slice = bookmarkRepository.findSearchJobPostingIdsByUserIdToSlice(id, keyword, pageable);
         return new SliceResponse(slice);
     }
 }

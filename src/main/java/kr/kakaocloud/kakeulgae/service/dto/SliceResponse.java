@@ -15,7 +15,7 @@ public class SliceResponse {
     private final boolean last;
 
     public SliceResponse(Slice<Bookmark> sliceContent){
-        this.content=sliceContent.getContent();
+        this.content=sliceContent.getContent(); // DTO로 바꿔야 됨
         this.sort=new SortResponse(sliceContent.getSort());
         this.currentPage=sliceContent.getNumber();
         this.size=sliceContent.getSize();

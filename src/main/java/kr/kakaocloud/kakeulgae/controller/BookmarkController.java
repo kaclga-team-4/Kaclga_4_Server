@@ -43,14 +43,17 @@ public class BookmarkController {
         }
     }
 
-    @GetMapping("/{id}") // 즐겨찾기 조회 API -> id를 통해 사용자 식별
-    public ResponseEntity<ArrayList<BookmarkResponse>> getBookmarkData(@PathVariable(value = "id") Long id) {
-        return ResponseEntity.ok(bookmarkService.getBookmark(id));
-    }
-
     @GetMapping("/likes") // 즐겨찾기 조회 API -> 토큰을 통해 사용자 식별하고 페이지네이션을 활용하여 조회
     public ResponseEntity<SliceResponse> getMyBookmark(@LoginUserId Long id, Pageable pageable){
         MemberResponse response = memberService.getInformation(id);
         return ResponseEntity.status(HttpStatus.OK).body(bookmarkService.getSliceBookmarkData(response.getMemberId(), pageable));
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<SliceResponse> getSearchBookmark(@LoginUserId Long id, @RequestParam(value = "keyword") String keyword, Pageable pageable){
+        System.out.print("keyword : ");
+        System.out.println(keyword);
+        MemberResponse response = memberService.getInformation(id);
+        return ResponseEntity.status(HttpStatus.OK).body(bookmarkService.getSliceSearchBookmarkData(response.getMemberId(), keyword, pageable));
     }
 }
