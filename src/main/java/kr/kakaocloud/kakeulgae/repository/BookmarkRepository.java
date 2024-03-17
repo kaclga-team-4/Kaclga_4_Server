@@ -1,6 +1,9 @@
 package kr.kakaocloud.kakeulgae.repository;
 
 import kr.kakaocloud.kakeulgae.domain.entity.Bookmark;
+import kr.kakaocloud.kakeulgae.domain.entity.Job;
+import kr.kakaocloud.kakeulgae.service.dto.BookmarkResponse;
+import kr.kakaocloud.kakeulgae.service.dto.JobPostingDto;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;

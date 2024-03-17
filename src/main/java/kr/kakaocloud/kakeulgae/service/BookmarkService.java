@@ -1,19 +1,21 @@
 package kr.kakaocloud.kakeulgae.service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
-import kr.kakaocloud.kakeulgae.service.dto.JobPostingDto;
+import kr.kakaocloud.kakeulgae.domain.entity.Job;
+import kr.kakaocloud.kakeulgae.domain.entity.JobPosting;
 import kr.kakaocloud.kakeulgae.service.dto.BookmarkRequest;
 import kr.kakaocloud.kakeulgae.domain.entity.Bookmark;
-import kr.kakaocloud.kakeulgae.service.dto.BookmarkResponse;
 import kr.kakaocloud.kakeulgae.repository.JobPostingRepository;
 import kr.kakaocloud.kakeulgae.repository.BookmarkRepository;
 import kr.kakaocloud.kakeulgae.repository.MemberRepository;
+import kr.kakaocloud.kakeulgae.service.dto.JobPostingDto;
 import kr.kakaocloud.kakeulgae.service.dto.SliceResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
-import java.util.ArrayList;
 
 @Service
 @RequiredArgsConstructor
@@ -40,12 +42,12 @@ public class BookmarkService {
     }
 
     public SliceResponse getSliceBookmarkData(Long id, Pageable pageable){
-        Slice<Bookmark> slice = bookmarkRepository.findJobPostingIdsByUserIdToSlice(id, pageable); // bookmark DB에 접근 -> 사용자가 찜한 공고글을 담아 Slice 객체에 삽입
+        Slice<JobPostingDto> slice = jobPostingRepository.findJobPostingIdsByUserIdToSlice(id, pageable); // bookmark DB에 접근 -> 사용자가 찜한 공고글을 담아 Slice 객체에 삽입
         return new SliceResponse(slice);
     }
 
     public SliceResponse getSliceSearchBookmarkData(Long id, String keyword, Pageable pageable){
-        Slice<Bookmark> slice = bookmarkRepository.findSearchJobPostingIdsByUserIdToSlice(id, keyword, pageable);
+        Slice<JobPostingDto> slice = jobPostingRepository.findSearchJobPostingIdsByUserIdToSlice(id, keyword, pageable);
         return new SliceResponse(slice);
     }
 }
