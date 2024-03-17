@@ -1,10 +1,6 @@
 package kr.kakaocloud.kakeulgae.service.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import java.awt.print.Book;
 import java.util.List;
-import kr.kakaocloud.kakeulgae.domain.entity.Bookmark;
-import kr.kakaocloud.kakeulgae.domain.entity.JobPosting;
 import lombok.Getter;
 import org.springframework.data.domain.Slice;
 

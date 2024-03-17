@@ -1,10 +1,6 @@
 package kr.kakaocloud.kakeulgae.service;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.NoSuchElementException;
-import kr.kakaocloud.kakeulgae.domain.entity.Job;
-import kr.kakaocloud.kakeulgae.domain.entity.JobPosting;
 import kr.kakaocloud.kakeulgae.service.dto.BookmarkRequest;
 import kr.kakaocloud.kakeulgae.domain.entity.Bookmark;
 import kr.kakaocloud.kakeulgae.repository.JobPostingRepository;

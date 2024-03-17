@@ -1,10 +1,8 @@
 package kr.kakaocloud.kakeulgae.controller;
 
-import java.util.ArrayList;
 import kr.kakaocloud.kakeulgae.security.LoginUserId;
 import kr.kakaocloud.kakeulgae.service.MemberService;
 import kr.kakaocloud.kakeulgae.service.dto.BookmarkRequest;
-import kr.kakaocloud.kakeulgae.service.dto.BookmarkResponse;
 import kr.kakaocloud.kakeulgae.service.BookmarkService;
 import kr.kakaocloud.kakeulgae.service.dto.SliceResponse;
 import kr.kakaocloud.kakeulgae.service.dto.member.MemberResponse;

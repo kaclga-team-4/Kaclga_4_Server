@@ -1,7 +1,5 @@
 package kr.kakaocloud.kakeulgae.repository;
 
-import java.util.ArrayList;
-import kr.kakaocloud.kakeulgae.domain.entity.Bookmark;
 import kr.kakaocloud.kakeulgae.domain.entity.JobPosting;
 import kr.kakaocloud.kakeulgae.service.dto.JobPostingDto;
 import org.springframework.data.domain.Pageable;
