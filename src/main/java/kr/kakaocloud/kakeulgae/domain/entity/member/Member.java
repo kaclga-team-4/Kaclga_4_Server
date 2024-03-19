@@ -15,7 +15,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
-import javax.annotation.Nullable;
 import kr.kakaocloud.kakeulgae.support.domain.BaseModifiableEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -47,7 +46,7 @@ public class Member extends BaseModifiableEntity {
     private SocialType socialType;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false,columnDefinition = "enum")
+    @Column(nullable = false, columnDefinition = "enum")
     private MemberRole memberRole;
 
     @Column(nullable = false, columnDefinition = "enum")

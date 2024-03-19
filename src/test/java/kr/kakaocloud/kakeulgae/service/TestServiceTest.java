@@ -5,9 +5,9 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
-import kr.kakaocloud.kakeulgae.domain.dto.TestPostRequest;
-import kr.kakaocloud.kakeulgae.domain.entity.TestEntity;
+import kr.kakaocloud.kakeulgae.domain.TestEntity;
 import kr.kakaocloud.kakeulgae.repository.TestRepository;
+import kr.kakaocloud.kakeulgae.service.dto.TestPostRequest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -40,7 +40,4 @@ class TestServiceTest {
         verify(testRepository).save(any());
     }
 
-    @Test
-    void getId() {
-    }
 }

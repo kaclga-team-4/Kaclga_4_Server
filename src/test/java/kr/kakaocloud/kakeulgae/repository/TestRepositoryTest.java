@@ -2,7 +2,7 @@ package kr.kakaocloud.kakeulgae.repository;
 
 import static kr.kakaocloud.kakeulgae.support.TestFixtures.TEST_NAME;
 
-import kr.kakaocloud.kakeulgae.domain.entity.TestEntity;
+import kr.kakaocloud.kakeulgae.domain.TestEntity;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
