@@ -17,10 +17,12 @@ import jakarta.validation.constraints.NotEmpty;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 @Table(
     name = "job_detail",
     uniqueConstraints = @UniqueConstraint(name = "job_detail_uk", columnNames = {"type", "job_id"}),
@@ -46,10 +48,4 @@ public class JobDetail {
 
     @OneToMany(mappedBy = "jobDetail")
     private List<PreferenceJob> preferenceJobs = new ArrayList<>();
-
-    public JobDetail(long l, String splt, Job job) {
-        this.id = l;
-        this.type = splt;
-        this.job = job;
-    }
 }
