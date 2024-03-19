@@ -16,12 +16,18 @@ public class GoogleRegisterRequest extends RegisterRequest { //구글 회원가�
     @NotEmpty
     String idToken;
 
-    public GoogleRegisterRequest(@Email String email,
+    public GoogleRegisterRequest(
+        @Email
+        @NotEmpty
+        String email,
         @Nullable
         String phoneNumber,
+        @Nullable
         String memberName,
+        @NotEmpty
         String nickname,
-        @Nullable Gender gender,
+        @Nullable
+        Gender gender,
         @Nullable
         @Past//past는 과거 날짜만 받음
         LocalDate birthday,
@@ -34,11 +40,8 @@ public class GoogleRegisterRequest extends RegisterRequest { //구글 회원가�
         this.idToken = idToken;
     }
 
-    public void updateMemberImpomation(GoogleImpomation googleImpomation) {//구글 정보로 업데이트
-        this.memberName = googleImpomation.memberName;
-        if (googleImpomation.email != null) {
-            this.email = googleImpomation.email;
-        }
+    public void updateMemberImpomation(GoogleInformation googleInformation) {//구글 정보로 업데이트
+        this.memberName = googleInformation.memberName;
     }
 
 }
