@@ -1,6 +1,5 @@
 package kr.kakaocloud.kakeulgae.domain.entity;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -9,8 +8,14 @@ import jakarta.persistence.Index;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.NotEmpty;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
+@Getter
 @Table(
     name = "career",
     uniqueConstraints = @UniqueConstraint(name = "career_uk", columnNames = "type"),
@@ -24,4 +29,8 @@ public class Career {
     @NotEmpty
     private String type;
 
+    @Builder
+    public Career(String type) {
+        this.type = type;
+    }
 }

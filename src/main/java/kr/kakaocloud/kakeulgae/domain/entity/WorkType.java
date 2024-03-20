@@ -9,8 +9,10 @@ import jakarta.persistence.Index;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.NotEmpty;
+import lombok.Getter;
 
 @Entity
+@Getter
 @Table(
     name = "work_type",
     uniqueConstraints = @UniqueConstraint(name = "worktype_uk", columnNames = "type"),

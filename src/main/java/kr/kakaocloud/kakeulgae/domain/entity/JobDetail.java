@@ -10,18 +10,25 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.NotEmpty;
+import java.util.ArrayList;
+import java.util.List;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 @Table(
     name = "job_detail",
     uniqueConstraints = @UniqueConstraint(name = "job_detail_uk", columnNames = {"type", "job_id"}),
     indexes = @Index(name = "job_detail_idx_type", columnList = "type")
 )
-@Setter
+@Entity
 public class JobDetail {
 
     @Id
@@ -39,17 +46,6 @@ public class JobDetail {
     @JoinColumn(name = "job_category_id", foreignKey = @ForeignKey(name = "fk_job_detail_job_category_id"))
     private JobCategory jobCategory;
 
-    public JobDetail(long l, String splt, Job job) {
-        this.id = l;
-        this.type = splt;
-        this.job = job;
-    }
-
-    public JobDetail() {
-
-    }
-
-    public String getType() {
-        return type;
-    }
+    @OneToMany(mappedBy = "jobDetail")
+    private List<PreferenceJob> preferenceJobs = new ArrayList<>();
 }

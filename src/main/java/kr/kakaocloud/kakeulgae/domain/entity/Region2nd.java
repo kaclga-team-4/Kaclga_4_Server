@@ -16,9 +16,7 @@ import jakarta.validation.constraints.NotEmpty;
 
 @Entity
 @Table(
-    name = "region_2nd",
-    uniqueConstraints = @UniqueConstraint(name = "region_2st_uk", columnNames = "type"),
-    indexes = @Index(name = "region_2st_idx_type", columnList = "type")
+    name = "region_2nd"
 )
 public class Region2nd {
 

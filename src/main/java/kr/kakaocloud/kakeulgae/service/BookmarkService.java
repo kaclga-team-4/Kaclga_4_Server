@@ -37,13 +37,23 @@ public class BookmarkService {
             .orElseThrow(() -> new NoSuchElementException("해당 유저가 존재하지 않습니다")));
     }
 
-    public SliceResponse getSliceBookmarkData(Long id, Pageable pageable){
-        Slice<JobPostingDto> slice = jobPostingRepository.findJobPostingIdsByUserIdToSlice(id, pageable); // bookmark DB에 접근 -> 사용자가 찜한 공고글을 담아 Slice 객체에 삽입
-        return new SliceResponse(slice);
+    //public SliceResponse getSliceBookmarkData(Long id, Pageable pageable){
+    //Slice<JobPostingDto> slice = jobPostingRepository.findJobPostingIdsByUserIdToSlice(id, pageable); // bookmark DB에 접근 -> 사용자가 찜한 공고글을 담아 Slice 객체에 삽입
+    //    return new SliceResponse(slice);
+    //}
+
+    public Slice<JobPostingDto> getSliceBookmarkData(Long id, Pageable pageable){
+        Slice<JobPostingDto> jobPostingDtos = jobPostingRepository.findJobPostingIdsByUserIdToSlice(id, pageable)
+            .map(JobPostingDto::new);
+        jobPostingDtos.forEach(dto -> dto.setWorkTypes(jobPostingRepository.findTypesByPostingId(dto.getId())));
+        jobPostingDtos.forEach(dto -> dto.setCareer(jobPostingRepository.findJobPostingByJobPostingCareers(dto.getId())));
+        jobPostingDtos.forEach(dto -> dto.setJob(jobPostingRepository.findJobPostingByJobPostingJobs(dto.getId())));
+        return jobPostingDtos;
     }
 
     public SliceResponse getSliceSearchBookmarkData(Long id, String keyword, Pageable pageable){
-        Slice<JobPostingDto> slice = jobPostingRepository.findSearchJobPostingIdsByUserIdToSlice(id, keyword, pageable);
+        Slice<JobPostingDto> slice = jobPostingRepository.findJobPostingIdsByUserIdToSlice(id, pageable)
+            .map(JobPostingDto::new);
         return new SliceResponse(slice);
     }
 }

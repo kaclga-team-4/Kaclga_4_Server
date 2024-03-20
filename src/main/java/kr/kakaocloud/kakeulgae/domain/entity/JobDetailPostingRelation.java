@@ -8,24 +8,27 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
-import kr.kakaocloud.kakeulgae.domain.entity.member.Member;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@Table(
-    name = "preference_job"
-)
-public class PreferenceJob {
-
+public class JobDetailPostingRelation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id", foreignKey = @ForeignKey(name = "fk_preference_member_id"))
-    private Member member;
+    @JoinColumn(name = "job_posting_id",
+        foreignKey = @ForeignKey(name = "fk_job_detail_posting_relation_job_posting_id"))
+    private JobPosting jobPosting;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "job_detail_id", foreignKey = @ForeignKey(name = "fk_preference_job_detail_id"))
+    @JoinColumn(name = "job_detail_id",
+        foreignKey = @ForeignKey(name = "fk_job_detail_posting_relation_job_detail_id"))
     private JobDetail jobDetail;
+
 }

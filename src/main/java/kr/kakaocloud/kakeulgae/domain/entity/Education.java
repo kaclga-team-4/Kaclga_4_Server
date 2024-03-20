@@ -9,7 +9,13 @@ import jakarta.persistence.Index;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.NotEmpty;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(
     name = "education",
@@ -25,12 +31,9 @@ public class Education {
     @NotEmpty
     private String type;
 
-    public Education(long l, String splt) {
-        this.id = l;
-        this.type = splt;
-    }
+    @Builder
 
-    public Education() {
-
+    public Education(String type) {
+        this.type = type;
     }
 }

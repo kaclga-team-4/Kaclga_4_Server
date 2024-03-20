@@ -9,23 +9,23 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import kr.kakaocloud.kakeulgae.domain.entity.member.Member;
 
 @Entity
 @Table(
-    name = "preference_job"
+    name = "region_posting_relation"
 )
-public class PreferenceJob {
-
+public class RegionPostingRelation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id", foreignKey = @ForeignKey(name = "fk_preference_member_id"))
-    private Member member;
+    @JoinColumn(name = "job_posting_id",
+        foreignKey = @ForeignKey(name = "fk_region_posting_relation_job_posting_id"))
+    private JobPosting jobPosting;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "job_detail_id", foreignKey = @ForeignKey(name = "fk_preference_job_detail_id"))
-    private JobDetail jobDetail;
+    @JoinColumn(name = "region_2nd_id",
+        foreignKey = @ForeignKey(name = "fk_region_posting_relation_region_2nd_id"))
+    private Region1st region2nd;
 }
