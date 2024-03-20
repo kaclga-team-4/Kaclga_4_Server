@@ -4,7 +4,7 @@ import java.util.List;
 import kr.kakaocloud.kakeulgae.domain.entity.JobDetail;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.data.repository.query.Param;
 
 public interface JobDetailRepository extends JpaRepository<JobDetail, Long> {
 
@@ -14,5 +14,5 @@ public interface JobDetailRepository extends JpaRepository<JobDetail, Long> {
         + " join fetch jd.preferenceJobs pj"
         + " join fetch pj.member m"
         + " where m.id=:memberId")
-    List<JobDetail> findByMember(@PathVariable("memberId") Long memberId);
+    List<JobDetail> findByMember(@Param("memberId") Long memberId);
 }

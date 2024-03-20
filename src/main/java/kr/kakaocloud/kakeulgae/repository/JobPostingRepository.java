@@ -20,7 +20,7 @@ public interface JobPostingRepository extends JpaRepository<JobPosting, Long> {
     @Query("select jp from JobPosting jp"
         + " join fetch jp.education e"
         + " where jp.id in :jobPostingIds")
-    Slice<JobPosting> findAllByIdIn(@PathVariable("jobPostingIds")Set<Long> jobPostingIds, Pageable pageable);
+    Slice<JobPosting> findAllByIdIn(@Param("jobPostingIds") Set<Long> jobPostingIds, Pageable pageable);
 
     @Query("select jp from JobPosting jp"
         + " join fetch jp.education e")
