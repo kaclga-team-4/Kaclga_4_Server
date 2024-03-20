@@ -1,5 +1,6 @@
 package kr.kakaocloud.kakeulgae.domain.entity.member;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -14,7 +15,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
-import javax.annotation.Nullable;
 import kr.kakaocloud.kakeulgae.support.domain.BaseModifiableEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
