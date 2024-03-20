@@ -7,7 +7,6 @@ import kr.kakaocloud.kakeulgae.domain.entity.JobDetail;
 import kr.kakaocloud.kakeulgae.domain.entity.JobPosting;
 import kr.kakaocloud.kakeulgae.repository.JobDetailRepository;
 import kr.kakaocloud.kakeulgae.repository.JobPostingRepository;
-import kr.kakaocloud.kakeulgae.service.dto.TestDto;
 import kr.kakaocloud.kakeulgae.service.dto.jobposting.JobPostingListDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;

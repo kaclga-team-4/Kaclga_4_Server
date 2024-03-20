@@ -14,7 +14,9 @@ public class JobPostingListDto {
     private LocalDate deadline;
     private LocalDate createdAt;
     private String educationType;
-    private List<String> jobDetailType;
+    private List<String> jobDetailTypes;
+    private List<String> workTypes;
+    private List<String> careers;
 
     public JobPostingListDto(JobPosting jobPosting) {
         companyName = jobPosting.getCompanyName();
@@ -23,8 +25,14 @@ public class JobPostingListDto {
         deadline = jobPosting.getDeadline();
         createdAt = jobPosting.getCreatedAt();
         educationType = jobPosting.getEducation().getType();
-        jobDetailType = jobPosting.getJobDetailPostingRelations()
+        jobDetailTypes = jobPosting.getJobDetailPostingRelations()
             .stream().map(jdpr -> jdpr.getJobDetail().getType())
+            .toList();
+        workTypes = jobPosting.getJobPostingWorkTypes()
+            .stream().map(jpwt -> jpwt.getWorkType().getType())
+            .toList();
+        careers = jobPosting.getJobPostingCareers()
+            .stream().map(jpc -> jpc.getCareer().getType())
             .toList();
     }
 }
