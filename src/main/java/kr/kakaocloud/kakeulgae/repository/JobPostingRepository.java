@@ -12,10 +12,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 public interface JobPostingRepository extends JpaRepository<JobPosting, Long> {
 
-    @Query("select jp from JobPosting jp"
-        + " join fetch jp.jobDetailPostingRelations jdpr"
-        + " where jdpr.jobDetail.id in :jobDetailIds")
-    List<JobPosting> findByJobDetails(@Param("jobDetailIds") Set<Long> jobDetailIds);
+    @Query("select jp.id from JobPosting jp"
+        + " join jp.jobDetailPostingRelations jdpr"
+        + " join jdpr.jobDetail jd"
+        + " where jd.id in :jobDetailIds")
+    Set<Long> findByJobDetails(@Param("jobDetailIds") Set<Long> jobDetailIds);
 
     @Query("select jp from JobPosting jp"
         + " join fetch jp.education e"

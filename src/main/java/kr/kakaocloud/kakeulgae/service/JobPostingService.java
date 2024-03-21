@@ -21,21 +21,8 @@ public class JobPostingService {
     private final JobPostingRepository jobPostingRepository;
 
     public Slice<JobPostingListDto> findJobPostingsByDetails(Long memberId, Pageable pageable) {
-        List<JobDetail> jobDetails = jobDetailRepository.findByMember(memberId);
-        Set<Long> jobDetailIds = jobDetails.stream().map(jd -> jd.getId())
-            .collect(Collectors.toSet());
-
-        for (Long jobDetailId : jobDetailIds) {
-            System.out.println("jobDetailId = " + jobDetailId);
-        }
-
-        List<JobPosting> jobPostings = jobPostingRepository.findByJobDetails(jobDetailIds);
-        Set<Long> jobPostingIds = jobPostings.stream().map(jp -> jp.getId())
-            .collect(Collectors.toSet());
-
-        for (Long jobPostingId : jobPostingIds) {
-            System.out.println("jobPostingId = " + jobPostingId);
-        }
+        Set<Long> jobDetailIds = jobDetailRepository.findByMember(memberId);
+        Set<Long> jobPostingIds = jobPostingRepository.findByJobDetails(jobDetailIds);
 
         return jobPostingRepository.findAllByIdIn(jobPostingIds, pageable)
             .map(JobPostingListDto::new);
