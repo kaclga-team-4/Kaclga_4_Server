@@ -13,7 +13,6 @@ import lombok.Getter;
 
 @Getter
 @Entity
-@Getter
 @Table(
     name = "work_type",
     uniqueConstraints = @UniqueConstraint(name = "worktype_uk", columnNames = "type"),

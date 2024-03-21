@@ -55,10 +55,10 @@ public class BookmarkController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<SliceResponse> getSearchBookmark(@LoginUserId Long id, @RequestParam(value = "keyword") String keyword, Pageable pageable){
+    public Slice<JobPostingDto> getSearchBookmark(@LoginUserId Long id, @RequestParam(value = "keyword") String keyword, Pageable pageable){
         System.out.print("keyword : ");
         System.out.println(keyword);
         MemberResponse response = memberService.getInformation(id);
-        return ResponseEntity.status(HttpStatus.OK).body(bookmarkService.getSliceSearchBookmarkData(response.getMemberId(), keyword, pageable));
+        return bookmarkService.getSliceSearchBookmarkData(id, keyword, pageable);
     }
 }

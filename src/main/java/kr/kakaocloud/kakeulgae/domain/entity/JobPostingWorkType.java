@@ -10,7 +10,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 
-@Getter
 @Entity
 @Getter
 public class JobPostingWorkType {

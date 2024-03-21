@@ -1,5 +1,7 @@
 package kr.kakaocloud.kakeulgae.service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 import kr.kakaocloud.kakeulgae.service.dto.BookmarkRequest;
 import kr.kakaocloud.kakeulgae.domain.entity.Bookmark;
@@ -51,9 +53,15 @@ public class BookmarkService {
         return jobPostingDtos;
     }
 
-    public SliceResponse getSliceSearchBookmarkData(Long id, String keyword, Pageable pageable){
-        Slice<JobPostingDto> slice = jobPostingRepository.findJobPostingIdsByUserIdToSlice(id, pageable)
+    public Slice<JobPostingDto> getSliceSearchBookmarkData(Long id, String keyword, Pageable pageable){
+        Slice<JobPostingDto> jobPostingDtos = jobPostingRepository.findJobPostingIdsByUserIdToSlice(id, pageable)
             .map(JobPostingDto::new);
-        return new SliceResponse(slice);
+        return jobPostingDtos;
+    }
+
+    private List<JobPostingDto> filterSearchData(List<JobPostingDto> jobPostingDtos, String keyword){
+        List<JobPostingDto> jobPostingDtoList = new ArrayList<>();
+
+        return jobPostingDtos;
     }
 }
