@@ -52,16 +52,16 @@ public class JobPosting extends BaseTimeEntity {
     private Education education;
 
     @OneToMany(mappedBy = "jobPosting")
-    private final List<JobDetailPostingRelation> jobDetailPostingRelations = new ArrayList<>();
+    private List<JobDetailPostingRelation> jobDetailPostingRelations = new ArrayList<>();
 
     @OneToMany(mappedBy = "jobPosting")
-    private final List<JobPostingCareer> jobPostingCareers = new ArrayList<>();
+    private List<JobPostingCareer> jobPostingCareers = new ArrayList<>();
 
     @OneToMany(mappedBy = "jobPosting")
-    private final List<JobPostingWorkType> jobPostingWorkTypes = new ArrayList<>();
+    private List<JobPostingWorkType> jobPostingWorkTypes = new ArrayList<>();
 
     @OneToMany(mappedBy = "jobPosting")
-    private final List<RegionPostingRelation> regionPostingRelations = new ArrayList<>();
+    private List<RegionPostingRelation> regionPostingRelations = new ArrayList<>();
 
     private String url;
 
