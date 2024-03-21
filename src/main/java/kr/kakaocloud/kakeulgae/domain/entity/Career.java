@@ -1,6 +1,5 @@
 package kr.kakaocloud.kakeulgae.domain.entity;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -30,6 +29,7 @@ public class Career {
     @NotEmpty
     private String type;
 
+    //빌더?
     @Builder
     public Career(String type) {
         this.type = type;

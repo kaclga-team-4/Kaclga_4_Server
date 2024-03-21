@@ -8,16 +8,28 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import java.time.LocalDateTime;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import kr.kakaocloud.kakeulgae.domain.entity.member.Member;
+import kr.kakaocloud.kakeulgae.support.domain.BaseTimeEntity;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class Bookmark {
+@Table(
+    uniqueConstraints = {
+        @UniqueConstraint(
+            name = "bookmark_member_id_job_posting_id_unique",
+            columnNames = {"member_id", "job_posting_id"}
+        )
+    }
+)
+public class Bookmark extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private LocalDateTime created_at;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", foreignKey = @ForeignKey(name = "fk_bookmark_member_id"))

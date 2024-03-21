@@ -1,6 +1,5 @@
 package kr.kakaocloud.kakeulgae.domain.entity;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -32,7 +31,6 @@ public class Education {
     private String type;
 
     @Builder
-
     public Education(String type) {
         this.type = type;
     }
