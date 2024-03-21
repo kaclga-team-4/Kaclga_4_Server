@@ -1,4 +1,4 @@
-package kr.kakaocloud.kakeulgae.domain.dto;
+package kr.kakaocloud.kakeulgae.service.dto;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -7,6 +7,7 @@ import lombok.Data;
 
 @Data
 public class BookmarkDto {
+
     private String companyName;
     private String postName;
     private String career;
@@ -14,6 +15,5 @@ public class BookmarkDto {
     private String url;
     private String workType;
     private LocalDateTime deadline;
-    private LocalDateTime createdDate;
     private ArrayList<JobDetail> jobDetails;
 }

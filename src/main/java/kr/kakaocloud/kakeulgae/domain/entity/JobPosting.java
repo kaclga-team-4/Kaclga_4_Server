@@ -77,4 +77,8 @@ public class JobPosting extends BaseTimeEntity {
         this.url = url;
         this.deadline = deadline;
     }
+
+    public LocalDate getCreatedAt() {
+        return super.getCreatedAt();
+    }
 }
