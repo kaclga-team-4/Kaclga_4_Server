@@ -13,9 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 @Validated
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/user")
+@RequestMapping("/api/v1/member")
 public class MemberController {
+
     private final MemberService memberService;
+
     @GetMapping("/info")
     public ResponseEntity<MemberResponse> googleLogin(@LoginUserId Long memberId) {
         MemberResponse response = memberService.getInformation(memberId);

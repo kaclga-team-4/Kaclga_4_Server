@@ -1,5 +1,6 @@
 package kr.kakaocloud.kakeulgae.domain.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -13,9 +14,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@Getter
 @Table(
     name = "career",
     uniqueConstraints = @UniqueConstraint(name = "career_uk", columnNames = "type"),

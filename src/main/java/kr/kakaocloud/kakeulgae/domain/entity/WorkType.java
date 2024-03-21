@@ -11,6 +11,7 @@ import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
 
+@Getter
 @Entity
 @Getter
 @Table(

@@ -19,6 +19,7 @@ public class FirebaseTokenHelper { //Firebase에서 발급받은 토큰을 검�
         }
     }
 
+    // TODO : 안 쓰면 지우기
     public String getEmail(String idToken) {
         try {
             return firebaseAuth.verifyIdToken(idToken).getEmail();
@@ -35,6 +36,7 @@ public class FirebaseTokenHelper { //Firebase에서 발급받은 토큰을 검�
         }
     }
 
+    // TODO : 안 쓰면 지우기
     public String getMemberName(String idToken) { //사용자의 이름을 반환(이름이 없을 경우 null 반환)
         try {
             return firebaseAuth.verifyIdToken(idToken).getName();

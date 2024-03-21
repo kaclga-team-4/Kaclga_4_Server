@@ -17,10 +17,12 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Getter
 public class JobPosting {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -47,9 +49,6 @@ public class JobPosting {
     @OneToMany(mappedBy = "jobPosting")
     private List<RegionPostingRelation> regionPostingRelations = new ArrayList<>();
 
-    @OneToMany(mappedBy = "jobPosting")
-    private List<Bookmark> bookmarks = new ArrayList<>();
-
     private String url;
 
     private LocalDate deadline;
@@ -67,5 +66,4 @@ public class JobPosting {
         this.deadline = deadline;
         this.createdAt = createdAt;
     }
-
 }
