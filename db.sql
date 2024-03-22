@@ -309,3 +309,59 @@ ALTER TABLE region_posting_relation
 
 ALTER TABLE region_posting_relation
     ADD CONSTRAINT FK_REGION_POSTING_RELATION_REGION_2ND_ID FOREIGN KEY (region_2nd_id) REFERENCES region_1st (id);
+
+CREATE TABLE career_member_relation
+(
+    id        BIGINT AUTO_INCREMENT NOT NULL,
+    member_id BIGINT                NULL,
+    career_id BIGINT                NULL,
+    CONSTRAINT pk_career_member_relation PRIMARY KEY (id)
+);
+
+ALTER TABLE career_member_relation
+    ADD CONSTRAINT FK_CAREER_MEMBER_RELATION_CAREER_ID FOREIGN KEY (career_id) REFERENCES career (id);
+
+ALTER TABLE career_member_relation
+    ADD CONSTRAINT FK_CAREER_MEMBER_RELATION_MEMBER_ID FOREIGN KEY (member_id) REFERENCES member (id);
+
+CREATE TABLE education_member_relation
+(
+    id           BIGINT AUTO_INCREMENT NOT NULL,
+    member_id    BIGINT                NULL,
+    education_id BIGINT                NULL,
+    CONSTRAINT pk_education_member_relation PRIMARY KEY (id)
+);
+
+ALTER TABLE education_member_relation
+    ADD CONSTRAINT FK_EDUCATION_MEMBER_RELATION_ON_EDUCATION FOREIGN KEY (education_id) REFERENCES education (id);
+
+ALTER TABLE education_member_relation
+    ADD CONSTRAINT FK_EDUCATION_MEMBER_RELATION_ON_MEMBER FOREIGN KEY (member_id) REFERENCES member (id);
+
+CREATE TABLE region_member_relatoin
+(
+    id            BIGINT AUTO_INCREMENT NOT NULL,
+    member_id     BIGINT                NULL,
+    region_2nd_id BIGINT                NULL,
+    CONSTRAINT pk_region_member_relatoin PRIMARY KEY (id)
+);
+
+ALTER TABLE region_member_relatoin
+    ADD CONSTRAINT FK_REGION_MEMBER_RELATION_MEMBER_ID FOREIGN KEY (member_id) REFERENCES member (id);
+
+ALTER TABLE region_member_relatoin
+    ADD CONSTRAINT FK_REGION_MEMBER_RELATION_REGION_2ND_ID FOREIGN KEY (region_2nd_id) REFERENCES region_2nd (id);
+
+CREATE TABLE work_type_member_relation
+(
+    id           BIGINT AUTO_INCREMENT NOT NULL,
+    member_id    BIGINT                NULL,
+    work_type_id BIGINT                NULL,
+    CONSTRAINT pk_work_type_member_relation PRIMARY KEY (id)
+);
+
+ALTER TABLE work_type_member_relation
+    ADD CONSTRAINT FK_WORK_TYPE_MEMBER_RELATION_MEMBER_ID FOREIGN KEY (member_id) REFERENCES member (id);
+
+ALTER TABLE work_type_member_relation
+    ADD CONSTRAINT FK_WORK_TYPE_MEMBER_RELATION_WORK_TYPE_ID FOREIGN KEY (work_type_id) REFERENCES work_type (id);
