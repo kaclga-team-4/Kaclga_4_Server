@@ -9,7 +9,6 @@ import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -30,7 +29,6 @@ public class Education {
     @NotEmpty
     private String type;
 
-    @Builder
     public Education(String type) {
         this.type = type;
     }

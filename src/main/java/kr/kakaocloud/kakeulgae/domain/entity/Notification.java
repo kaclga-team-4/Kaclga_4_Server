@@ -13,7 +13,6 @@ import jakarta.persistence.UniqueConstraint;
 import kr.kakaocloud.kakeulgae.domain.entity.member.Member;
 import kr.kakaocloud.kakeulgae.support.domain.BaseTimeEntity;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -44,8 +43,6 @@ public class Notification extends BaseTimeEntity {
     @JoinColumn(name = "join_posting_id", foreignKey = @ForeignKey(name = "notification_job_posting_id"))
     private JobPosting jobPosting;
 
-    //
-    @Builder
     public Notification(String contents, Member member, JobPosting jobPosting) {
         this.contents = contents;
         this.member = member;

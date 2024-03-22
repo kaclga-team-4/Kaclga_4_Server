@@ -9,7 +9,6 @@ import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -29,8 +28,6 @@ public class Career {
     @NotEmpty
     private String type;
 
-    //빌더?
-    @Builder
     public Career(String type) {
         this.type = type;
     }

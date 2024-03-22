@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 import kr.kakaocloud.kakeulgae.support.domain.BaseTimeEntity;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -67,18 +66,16 @@ public class JobPosting extends BaseTimeEntity {
 
     private LocalDate deadline;
 
-    //
-    @Builder
+    @Column(name = "created_at")
+    private LocalDate createdAt;
+
     public JobPosting(String companyName, String postName, Education education, Career career,
-        String url, LocalDate deadline) {
+        String url, LocalDate deadline, LocalDate createdAt) {
         this.companyName = companyName;
         this.postName = postName;
         this.education = education;
         this.url = url;
         this.deadline = deadline;
-    }
-
-    public LocalDate getCreatedAt() {
-        return super.getCreatedAt();
+        this.createdAt = createdAt;
     }
 }
