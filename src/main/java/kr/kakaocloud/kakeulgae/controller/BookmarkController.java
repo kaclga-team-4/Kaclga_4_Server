@@ -23,10 +23,10 @@ public class BookmarkController {
     private final BookmarkService bookmarkService;
     private final MemberService memberService;
 
-    @PostMapping("/register")
-    public ResponseEntity<String> handleBookmarkRequest(@RequestBody BookmarkRequest request) { // 즐겨찾기 등록 API
+    @PostMapping("/register/{id}")
+    public ResponseEntity<String> handleBookmarkRequest(@LoginUserId Long userId, @PathVariable(value = "id") Long postId) { // 즐겨찾기 등록 API
         try{
-            bookmarkService.bookmarkRegister(request);
+            bookmarkService.registerBookmark(userId, postId);
             return ResponseEntity.status(HttpStatus.OK).body("Register Success");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("존재하지 않는 공고입니다");
@@ -34,9 +34,9 @@ public class BookmarkController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> handleBookmarkDelete(@PathVariable(value = "id") Long id) { // 즐겨찾기 해제 API
+    public ResponseEntity<String> handleBookmarkDelete(@LoginUserId Long userId, @PathVariable(value = "id") Long postId) { // 즐겨찾기 해제 API
         try{
-            bookmarkService.deleteBookmark(id);
+            bookmarkService.deleteBookmark(userId, postId);
             return ResponseEntity.status(HttpStatus.OK).body("Delete Success");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("존재하지 않는 공고입니다");

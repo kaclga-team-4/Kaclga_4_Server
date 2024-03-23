@@ -11,4 +11,5 @@ import java.util.ArrayList;
 import org.springframework.stereotype.Repository;
 
 public interface BookmarkRepository extends JpaRepository<Bookmark, Long> {
+    Bookmark findByMemberIdAndJobPostingId(Long memberId, Long jobPostingId);
 }
