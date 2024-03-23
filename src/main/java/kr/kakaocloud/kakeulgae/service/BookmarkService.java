@@ -8,8 +8,7 @@ import kr.kakaocloud.kakeulgae.domain.entity.Bookmark;
 import kr.kakaocloud.kakeulgae.repository.JobPostingRepository;
 import kr.kakaocloud.kakeulgae.repository.BookmarkRepository;
 import kr.kakaocloud.kakeulgae.repository.MemberRepository;
-import kr.kakaocloud.kakeulgae.service.dto.JobPostingDto;
-import kr.kakaocloud.kakeulgae.service.dto.SliceResponse;
+import kr.kakaocloud.kakeulgae.service.dto.jobposting.JobPostingListDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -39,28 +38,20 @@ public class BookmarkService {
             .orElseThrow(() -> new NoSuchElementException("해당 유저가 존재하지 않습니다")));
     }
 
-    //public SliceResponse getSliceBookmarkData(Long id, Pageable pageable){
-    //Slice<JobPostingDto> slice = jobPostingRepository.findJobPostingIdsByUserIdToSlice(id, pageable); // bookmark DB에 접근 -> 사용자가 찜한 공고글을 담아 Slice 객체에 삽입
-    //    return new SliceResponse(slice);
-    //}
-
-    public Slice<JobPostingDto> getSliceBookmarkData(Long id, Pageable pageable){
-        Slice<JobPostingDto> jobPostingDtos = jobPostingRepository.findJobPostingIdsByUserIdToSlice(id, pageable)
-            .map(JobPostingDto::new);
-        jobPostingDtos.forEach(dto -> dto.setWorkTypes(jobPostingRepository.findTypesByPostingId(dto.getId())));
-        jobPostingDtos.forEach(dto -> dto.setCareer(jobPostingRepository.findJobPostingByJobPostingCareers(dto.getId())));
-        jobPostingDtos.forEach(dto -> dto.setJob(jobPostingRepository.findJobPostingByJobPostingJobs(dto.getId())));
+    public Slice<JobPostingListDto> getSliceBookmarkData(Long id, Pageable pageable){ // bookmark DB에 접근 -> 사용자가 찜한 공고글을 담아 Slice 객체에 삽입
+        Slice<JobPostingListDto> jobPostingDtos = jobPostingRepository.findJobPostingIdsByUserIdToSlice(id, pageable)
+            .map(JobPostingListDto::new);
         return jobPostingDtos;
     }
 
-    public Slice<JobPostingDto> getSliceSearchBookmarkData(Long id, String keyword, Pageable pageable){
-        Slice<JobPostingDto> jobPostingDtos = jobPostingRepository.findJobPostingIdsByUserIdToSlice(id, pageable)
-            .map(JobPostingDto::new);
+    public Slice<JobPostingListDto> getSliceSearchBookmarkData(Long id, String keyword, Pageable pageable){
+        Slice<JobPostingListDto> jobPostingDtos = jobPostingRepository.findJobPostingIdsByUserIdToSlice(id, pageable)
+            .map(JobPostingListDto::new);
         return jobPostingDtos;
     }
 
-    private List<JobPostingDto> filterSearchData(List<JobPostingDto> jobPostingDtos, String keyword){
-        List<JobPostingDto> jobPostingDtoList = new ArrayList<>();
+    private List<JobPostingListDto> filterSearchData(List<JobPostingListDto> jobPostingDtos, String keyword){
+        List<JobPostingListDto> jobPostingDtoList = new ArrayList<>();
 
         return jobPostingDtos;
     }

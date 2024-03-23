@@ -25,14 +25,6 @@ public interface JobPostingRepository extends JpaRepository<JobPosting, Long> {
         + " join fetch jp.education e")
     Slice<JobPosting> findAllWithEducation(Pageable pageable);
 
-    // 사용자id와 bookmark DB의 memberId와 일치하는 인덱스를 받는다
-    // -> JobPosting DB에 인덱스와 일치하는 공고 데이터를 가져온다
-//    @Query("SELECT new kr.kakaocloud.kakeulgae.service.dto.JobPostingDto(a.companyName, a.postName, a.deadline) \n"
-//        + "FROM JobPosting a \n"
-//        + "JOIN Bookmark b ON a.id = b.jobPosting.id \n"
-//        + "WHERE b.member.id = :userId")
-//    Slice<JobPostingDto> findJobPostingIdsByUserIdToSlice(@Param("userId") Long userId, Pageable pageable);
-
     @Query("SELECT jp from JobPosting jp"
         + " join fetch jp.bookmarks bmk"
         + " where bmk.member.id=:userId")
