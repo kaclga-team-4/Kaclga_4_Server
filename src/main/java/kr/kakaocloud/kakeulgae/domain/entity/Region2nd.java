@@ -13,7 +13,9 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.NotEmpty;
+import lombok.Getter;
 
+@Getter
 @Entity
 @Table(
     name = "region_2nd"
@@ -30,14 +32,4 @@ public class Region2nd {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "region_1st_id", foreignKey = @ForeignKey(name = "fk_region_2nd"))
     private Region1st region1st;
-
-    public Region2nd(long l, String splt, Region1st region1st) {
-        this.id = l;
-        this.type = splt;
-        this.region1st = region1st;
-    }
-
-    public Region2nd() {
-
-    }
 }
