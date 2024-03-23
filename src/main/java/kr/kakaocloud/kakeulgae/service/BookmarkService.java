@@ -3,6 +3,7 @@ package kr.kakaocloud.kakeulgae.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import kr.kakaocloud.kakeulgae.service.dto.BookmarkListDto;
 import kr.kakaocloud.kakeulgae.service.dto.BookmarkRequest;
 import kr.kakaocloud.kakeulgae.domain.entity.Bookmark;
 import kr.kakaocloud.kakeulgae.repository.JobPostingRepository;
@@ -38,16 +39,16 @@ public class BookmarkService {
             .orElseThrow(() -> new NoSuchElementException("해당 유저가 존재하지 않습니다")));
     }
 
-    public Slice<JobPostingListDto> getSliceBookmarkData(Long id, Pageable pageable){ // bookmark DB에 접근 -> 사용자가 찜한 공고글을 담아 Slice 객체에 삽입
-        Slice<JobPostingListDto> jobPostingDtos = jobPostingRepository.findJobPostingIdsByUserIdToSlice(id, pageable)
-            .map(JobPostingListDto::new);
-        return jobPostingDtos;
+    public Slice<BookmarkListDto> getSliceBookmarkData(Long id, Pageable pageable){ // bookmark DB에 접근 -> 사용자가 찜한 공고글을 담아 Slice 객체에 삽입
+        Slice<BookmarkListDto> bookmarkListDtos = jobPostingRepository.findJobPostingIdsByUserIdToSlice(id, pageable)
+            .map(BookmarkListDto::new);
+        return bookmarkListDtos;
     }
 
-    public Slice<JobPostingListDto> getSliceSearchBookmarkData(Long id, String keyword, Pageable pageable){
-        Slice<JobPostingListDto> jobPostingDtos = jobPostingRepository.findJobPostingIdsByUserIdToSlice(id, pageable)
-            .map(JobPostingListDto::new);
-        return jobPostingDtos;
+    public Slice<BookmarkListDto> getSliceSearchBookmarkData(Long id, String keyword, Pageable pageable){
+        Slice<BookmarkListDto> bookmarkListSearchDtos = jobPostingRepository.findJobPostingIdsByUserIdToSlice(id, pageable)
+            .map(BookmarkListDto::new);
+        return bookmarkListSearchDtos;
     }
 
     private List<JobPostingListDto> filterSearchData(List<JobPostingListDto> jobPostingDtos, String keyword){
