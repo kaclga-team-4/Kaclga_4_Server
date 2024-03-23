@@ -45,6 +45,7 @@ public class MemberService {
         memberRepository.save(findMember);
     }
 
+    @Transactional
     public void updateNotification(Long userId, MemberUpdateNotification request) {
         Member findMember = memberRepository.findById(userId).orElseThrow(() ->
             new NoSuchElementException("해당 유저가 존재하지 않습니다"));
