@@ -6,10 +6,15 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Index;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.NotEmpty;
+import java.util.ArrayList;
+import java.util.List;
+import lombok.Getter;
 
+@Getter
 @Entity
 @Table(
     name = "region_1st",
@@ -25,12 +30,6 @@ public class Region1st {
     @NotEmpty
     private String type;
 
-    public Region1st(long l, String splt) {
-        this.id = l;
-        this.type = splt;
-    }
-
-    public Region1st() {
-
-    }
+    @OneToMany(mappedBy = "region1st")
+    private List<Region2nd> region2nds = new ArrayList<>();
 }
