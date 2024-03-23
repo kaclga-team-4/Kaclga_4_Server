@@ -13,9 +13,12 @@ import javax.annotation.Nullable;
 @Constraint(validatedBy = NullOrNotBlankValidator.class)
 @Target({ElementType.FIELD, ElementType.METHOD, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
-@interface NullOrNotBlank { //null 이거나 빈 문자열이면 유효성 검사를 통과합니다
-    String message() default "";
+public @interface NullOrNotBlank { //null 이거나 빈 문자열이면 유효성 검사를 통과합니다
+
+    String message() default "공백은 안됩니다!";
+
     Class<?>[] groups() default {};
+
     Class<? extends Payload>[] payload() default {};
 }
 
