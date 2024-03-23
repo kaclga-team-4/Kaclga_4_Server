@@ -25,7 +25,9 @@ public class JobPostingController {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/jobs")
-    public Slice<JobPostingListDto> jobs(@LoginUserId Long memberId, Pageable pageable) {
+    public Slice<JobPostingListDto> jobs(Pageable pageable) {
         return jobPostingService.findPostings(pageable);
     }
+
+
 }
