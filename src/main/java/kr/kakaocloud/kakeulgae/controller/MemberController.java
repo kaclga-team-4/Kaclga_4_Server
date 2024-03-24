@@ -7,10 +7,13 @@ import kr.kakaocloud.kakeulgae.service.dto.member.MemberResponse;
 import kr.kakaocloud.kakeulgae.service.dto.member.MemberSimpleResponse;
 import kr.kakaocloud.kakeulgae.service.dto.member.MemberUpdateNotification;
 import kr.kakaocloud.kakeulgae.service.dto.member.MemberUpdateReqeust;
+import kr.kakaocloud.kakeulgae.service.dto.member.interest.MemberInterestRequest;
+import kr.kakaocloud.kakeulgae.service.dto.member.interest.MemberInterestResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -59,5 +62,11 @@ public class MemberController {
     ) {
         memberService.updateNotification(memberId, request);
         return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/interest/create")
+    public MemberInterestResponse createInterest(@LoginUserId Long id,
+        @ModelAttribute MemberInterestRequest request) {
+        return memberService.createUserInterest(id, request);
     }
 }
