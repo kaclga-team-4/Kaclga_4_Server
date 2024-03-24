@@ -2,10 +2,8 @@ package kr.kakaocloud.kakeulgae.controller;
 
 import kr.kakaocloud.kakeulgae.security.LoginUserId;
 import kr.kakaocloud.kakeulgae.service.MemberService;
-import kr.kakaocloud.kakeulgae.service.dto.BookmarkListDto;
-import kr.kakaocloud.kakeulgae.service.dto.BookmarkRequest;
+import kr.kakaocloud.kakeulgae.service.dto.bookmark.BookmarkListDto;
 import kr.kakaocloud.kakeulgae.service.BookmarkService;
-import kr.kakaocloud.kakeulgae.service.dto.jobposting.JobPostingListDto;
 import kr.kakaocloud.kakeulgae.service.dto.member.MemberResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -24,7 +22,7 @@ public class BookmarkController {
     private final MemberService memberService;
 
     @PostMapping("/register/{id}")
-    public ResponseEntity<String> handleBookmarkRequest(@LoginUserId Long userId, @PathVariable(value = "id") Long postId) { // 즐겨찾기 등록 API
+    public ResponseEntity<String> handleBookmarkRequest(@LoginUserId Long userId, @PathVariable(value = "id") Long postId) { // 즐겨찾기 등록 API -> {id}는 공고 id
         try{
             bookmarkService.registerBookmark(userId, postId);
             return ResponseEntity.status(HttpStatus.OK).body("Register Success");
@@ -34,7 +32,7 @@ public class BookmarkController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> handleBookmarkDelete(@LoginUserId Long userId, @PathVariable(value = "id") Long postId) { // 즐겨찾기 해제 API
+    public ResponseEntity<String> handleBookmarkDelete(@LoginUserId Long userId, @PathVariable(value = "id") Long postId) { // 즐겨찾기 삭제 API -> {id}는 공고 id
         try{
             bookmarkService.deleteBookmark(userId, postId);
             return ResponseEntity.status(HttpStatus.OK).body("Delete Success");
@@ -43,21 +41,13 @@ public class BookmarkController {
         }
     }
 
-    //@GetMapping("/likes") // 즐겨찾기 조회 API -> 토큰을 통해 사용자 식별하고 페이지네이션을 활용하여 조회
-    //public ResponseEntity<SliceResponse> getMyBookmark(@LoginUserId Long id, Pageable pageable){
-   //     MemberResponse response = memberService.getInformation(id);
- //       return ResponseEntity.status(HttpStatus.OK).body(bookmarkService.getSliceBookmarkData(response.getMemberId(), pageable));
-//    }
-
     @GetMapping("/likes") // 즐겨찾기 조회 API -> 토큰을 통해 사용자 식별하고 페이지네이션을 활용하여 조회
     public Slice<BookmarkListDto> getMyBookmark(@LoginUserId Long id, Pageable pageable){
         return bookmarkService.getSliceBookmarkData(id, pageable);
     }
 
-    @GetMapping("/search")
-    public Slice<BookmarkListDto> getSearchBookmark(@LoginUserId Long id, @RequestParam(value = "keyword") String keyword, Pageable pageable){
-        System.out.print("keyword : ");
-        System.out.println(keyword);
+    @GetMapping("/searchs")
+    public Slice<BookmarkListDto> getSearchBookmark(@LoginUserId Long id, @RequestParam(value = "keyword") String keyword, Pageable pageable){ // 검색 API -> 구현되지 않음
         MemberResponse response = memberService.getInformation(id);
         return bookmarkService.getSliceSearchBookmarkData(id, keyword, pageable);
     }

@@ -4,17 +4,15 @@ package kr.kakaocloud.kakeulgae.domain.entity;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import kr.kakaocloud.kakeulgae.domain.entity.member.Member;
-import lombok.AllArgsConstructor;
+import lombok.AccessLevel;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 
 @Entity
-@Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Bookmark {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,4 +26,12 @@ public class Bookmark {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "job_posting_id", foreignKey = @ForeignKey(name = "fk_bookmark_job_posting_id"))
     private JobPosting jobPosting;
+
+    @Builder
+    public Bookmark(Long id, LocalDateTime created_at, Member member, JobPosting jobPosting){
+        this.id = id;
+        this.created_at = created_at;
+        this.member = member;
+        this.jobPosting = jobPosting;
+    }
 }

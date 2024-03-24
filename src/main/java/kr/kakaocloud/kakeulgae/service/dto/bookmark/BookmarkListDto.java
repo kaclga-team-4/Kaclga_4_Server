@@ -1,4 +1,4 @@
-package kr.kakaocloud.kakeulgae.service.dto;
+package kr.kakaocloud.kakeulgae.service.dto.bookmark;
 
 import java.time.LocalDate;
 import java.util.List;
