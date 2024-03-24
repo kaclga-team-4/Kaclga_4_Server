@@ -5,7 +5,7 @@ import kr.kakaocloud.kakeulgae.service.AuthenticationService;
 import kr.kakaocloud.kakeulgae.service.dto.auth.GoogleInformation;
 import kr.kakaocloud.kakeulgae.service.dto.auth.GoogleLoginRequest;
 import kr.kakaocloud.kakeulgae.service.dto.auth.GoogleRegisterRequest;
-import kr.kakaocloud.kakeulgae.service.dto.member.MemberResponse;
+import kr.kakaocloud.kakeulgae.service.dto.member.MemberSimpleResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -25,7 +25,7 @@ public class AuthController {
     private final AuthenticationService authenticationService;
 
     @PostMapping("/register/google")
-    public ResponseEntity<MemberResponse> googleRegister(
+    public ResponseEntity<MemberSimpleResponse> googleRegister(
         @RequestBody
         @Valid
         GoogleRegisterRequest googleRegisterRequest
@@ -33,9 +33,10 @@ public class AuthController {
         GoogleInformation googleInformation = authenticationService.getGoogleinfomation(
             googleRegisterRequest.getIdToken());
         googleRegisterRequest.updateMemberImpomation(googleInformation);//구글 정보를 업데이트
-        MemberResponse memberResponse = authenticationService.register(googleRegisterRequest,
+        MemberSimpleResponse memberSimpleResponse = authenticationService.register(
+            googleRegisterRequest,
             googleInformation.profileUrl);
-        return ResponseEntity.ok(memberResponse);//200 반환
+        return ResponseEntity.ok(memberSimpleResponse);//200 반환
     }
 
     @PostMapping("/login/google")

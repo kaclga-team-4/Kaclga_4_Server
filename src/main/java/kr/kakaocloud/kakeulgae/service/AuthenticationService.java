@@ -9,7 +9,7 @@ import kr.kakaocloud.kakeulgae.repository.MemberRepository;
 import kr.kakaocloud.kakeulgae.security.FirebaseTokenHelper;
 import kr.kakaocloud.kakeulgae.service.dto.auth.GoogleInformation;
 import kr.kakaocloud.kakeulgae.service.dto.auth.RegisterRequest;
-import kr.kakaocloud.kakeulgae.service.dto.member.MemberResponse;
+import kr.kakaocloud.kakeulgae.service.dto.member.MemberSimpleResponse;
 import kr.kakaocloud.kakeulgae.support.exception.KakeulgaeException.ExistResourceException;
 import kr.kakaocloud.kakeulgae.support.exception.KakeulgaeException.UnRegisteredMemberException;
 import lombok.RequiredArgsConstructor;
@@ -34,11 +34,12 @@ public class AuthenticationService {
     }
 
     @Transactional
-    public MemberResponse register(RegisterRequest registerRequest, @Nullable String profileUrl) {
+    public MemberSimpleResponse register(RegisterRequest registerRequest,
+        @Nullable String profileUrl) {
         validateRegisterInformation(registerRequest);
 
         Member member = memberRepository.save(createMember(registerRequest, profileUrl));
-        return new MemberResponse(member);
+        return new MemberSimpleResponse(member);
     }
 
     private void validateRegisterInformation(RegisterRequest registerRequest) {
