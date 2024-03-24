@@ -62,261 +62,306 @@ create table test_image
     access_url  varchar(100) null
 );
 
-
-
-create table bookmark
+CREATE TABLE education
 (
-    created_at     datetime(6),
-    id             bigint not null auto_increment,
-    job_posting_id bigint,
-    member_id      bigint,
-    primary key (id)
+    id   BIGINT AUTO_INCREMENT NOT NULL,
+    type VARCHAR(255)          NULL,
+    CONSTRAINT pk_education PRIMARY KEY (id)
 );
 
-create table career
+ALTER TABLE education
+    ADD CONSTRAINT education_uk UNIQUE (type);
+
+CREATE INDEX education_idx_type ON education (type);
+
+CREATE TABLE job_posting
 (
-    id   bigint not null auto_increment,
-    type varchar(255),
-    primary key (id)
+    id           BIGINT AUTO_INCREMENT NOT NULL,
+    created_at   datetime              NOT NULL,
+    company_name VARCHAR(255)          NULL,
+    post_name    VARCHAR(255)          NULL,
+    education_id BIGINT                NULL,
+    url          VARCHAR(255)          NULL,
+    deadline     date                  NULL,
+    CONSTRAINT pk_jobposting PRIMARY KEY (id)
 );
 
-create table education
+ALTER TABLE job_posting
+    ADD CONSTRAINT job_posting_company_name_post_name_uk UNIQUE (company_name, post_name);
+
+ALTER TABLE job_posting
+    ADD CONSTRAINT job_posting_url_uk UNIQUE (url);
+
+ALTER TABLE job_posting
+    ADD CONSTRAINT FK_JOB_POSTING_EDUCATION_ID FOREIGN KEY (education_id) REFERENCES education (id);
+
+CREATE TABLE bookmark
 (
-    id   bigint not null auto_increment,
-    type varchar(255),
-    primary key (id)
+    id             BIGINT AUTO_INCREMENT NOT NULL,
+    created_at     datetime              NOT NULL,
+    member_id      BIGINT                NULL,
+    job_posting_id BIGINT                NULL,
+    CONSTRAINT pk_bookmark PRIMARY KEY (id)
 );
 
-create table job
+ALTER TABLE bookmark
+    ADD CONSTRAINT bookmark_member_id_job_posting_id_unique UNIQUE (member_id, job_posting_id);
+
+ALTER TABLE bookmark
+    ADD CONSTRAINT FK_BOOKMARK_JOB_POSTING_ID FOREIGN KEY (job_posting_id) REFERENCES job_posting (id);
+
+ALTER TABLE bookmark
+    ADD CONSTRAINT FK_BOOKMARK_MEMBER_ID FOREIGN KEY (member_id) REFERENCES member (id);
+
+CREATE TABLE career
 (
-    id   bigint not null auto_increment,
-    type varchar(255),
-    primary key (id)
+    id   BIGINT AUTO_INCREMENT NOT NULL,
+    type VARCHAR(255)          NULL,
+    CONSTRAINT pk_career PRIMARY KEY (id)
 );
 
-create table job_category
+ALTER TABLE career
+    ADD CONSTRAINT career_uk UNIQUE (type);
+
+CREATE INDEX career_idx_type ON career (type);
+
+
+CREATE TABLE job
 (
-    id   bigint not null auto_increment,
-    type varchar(255),
-    primary key (id)
+    id   BIGINT AUTO_INCREMENT NOT NULL,
+    type VARCHAR(255)          NULL,
+    CONSTRAINT pk_job PRIMARY KEY (id)
 );
 
-create table job_detail
+ALTER TABLE job
+    ADD CONSTRAINT job_uk UNIQUE (type);
+
+CREATE INDEX job_idx_type ON job (type);
+
+CREATE TABLE job_category
 (
-    id              bigint not null auto_increment,
-    job_category_id bigint,
-    job_id          bigint,
-    type            varchar(255),
-    primary key (id)
+    id   BIGINT AUTO_INCREMENT NOT NULL,
+    type VARCHAR(255)          NULL,
+    CONSTRAINT pk_job_category PRIMARY KEY (id)
 );
 
-create table job_posting
+ALTER TABLE job_category
+    ADD CONSTRAINT job_category_uk UNIQUE (type);
+
+CREATE INDEX job_category_idx_type ON job_category (type);
+
+
+CREATE TABLE job_detail
 (
-    created_at   date,
-    deadline     date,
-    career_id    bigint,
-    education_id bigint,
-    id           bigint not null auto_increment,
-    job_id       bigint,
-    company_name varchar(255),
-    post_name    varchar(255),
-    url          varchar(255),
-    primary key (id)
+    id              BIGINT AUTO_INCREMENT NOT NULL,
+    type            VARCHAR(255)          NULL,
+    job_id          BIGINT                NULL,
+    job_category_id BIGINT                NULL,
+    CONSTRAINT pk_job_detail PRIMARY KEY (id)
 );
 
-create table job_posting_work_type
+ALTER TABLE job_detail
+    ADD CONSTRAINT job_detail_uk UNIQUE (type, job_id);
+
+CREATE INDEX job_detail_idx_type ON job_detail (type);
+
+ALTER TABLE job_detail
+    ADD CONSTRAINT FK_JOB_DETAIL_JOB_CATEGORY_ID FOREIGN KEY (job_category_id) REFERENCES job_category (id);
+
+ALTER TABLE job_detail
+    ADD CONSTRAINT FK_JOB_DETAIL_JOB_ID FOREIGN KEY (job_id) REFERENCES job (id);
+
+CREATE TABLE job_detail_posting_relation
 (
-    id             bigint not null auto_increment,
-    job_postign    bigint,
-    job_posting_id bigint,
-    primary key (id)
+    id             BIGINT AUTO_INCREMENT NOT NULL,
+    job_posting_id BIGINT                NULL,
+    job_detail_id  BIGINT                NULL,
+    CONSTRAINT pk_jobdetailpostingrelation PRIMARY KEY (id)
 );
 
+ALTER TABLE job_detail_posting_relation
+    ADD CONSTRAINT job_detail_posting_relation_job_posting_id_job_detail_id_unique UNIQUE (job_posting_id, job_detail_id);
 
-create table notification
+ALTER TABLE job_detail_posting_relation
+    ADD CONSTRAINT FK_JOB_DETAIL_POSTING_RELATION_JOB_DETAIL_ID FOREIGN KEY (job_detail_id) REFERENCES job_detail (id);
+
+ALTER TABLE job_detail_posting_relation
+    ADD CONSTRAINT FK_JOB_DETAIL_POSTING_RELATION_JOB_POSTING_ID FOREIGN KEY (job_posting_id) REFERENCES job_posting (id);
+
+CREATE TABLE job_posting_career
 (
-    created_at      date,
-    id              bigint not null auto_increment,
-    join_posting_id bigint,
-    member_id       bigint,
-    contents        varchar(255),
-    primary key (id)
+    id             BIGINT AUTO_INCREMENT NOT NULL,
+    job_posting_id BIGINT                NULL,
+    career_id      BIGINT                NULL,
+    CONSTRAINT pk_job_posting_career PRIMARY KEY (id)
 );
 
-create table preference_job
+ALTER TABLE job_posting_career
+    ADD CONSTRAINT job_posting_career_job_posting_id_career_id_unique UNIQUE (job_posting_id, career_id);
+
+ALTER TABLE job_posting_career
+    ADD CONSTRAINT JOB_POSTING_CAREER_CAREER_ID FOREIGN KEY (career_id) REFERENCES career (id);
+
+ALTER TABLE job_posting_career
+    ADD CONSTRAINT JOB_POSTING_CAREER_JOB_POSTING_ID FOREIGN KEY (job_posting_id) REFERENCES job_posting (id);
+
+CREATE TABLE work_type
 (
-    id        bigint not null auto_increment,
-    job_id    bigint,
-    member_id bigint,
-    primary key (id)
+    id   BIGINT AUTO_INCREMENT NOT NULL,
+    type VARCHAR(255)          NULL,
+    CONSTRAINT pk_work_type PRIMARY KEY (id)
 );
 
+ALTER TABLE work_type
+    ADD CONSTRAINT worktype_uk UNIQUE (type);
 
-create table region_1st
+CREATE INDEX idx_type ON work_type (type);
+
+CREATE TABLE job_posting_work_type
 (
-    id   bigint not null auto_increment,
-    type varchar(255),
-    primary key (id)
+    id             BIGINT AUTO_INCREMENT NOT NULL,
+    job_posting_id BIGINT                NULL,
+    work_type_id   BIGINT                NULL,
+    CONSTRAINT pk_jobpostingworktype PRIMARY KEY (id)
 );
 
-create table region_2nd
+ALTER TABLE job_posting_work_type
+    ADD CONSTRAINT job_posting_work_type_job_posting_id_work_type_id_unique UNIQUE (job_posting_id, work_type_id);
+
+ALTER TABLE job_posting_work_type
+    ADD CONSTRAINT FK_JOB_POSTING_WORK_TYPE_JOB_POSTING_ID FOREIGN KEY (job_posting_id) REFERENCES job_posting (id);
+
+ALTER TABLE job_posting_work_type
+    ADD CONSTRAINT FK_JOB_POSTING_WORK_TYPE_WORK_TYPE_ID FOREIGN KEY (work_type_id) REFERENCES work_type (id);
+
+CREATE TABLE notification
 (
-    id            bigint not null auto_increment,
-    region_1st_id bigint,
-    type          varchar(255),
-    primary key (id)
+    id              BIGINT AUTO_INCREMENT NOT NULL,
+    created_at      datetime              NOT NULL,
+    contents        VARCHAR(255)          NULL,
+    member_id       BIGINT                NULL,
+    join_posting_id BIGINT                NULL,
+    CONSTRAINT pk_notification PRIMARY KEY (id)
 );
 
-create table work_type
+ALTER TABLE notification
+    ADD CONSTRAINT notification_member_id_job_posting_id_unique UNIQUE (member_id);
+
+ALTER TABLE notification
+    ADD CONSTRAINT NOTIFICATION_JOB_POSTING_ID FOREIGN KEY (join_posting_id) REFERENCES job_posting (id);
+
+ALTER TABLE notification
+    ADD CONSTRAINT NOTIFICATION_MEMBER_ID FOREIGN KEY (member_id) REFERENCES member (id);
+
+CREATE TABLE preference_job
 (
-    id   bigint not null auto_increment,
-    type varchar(255),
-    primary key (id)
+    id            BIGINT AUTO_INCREMENT NOT NULL,
+    member_id     BIGINT                NULL,
+    job_detail_id BIGINT                NULL,
+    CONSTRAINT pk_preference_job PRIMARY KEY (id)
 );
 
-create index career_idx_type
-    on career (type);
+ALTER TABLE preference_job
+    ADD CONSTRAINT preference_job_member_id_job_detail_id_unique UNIQUE (member_id, job_detail_id);
 
-alter table career
-    add constraint career_uk unique (type);
+ALTER TABLE preference_job
+    ADD CONSTRAINT FK_PREFERENCE_JOB_DETAIL_ID FOREIGN KEY (job_detail_id) REFERENCES job_detail (id);
 
-create index education_idx_type
-    on education (type);
+ALTER TABLE preference_job
+    ADD CONSTRAINT FK_PREFERENCE_MEMBER_ID FOREIGN KEY (member_id) REFERENCES member (id);
 
-alter table education
-    add constraint education_uk unique (type);
-
-create index job_idx_type
-    on job (type);
-
-alter table job
-    add constraint job_uk unique (type);
-
-create index job_category_idx_type
-    on job_category (type);
-
-alter table job_category
-    add constraint job_category_uk unique (type);
-
-create index job_detail_idx_type
-    on job_detail (type);
-
-alter table job_detail
-    add constraint job_detail_uk unique (type, job_id);
-
-alter table member
-    add constraint UK_52psa23ioy6c74qam4i7p2aen unique (profile_id);
-
-create index region_1st_idx_type
-    on region_1st (type);
-
-alter table region_1st
-    add constraint region_1st_uk unique (type);
-
-create index region_2st_idx_type
-    on region_2nd (type);
-
-alter table region_2nd
-    add constraint region_2st_uk unique (type);
-
-create index idx_type
-    on work_type (type);
-
-alter table work_type
-    add constraint worktype_uk unique (type);
-
-alter table bookmark
-    add constraint fk_bookmark_job_posting_id
-        foreign key (job_posting_id)
-            references job_posting (id);
-
-alter table bookmark
-    add constraint fk_bookmark_member_id
-        foreign key (member_id)
-            references member (id);
-
-alter table job_detail
-    add constraint fk_job_detail_job_id
-        foreign key (job_id)
-            references job (id);
-
-alter table job_detail
-    add constraint fk_job_detail_job_category_id
-        foreign key (job_category_id)
-            references job_category (id);
-
-alter table job_posting
-    add constraint fk_job_posting_career_id
-        foreign key (career_id)
-            references career (id);
-
-alter table job_posting
-    add constraint fk_job_posting_education_id
-        foreign key (education_id)
-            references education (id);
-
-alter table job_posting
-    add constraint fk_job_posting_job_id
-        foreign key (job_id)
-            references job (id);
-
-alter table job_posting_work_type
-    add constraint fk_job_posting_work_type_job_posting_id
-        foreign key (job_posting_id)
-            references job_posting (id);
-
-alter table job_posting_work_type
-    add constraint fk_job_posting_work_type_work_type_id
-        foreign key (job_postign)
-            references work_type (id);
-
-alter table member
-    add constraint fk_member_profile_id
-        foreign key (profile_id)
-            references profile (id);
-
-alter table notification
-    add constraint notification_job_posting_id
-        foreign key (join_posting_id)
-            references job_posting (id);
-
-alter table notification
-    add constraint notification_member_id
-        foreign key (member_id)
-            references member (id);
-
-alter table preference_job
-    add constraint preference_job_id
-        foreign key (job_id)
-            references job (id);
-
-alter table preference_job
-    add constraint preference_member_id
-        foreign key (member_id)
-            references member (id);
-
-alter table region_2nd
-    add constraint fk_region_2nd
-        foreign key (region_1st_id)
-            references region_1st (id);
-
-create table job_detail_posting_relation
+CREATE TABLE region_1st
 (
-    id             bigint not null auto_increment,
-    job_posting_id bigint,
-    job_detail_id  bigint,
-    primary key (id)
+    id   BIGINT AUTO_INCREMENT NOT NULL,
+    type VARCHAR(255)          NULL,
+    CONSTRAINT pk_region_1st PRIMARY KEY (id)
 );
 
-alter table job_detail_posting_relation
-    add constraint fk_job_detail_posting_relation_job_posting_id
-        foreign key (job_posting_id)
-            references job_posting (id);
+ALTER TABLE region_1st
+    ADD CONSTRAINT region_1st_uk UNIQUE (type);
 
-alter table job_detail_posting_relation
-    add constraint fk_job_detail_posting_relation_job_detail_id
-        foreign key (job_detail_id)
-            references job_detail (id);
+CREATE INDEX region_1st_idx_type ON region_1st (type);
 
-alter table job_posting_work_type
-    add column work_type_id bigint
+CREATE TABLE region_2nd
+(
+    id            BIGINT AUTO_INCREMENT NOT NULL,
+    type          VARCHAR(255)          NULL,
+    region_1st_id BIGINT                NULL,
+    CONSTRAINT pk_region_2nd PRIMARY KEY (id)
+);
+
+ALTER TABLE region_2nd
+    ADD CONSTRAINT FK_REGION_2ND FOREIGN KEY (region_1st_id) REFERENCES region_1st (id);
+
+CREATE TABLE region_posting_relation
+(
+    id             BIGINT AUTO_INCREMENT NOT NULL,
+    job_posting_id BIGINT                NULL,
+    region_2nd_id  BIGINT                NULL,
+    CONSTRAINT pk_region_posting_relation PRIMARY KEY (id)
+);
+
+ALTER TABLE region_posting_relation
+    ADD CONSTRAINT region_posting_relation_job_posting_id_region_2nd_id_unique UNIQUE (job_posting_id, region_2nd_id);
+
+ALTER TABLE region_posting_relation
+    ADD CONSTRAINT FK_REGION_POSTING_RELATION_JOB_POSTING_ID FOREIGN KEY (job_posting_id) REFERENCES job_posting (id);
+
+ALTER TABLE region_posting_relation
+    ADD CONSTRAINT FK_REGION_POSTING_RELATION_REGION_2ND_ID FOREIGN KEY (region_2nd_id) REFERENCES region_1st (id);
+
+CREATE TABLE career_member_relation
+(
+    id        BIGINT AUTO_INCREMENT NOT NULL,
+    member_id BIGINT                NULL,
+    career_id BIGINT                NULL,
+    CONSTRAINT pk_career_member_relation PRIMARY KEY (id)
+);
+
+ALTER TABLE career_member_relation
+    ADD CONSTRAINT FK_CAREER_MEMBER_RELATION_CAREER_ID FOREIGN KEY (career_id) REFERENCES career (id);
+
+ALTER TABLE career_member_relation
+    ADD CONSTRAINT FK_CAREER_MEMBER_RELATION_MEMBER_ID FOREIGN KEY (member_id) REFERENCES member (id);
+
+CREATE TABLE education_member_relation
+(
+    id           BIGINT AUTO_INCREMENT NOT NULL,
+    member_id    BIGINT                NULL,
+    education_id BIGINT                NULL,
+    CONSTRAINT pk_education_member_relation PRIMARY KEY (id)
+);
+
+ALTER TABLE education_member_relation
+    ADD CONSTRAINT FK_EDUCATION_MEMBER_RELATION_ON_EDUCATION FOREIGN KEY (education_id) REFERENCES education (id);
+
+ALTER TABLE education_member_relation
+    ADD CONSTRAINT FK_EDUCATION_MEMBER_RELATION_ON_MEMBER FOREIGN KEY (member_id) REFERENCES member (id);
+
+CREATE TABLE region_member_relatoin
+(
+    id            BIGINT AUTO_INCREMENT NOT NULL,
+    member_id     BIGINT                NULL,
+    region_2nd_id BIGINT                NULL,
+    CONSTRAINT pk_region_member_relatoin PRIMARY KEY (id)
+);
+
+ALTER TABLE region_member_relatoin
+    ADD CONSTRAINT FK_REGION_MEMBER_RELATION_MEMBER_ID FOREIGN KEY (member_id) REFERENCES member (id);
+
+ALTER TABLE region_member_relatoin
+    ADD CONSTRAINT FK_REGION_MEMBER_RELATION_REGION_2ND_ID FOREIGN KEY (region_2nd_id) REFERENCES region_2nd (id);
+
+CREATE TABLE work_type_member_relation
+(
+    id           BIGINT AUTO_INCREMENT NOT NULL,
+    member_id    BIGINT                NULL,
+    work_type_id BIGINT                NULL,
+    CONSTRAINT pk_work_type_member_relation PRIMARY KEY (id)
+);
+
+ALTER TABLE work_type_member_relation
+    ADD CONSTRAINT FK_WORK_TYPE_MEMBER_RELATION_MEMBER_ID FOREIGN KEY (member_id) REFERENCES member (id);
+
+ALTER TABLE work_type_member_relation
+    ADD CONSTRAINT FK_WORK_TYPE_MEMBER_RELATION_WORK_TYPE_ID FOREIGN KEY (work_type_id) REFERENCES work_type (id);

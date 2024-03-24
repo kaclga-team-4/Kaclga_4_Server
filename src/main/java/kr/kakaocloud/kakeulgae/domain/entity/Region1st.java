@@ -1,6 +1,5 @@
 package kr.kakaocloud.kakeulgae.domain.entity;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -13,14 +12,16 @@ import jakarta.validation.constraints.NotEmpty;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
-@Getter
 @Entity
 @Table(
     name = "region_1st",
     uniqueConstraints = @UniqueConstraint(name = "region_1st_uk", columnNames = "type"),
     indexes = @Index(name = "region_1st_idx_type", columnList = "type")
 )
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Region1st {
 
     @Id
@@ -30,6 +31,8 @@ public class Region1st {
     @NotEmpty
     private String type;
 
-    @OneToMany(mappedBy = "region1st")
-    private List<Region2nd> region2nds = new ArrayList<>();
+    public Region1st(long l, String splt) {
+        this.id = l;
+        this.type = splt;
+    }
 }
