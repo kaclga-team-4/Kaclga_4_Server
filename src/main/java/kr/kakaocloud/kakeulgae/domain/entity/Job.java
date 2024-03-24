@@ -12,7 +12,6 @@ import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
 
 @Entity
-@Getter
 @Table(
     name = "job",
     uniqueConstraints = @UniqueConstraint(name = "job_uk", columnNames = "type"),
