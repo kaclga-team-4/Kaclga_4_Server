@@ -12,9 +12,12 @@ import jakarta.persistence.Table;
 import kr.kakaocloud.kakeulgae.domain.entity.JobDetail;
 import kr.kakaocloud.kakeulgae.domain.entity.PreferenceJob;
 import kr.kakaocloud.kakeulgae.domain.entity.Region2nd;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(
     name = "region_member_relatoin"

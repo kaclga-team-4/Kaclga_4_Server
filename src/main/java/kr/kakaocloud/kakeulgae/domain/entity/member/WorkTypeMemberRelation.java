@@ -11,9 +11,12 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import kr.kakaocloud.kakeulgae.domain.entity.Region2nd;
 import kr.kakaocloud.kakeulgae.domain.entity.WorkType;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(
     name = "work_type_member_relation"

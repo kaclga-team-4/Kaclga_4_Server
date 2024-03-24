@@ -10,9 +10,12 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import kr.kakaocloud.kakeulgae.domain.entity.Education;
 import kr.kakaocloud.kakeulgae.domain.entity.Region2nd;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(
     name = "education_member_relation"
