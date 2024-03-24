@@ -19,8 +19,9 @@ public class BookmarkService {
     private final JobPostingRepository jobPostingRepository;
     private final MemberRepository memberRepository;
 
-    public void registerBookmark(Long userId, Long postId){
-        Bookmark existingBookmark = bookmarkRepository.findByMemberIdAndJobPostingId(userId, postId);
+    public void registerBookmark(Long userId, Long postId) {
+        Bookmark existingBookmark = bookmarkRepository.findByMemberIdAndJobPostingId(userId,
+            postId);
         if (existingBookmark == null) {
             Bookmark bookmark = Bookmark.builder()
                 .member(memberRepository.findById(userId).orElseThrow(() ->
@@ -33,20 +34,25 @@ public class BookmarkService {
     }
 
     public void deleteBookmark(Long userId, Long postId) {
-        Bookmark existingBookmark = bookmarkRepository.findByMemberIdAndJobPostingId(userId, postId);
-        if(existingBookmark != null){
+        Bookmark existingBookmark = bookmarkRepository.findByMemberIdAndJobPostingId(userId,
+            postId);
+        if (existingBookmark != null) {
             bookmarkRepository.delete(existingBookmark);
         }
     }
 
-    public Slice<BookmarkListDto> getSliceBookmarkData(Long id, Pageable pageable){ // 사용자가 찜한 공고 정보를 담아 Slice 객체에 삽입
-        Slice<BookmarkListDto> bookmarkListDtos = jobPostingRepository.findJobPostingIdsByUserIdToSlice(id, pageable)
+    public Slice<BookmarkListDto> getSliceBookmarkData(Long id,
+        Pageable pageable) { // 사용자가 찜한 공고 정보를 담아 Slice 객체에 삽입
+        Slice<BookmarkListDto> bookmarkListDtos = jobPostingRepository.findJobPostingIdsByUserIdToSlice(
+                id, pageable)
             .map(BookmarkListDto::new);
         return bookmarkListDtos;
     }
 
-    public Slice<BookmarkListDto> getSliceSearchBookmarkData(Long id, String keyword, Pageable pageable){
-        Slice<BookmarkListDto> bookmarkListSearchDtos = jobPostingRepository.findJobPostingIdsByUserIdToSlice(id, pageable)
+    public Slice<BookmarkListDto> getSliceSearchBookmarkData(Long id, String keyword,
+        Pageable pageable) {
+        Slice<BookmarkListDto> bookmarkListSearchDtos = jobPostingRepository.findJobPostingIdsByUserIdToSlice(
+                id, pageable)
             .map(BookmarkListDto::new);
         return bookmarkListSearchDtos;
     }

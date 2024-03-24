@@ -22,8 +22,9 @@ public class BookmarkController {
     private final MemberService memberService;
 
     @PostMapping("/register/{id}")
-    public ResponseEntity<String> handleBookmarkRequest(@LoginUserId Long userId, @PathVariable(value = "id") Long postId) { // 즐겨찾기 등록 API -> {id}는 공고 id
-        try{
+    public ResponseEntity<String> handleBookmarkRequest(@LoginUserId Long userId,
+        @PathVariable(value = "id") Long postId) { // 즐겨찾기 등록 API -> {id}는 공고 id
+        try {
             bookmarkService.registerBookmark(userId, postId);
             return ResponseEntity.status(HttpStatus.OK).body("Register Success");
         } catch (Exception e) {
@@ -32,8 +33,9 @@ public class BookmarkController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> handleBookmarkDelete(@LoginUserId Long userId, @PathVariable(value = "id") Long postId) { // 즐겨찾기 삭제 API -> {id}는 공고 id
-        try{
+    public ResponseEntity<String> handleBookmarkDelete(@LoginUserId Long userId,
+        @PathVariable(value = "id") Long postId) { // 즐겨찾기 삭제 API -> {id}는 공고 id
+        try {
             bookmarkService.deleteBookmark(userId, postId);
             return ResponseEntity.status(HttpStatus.OK).body("Delete Success");
         } catch (Exception e) {
@@ -42,12 +44,13 @@ public class BookmarkController {
     }
 
     @GetMapping("/likes") // 즐겨찾기 조회 API -> 토큰을 통해 사용자 식별하고 페이지네이션을 활용하여 조회
-    public Slice<BookmarkListDto> getMyBookmark(@LoginUserId Long id, Pageable pageable){
+    public Slice<BookmarkListDto> getMyBookmark(@LoginUserId Long id, Pageable pageable) {
         return bookmarkService.getSliceBookmarkData(id, pageable);
     }
 
     @GetMapping("/searchs")
-    public Slice<BookmarkListDto> getSearchBookmark(@LoginUserId Long id, @RequestParam(value = "keyword") String keyword, Pageable pageable){ // 검색 API -> 구현되지 않음
+    public Slice<BookmarkListDto> getSearchBookmark(@LoginUserId Long id,
+        @RequestParam(value = "keyword") String keyword, Pageable pageable) { // 검색 API -> 구현되지 않음
         MemberResponse response = memberService.getInformation(id);
         return bookmarkService.getSliceSearchBookmarkData(id, keyword, pageable);
     }

@@ -19,10 +19,11 @@ public interface JobPostingRepository extends JpaRepository<JobPosting, Long> {
         + " join jd.preferenceJobs pj"
         + " join pj.member m"
         + " where m.id=:memberId")
-    Slice<JobPosting> findAllByMemberId(@Param("memberId")Long memberId, Pageable pageable);
+    Slice<JobPosting> findAllByMemberId(@Param("memberId") Long memberId, Pageable pageable);
 
     @Query("SELECT jp from JobPosting jp"
         + " join fetch jp.bookmarks bmk"
         + " where bmk.member.id=:memberId")
-    Slice<JobPosting> findJobPostingIdsByUserIdToSlice(@Param("memberId") Long memberId, Pageable pageable);
+    Slice<JobPosting> findJobPostingIdsByUserIdToSlice(@Param("memberId") Long memberId,
+        Pageable pageable);
 }

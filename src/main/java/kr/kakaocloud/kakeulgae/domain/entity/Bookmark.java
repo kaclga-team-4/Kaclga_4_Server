@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Bookmark {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -28,7 +29,7 @@ public class Bookmark {
     private JobPosting jobPosting;
 
     @Builder
-    public Bookmark(Long id, LocalDateTime created_at, Member member, JobPosting jobPosting){
+    public Bookmark(Long id, LocalDateTime created_at, Member member, JobPosting jobPosting) {
         this.id = id;
         this.created_at = created_at;
         this.member = member;

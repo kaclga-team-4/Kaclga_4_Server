@@ -7,6 +7,7 @@ import lombok.Data;
 
 @Data
 public class BookmarkListDto {
+
     private Long id;
     private String companyName;
     private String postName;
