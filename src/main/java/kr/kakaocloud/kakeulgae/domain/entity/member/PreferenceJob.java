@@ -1,4 +1,4 @@
-package kr.kakaocloud.kakeulgae.domain.entity;
+package kr.kakaocloud.kakeulgae.domain.entity.member;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -9,8 +9,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import kr.kakaocloud.kakeulgae.domain.entity.member.CareerMemberRelation;
-import kr.kakaocloud.kakeulgae.domain.entity.member.Member;
+import kr.kakaocloud.kakeulgae.domain.entity.JobDetail;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
