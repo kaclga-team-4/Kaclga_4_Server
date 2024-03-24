@@ -9,6 +9,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import kr.kakaocloud.kakeulgae.domain.entity.Education;
+import kr.kakaocloud.kakeulgae.domain.entity.Region2nd;
 import lombok.Getter;
 
 @Getter
@@ -29,4 +30,13 @@ public class EducationMemberRelation {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "education_id")
     private Education education;
+
+    public EducationMemberRelation(Member member, Education education) {
+        this.member = member;
+        this.education = education;
+    }
+
+    public static EducationMemberRelation createRelation(Member member, Education education) {
+        return new EducationMemberRelation(member, education);
+    }
 }

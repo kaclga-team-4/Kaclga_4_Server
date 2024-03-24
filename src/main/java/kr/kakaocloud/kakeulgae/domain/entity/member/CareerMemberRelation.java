@@ -10,6 +10,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import kr.kakaocloud.kakeulgae.domain.entity.Career;
+import kr.kakaocloud.kakeulgae.repository.CareerMemberRepository;
 import lombok.Getter;
 
 @Getter
@@ -32,4 +33,13 @@ public class CareerMemberRelation {
     @JoinColumn(name = "career_id",
         foreignKey = @ForeignKey(name = "fk_career_member_relation_career_id"))
     private Career career;
+
+    public CareerMemberRelation(Member member, Career career) {
+        this.member = member;
+        this.career = career;
+    }
+
+    public static CareerMemberRelation createRelation(Member member, Career career) {
+        return new CareerMemberRelation(member, career);
+    }
 }
