@@ -21,7 +21,8 @@ public enum ErrorCode {
         "Firebase custom token creation fail"),
     FIREBASE_USER_WITHDRAW_FAIL(HttpStatus.NOT_FOUND, -11003,
         "Firebase user withdraw fail(USER_NOT_FOUND)"),
-    S3_EXCEPTION(HttpStatus.INTERNAL_SERVER_ERROR, -12000, "S3 exception");
+    S3_EXCEPTION(HttpStatus.INTERNAL_SERVER_ERROR, -12000, "S3 exception"),
+    USER_NOT_FOUND(HttpStatus.NOT_FOUND, -13000, "Not found user");
 
     public HttpStatus httpStatus;
     public int code;

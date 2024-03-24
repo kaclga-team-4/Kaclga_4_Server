@@ -7,8 +7,9 @@ import kr.kakaocloud.kakeulgae.domain.entity.member.Member;
 import kr.kakaocloud.kakeulgae.domain.entity.member.Profile;
 import kr.kakaocloud.kakeulgae.repository.MemberRepository;
 import kr.kakaocloud.kakeulgae.security.FirebaseTokenHelper;
-import kr.kakaocloud.kakeulgae.service.dto.auth.GoogleImpomation;
+import kr.kakaocloud.kakeulgae.service.dto.auth.GoogleInformation;
 import kr.kakaocloud.kakeulgae.service.dto.auth.RegisterRequest;
+import kr.kakaocloud.kakeulgae.service.dto.member.MemberSimpleResponse;
 import kr.kakaocloud.kakeulgae.support.exception.KakeulgaeException.ExistResourceException;
 import kr.kakaocloud.kakeulgae.support.exception.KakeulgaeException.UnRegisteredMemberException;
 import lombok.RequiredArgsConstructor;
@@ -33,10 +34,12 @@ public class AuthenticationService {
     }
 
     @Transactional
-    public void register(RegisterRequest registerRequest, @Nullable String profileUrl) {
+    public MemberSimpleResponse register(RegisterRequest registerRequest,
+        @Nullable String profileUrl) {
         validateRegisterInformation(registerRequest);
 
-        memberRepository.save(createMember(registerRequest,profileUrl));
+        Member member = memberRepository.save(createMember(registerRequest, profileUrl));
+        return new MemberSimpleResponse(member);
     }
 
     private void validateRegisterInformation(RegisterRequest registerRequest) {
@@ -44,7 +47,6 @@ public class AuthenticationService {
             throw new ExistResourceException(STR."\{registerRequest.memberName} : 이미 존재하는 회원입니다");
         }
         validateEmail(registerRequest.email); //이메일 중복 검사
-        validatePhoneNumber(registerRequest.phoneNumber); //전화번호 중복 검사
         validateNickname(registerRequest.nickname); //닉네임 중복 검사
     }
 
@@ -71,11 +73,12 @@ public class AuthenticationService {
         return firebaseTokenHelper.getUid(idToken); //firebaseTokenHelper는 구글 토큰을 파싱하는 클래스
     }
 
-    public GoogleImpomation getGoogleinfomation(String idToken) {
-        return new GoogleImpomation(firebaseTokenHelper.getEmail(idToken), firebaseTokenHelper.getProfileurl(idToken), getMemberNameByIdToken(idToken));
+    public GoogleInformation getGoogleinfomation(String idToken) {
+        return new GoogleInformation(firebaseTokenHelper.getProfileurl(idToken),
+            getMemberNameByIdToken(idToken));
     }
 
-    private String saveProfile(String profileUrl)  {
+    private String saveProfile(String profileUrl) {
         InputStream inputStream = null; //InputStream은 바이트 단위로 읽어들이는 클래스
         try {
             URL url = new URL(profileUrl);
@@ -98,8 +101,8 @@ public class AuthenticationService {
         String profileName = saveProfile(profileUrl);
         Profile profile;
         if (profileName != null) {
-             profile = new Profile(profileName);
-        }else {
+            profile = new Profile(profileName);
+        } else {
             profile = new Profile("default.webp");
         }
         return Member.builder()

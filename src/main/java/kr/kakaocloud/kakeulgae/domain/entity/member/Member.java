@@ -20,6 +20,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(
@@ -28,6 +29,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@Setter
 @Builder
 public class Member extends BaseModifiableEntity {
 
@@ -71,34 +73,4 @@ public class Member extends BaseModifiableEntity {
     @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE,
         CascadeType.REMOVE}) // member가 삭제되면 profile도 삭제
     private Profile profile;
-
-    //TODO 사용 안하면 지우기
-    public Member(Long id, String MemberName,
-        String email,
-        @Nullable String nickname,
-        @Nullable String phoneNumber,
-        @Nullable Gender gender,
-        @Nullable LocalDate birthday,
-        SocialType socialType,
-        @Nullable MemberRole memberRole,
-        Profile profile,
-        NoticeCheck noticeCheck
-    ) {
-        this.id = id;
-        this.memberName = MemberName;
-        this.socialType = socialType;
-        this.memberRole = memberRole;
-        this.nickname = nickname;
-        this.phoneNumber = phoneNumber;
-        this.gender = gender;
-        this.birthday = birthday;
-        this.profile = profile;
-        this.email = email;
-        this.noticeCheck = noticeCheck;
-    }
-
-    //TODO 사용 안하면 지우기
-    public void changeProfile(String profileName, String originFileName) {
-        profile.changeProfile(profileName, originFileName);
-    }
 }

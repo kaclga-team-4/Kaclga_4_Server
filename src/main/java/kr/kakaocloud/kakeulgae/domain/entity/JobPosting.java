@@ -9,9 +9,18 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
+@Getter
 public class JobPosting {
 
     @Id
@@ -24,18 +33,21 @@ public class JobPosting {
     @Column(name = "post_name")
     private String postName;
 
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "job_id", foreignKey = @ForeignKey(name = "fk_job_posting_job_id"))
-    private Job job;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "education_id", foreignKey = @ForeignKey(name = "fk_job_posting_education_id"))
     private Education education;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "career_id", foreignKey = @ForeignKey(name = "fk_job_posting_career_id"))
-    private Career career;
+    @OneToMany(mappedBy = "jobPosting")
+    private List<JobDetailPostingRelation> jobDetailPostingRelations = new ArrayList<>();
+
+    @OneToMany(mappedBy = "jobPosting")
+    private List<JobPostingCareer> jobPostingCareers = new ArrayList<>();
+
+    @OneToMany(mappedBy = "jobPosting")
+    private List<JobPostingWorkType> jobPostingWorkTypes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "jobPosting")
+    private List<RegionPostingRelation> regionPostingRelations = new ArrayList<>();
 
     private String url;
 
@@ -43,4 +55,15 @@ public class JobPosting {
 
     @Column(name = "created_at")
     private LocalDate createdAt;
+
+    @Builder
+    public JobPosting(String companyName, String postName, Education education, Career career,
+        String url, LocalDate deadline, LocalDate createdAt) {
+        this.companyName = companyName;
+        this.postName = postName;
+        this.education = education;
+        this.url = url;
+        this.deadline = deadline;
+        this.createdAt = createdAt;
+    }
 }

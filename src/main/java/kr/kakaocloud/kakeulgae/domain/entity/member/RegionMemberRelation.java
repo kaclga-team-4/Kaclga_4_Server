@@ -1,4 +1,4 @@
-package kr.kakaocloud.kakeulgae.domain.entity;
+package kr.kakaocloud.kakeulgae.domain.entity.member;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -9,23 +9,27 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import kr.kakaocloud.kakeulgae.domain.entity.member.Member;
+import kr.kakaocloud.kakeulgae.domain.entity.Region2nd;
+import lombok.Getter;
 
+@Getter
 @Entity
 @Table(
-    name = "preference_job"
+    name = "region_member_relatoin"
 )
-public class PreferenceJob {
+public class RegionMemberRelation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id", foreignKey = @ForeignKey(name = "fk_preference_member_id"))
+    @JoinColumn(name = "member_id",
+        foreignKey = @ForeignKey(name = "fk_region_member_relation_member_id"))
     private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "job_detail_id", foreignKey = @ForeignKey(name = "fk_preference_job_detail_id"))
-    private JobDetail jobDetail;
+    @JoinColumn(name = "region_2nd_id",
+        foreignKey = @ForeignKey(name = "fk_region_member_relation_region_2nd_id"))
+    private Region2nd region2nd;
 }
