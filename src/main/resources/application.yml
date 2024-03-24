@@ -55,3 +55,13 @@ spring:
       mode: always
       schema-locations: classpath:sql/schema-h2.sql
       data-locations: classpath:sql/data-h2.sql
+
+cloud:
+  aws:
+    credentials:
+      access-key: dummy
+      secret-key: dummy
+    region:
+      static: dummy
+    stack:
+      auto: false

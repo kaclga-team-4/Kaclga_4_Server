@@ -1,6 +1,5 @@
 package kr.kakaocloud.kakeulgae.controller;
 
-
 import kr.kakaocloud.kakeulgae.service.BookmarkService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;

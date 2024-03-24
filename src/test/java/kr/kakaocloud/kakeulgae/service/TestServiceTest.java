@@ -10,28 +10,28 @@ import kr.kakaocloud.kakeulgae.repository.TestRepository;
 import kr.kakaocloud.kakeulgae.service.dto.TestPostRequest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.ActiveProfiles;
 
 @SpringBootTest
 @ExtendWith(MockitoExtension.class)
+@ActiveProfiles("test")
 class TestServiceTest {
 
     @Autowired
     private TestService testService;
-    @Mock
+    @MockBean
     private TestRepository testRepository;
 
     @Test
     void createTest() {
-
         TestPostRequest testPostRequest = createTestPostRequest();
-        //given
-        testService.createTest(testPostRequest);
         TestEntity test = TestEntity.builder().name(testPostRequest.getName()).build();
-        given(testRepository.save(test)).willReturn(test);
+        //given
+        given(testRepository.save(any())).willReturn(test);
 
         // when
         testService.createTest(testPostRequest);
