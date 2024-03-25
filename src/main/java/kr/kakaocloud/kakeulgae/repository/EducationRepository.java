@@ -8,4 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface EducationRepository extends JpaRepository<Education, Long> {
 
     public List<Education> findByTypeIn(List<String> types);
+
+    List<Education> findByIdIn(List<Long> educationIds);
 }

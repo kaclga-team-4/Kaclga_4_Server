@@ -7,5 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface Region2ndRepository extends JpaRepository<Region2nd, Long> {
 
-    public List<Region2nd> findByTypeIn(List<String> types);
+    List<Region2nd> findByTypeIn(List<String> types);
+
+    List<Region2nd> findByIdIn(List<Long> region2ndIds);
 }

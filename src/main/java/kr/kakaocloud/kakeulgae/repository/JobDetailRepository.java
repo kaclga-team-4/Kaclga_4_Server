@@ -13,6 +13,8 @@ public interface JobDetailRepository extends JpaRepository<JobDetail, Long> {
 
     List<JobDetail> findByTypeIn(List<String> jobDetails);
 
+    List<JobDetail> findByIdIn(List<Long> jobDetailIds);
+
     @Query("select jd.id from JobDetail jd"
         + " join jd.preferenceJobs pj"
         + " join pj.member m"
