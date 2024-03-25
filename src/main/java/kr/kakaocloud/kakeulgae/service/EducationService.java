@@ -24,4 +24,16 @@ public class EducationService {
             educationMemberRepository.save(relation);
         }
     }
+
+    public void updateUserEducation(Member member, List<String> educations) {
+        List<Education> findEducations = educationRepository.findByTypeIn(educations);
+        List<EducationMemberRelation> educationMemberRelations = educationMemberRepository.findByMember(member);
+        educationMemberRepository.deleteAll(educationMemberRelations);
+
+        for (Education findEducation : findEducations) {
+            EducationMemberRelation relation = EducationMemberRelation.createRelation(member,
+                findEducation);
+            educationMemberRepository.save(relation);
+        }
+    }
 }

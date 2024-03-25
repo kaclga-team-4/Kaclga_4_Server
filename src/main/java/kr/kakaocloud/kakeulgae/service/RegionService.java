@@ -1,6 +1,7 @@
 package kr.kakaocloud.kakeulgae.service;
 
 import java.util.List;
+import kr.kakaocloud.kakeulgae.domain.entity.JobDetail;
 import kr.kakaocloud.kakeulgae.domain.entity.Region2nd;
 import kr.kakaocloud.kakeulgae.domain.entity.member.Member;
 import kr.kakaocloud.kakeulgae.domain.entity.member.PreferenceJob;
@@ -21,6 +22,19 @@ public class RegionService {
         List<Region2nd> findRegion2nds = region2ndRepository.findByTypeIn(region2nds);
         for (Region2nd findRegion2nd : findRegion2nds) {
             RegionMemberRelation relation = RegionMemberRelation.createRelation(member, findRegion2nd);
+            region2ndMemberRelationRepository.save(relation);
+        }
+    }
+
+    public void updateUserRegion(Member member, List<String> region2nds) {
+        List<Region2nd> findRegion2nds = region2ndRepository.findByTypeIn(region2nds);
+        List<RegionMemberRelation> regionMemberRelations = region2ndMemberRelationRepository.findByMember(
+            member);
+        region2ndMemberRelationRepository.deleteAll(regionMemberRelations);
+
+        for (Region2nd findRegion2nd : findRegion2nds) {
+            RegionMemberRelation relation = RegionMemberRelation.createRelation(member,
+                findRegion2nd);
             region2ndMemberRelationRepository.save(relation);
         }
     }

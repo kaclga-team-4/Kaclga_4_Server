@@ -26,22 +26,19 @@ public class MemberService {
 
 
     public MemberSimpleResponse getSimpleInformation(Long userId) {
-        Member findMember = memberRepository.findById(userId).orElseThrow(() ->
-            new NoSuchElementException("해당 유저가 존재하지 않습니다"));
+        Member findMember = findMember(userId);
         return new MemberSimpleResponse(findMember);
     }
 
     @Transactional(readOnly = true)
     public MemberResponse getInformation(Long userId) {
-        Member findMember = memberRepository.findById(userId).orElseThrow(() ->
-            new NoSuchElementException("해당 유저가 존재하지 않습니다"));
+        Member findMember = findMember(userId);
         return new MemberResponse(findMember);
     }
 
     @Transactional
     public void updateInformation(Long userId, MemberUpdateReqeust request) {
-        Member findMember = memberRepository.findById(userId).orElseThrow(() ->
-            new NoSuchElementException("해당 유저가 존재하지 않습니다"));
+        Member findMember = findMember(userId);
         if (request.getNickname() != null) {
             findMember.setNickname(request.getNickname());
         }
@@ -56,36 +53,50 @@ public class MemberService {
 
     @Transactional
     public void updateNotification(Long userId, MemberUpdateNotification request) {
-        Member findMember = memberRepository.findById(userId).orElseThrow(() ->
-            new NoSuchElementException("해당 유저가 존재하지 않습니다"));
+        Member findMember = findMember(userId);
         findMember.setNoticeCheck(request.getNoticeCheck());
         memberRepository.save(findMember);
     }
 
-    public MemberInterestResponse createUserInterest(Long id, MemberInterestRequest request) {
-        /**
-         * List<String> jobDetails;
-         * List<String> region_2nds;
-         * List<String> careers;
-         * List<String> educations;
-         * List<String> workTypes;
-         */
-        Member member = memberRepository.findById(id).orElseThrow(() ->
-            new NoSuchElementException("해당 유저가 존재하지 않습니다"));
+    public MemberInterestResponse createUserInterest(Long memberId, MemberInterestRequest request) {
+        Member findMember = findMember(memberId);
 
-        jobDetailService.saveUserJobDetail(member, request.getJobDetails());
-        regionService.saveUserRegion(member, request.getRegion2nds());
-        careerService.saveUserCareer(member, request.getCareers());
-        educationService.saveUserEducation(member, request.getEducations());
-        workTypeService.saveUserWorkType(member, request.getWorkTypes());
+        jobDetailService.saveUserJobDetail(findMember, request.getJobDetails());
+        regionService.saveUserRegion(findMember, request.getRegion2nds());
+        careerService.saveUserCareer(findMember, request.getCareers());
+        educationService.saveUserEducation(findMember, request.getEducations());
+        workTypeService.saveUserWorkType(findMember, request.getWorkTypes());
 
-        MemberInterestResponse response = MemberInterestResponse.builder()
+        return MemberInterestResponse.builder()
             .jobDetails(request.getJobDetails())
             .region2nds(request.getRegion2nds())
             .careers(request.getCareers())
             .educations(request.getEducations())
             .workTypes(request.getWorkTypes())
             .build();
-        return response;
+    }
+
+    public MemberInterestResponse updateUserInterest(Long memberId, MemberInterestRequest request) {
+        Member findMember = findMember(memberId);
+
+        jobDetailService.updateUserJobDetail(findMember, request.getJobDetails());
+        regionService.updateUserRegion(findMember, request.getRegion2nds());
+        careerService.updateUserCareer(findMember, request.getCareers());
+        educationService.updateUserEducation(findMember, request.getEducations());
+        workTypeService.updateUserWorkType(findMember, request.getWorkTypes());
+
+        return MemberInterestResponse.builder()
+            .jobDetails(request.getJobDetails())
+            .region2nds(request.getRegion2nds())
+            .careers(request.getCareers())
+            .educations(request.getEducations())
+            .workTypes(request.getWorkTypes())
+            .build();
+    }
+
+    private Member findMember(Long userId) {
+        Member findMember = memberRepository.findById(userId).orElseThrow(() ->
+            new NoSuchElementException("해당 유저가 존재하지 않습니다"));
+        return findMember;
     }
 }

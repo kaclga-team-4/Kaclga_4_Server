@@ -28,4 +28,16 @@ public class WorkTypeService {
             workTypeMemberRelationRepository.save(relation);
         }
     }
+
+    public void updateUserWorkType(Member member, List<String> workTypes) {
+        List<WorkType> findWorkTypes = workTypeRepository.findByTypeIn(workTypes);
+        List<WorkTypeMemberRelation> workTypeMemberRelations = workTypeMemberRelationRepository.findByMember(
+            member);
+        workTypeMemberRelationRepository.deleteAll(workTypeMemberRelations);
+        for (WorkType findWorkType : findWorkTypes) {
+            WorkTypeMemberRelation relation = WorkTypeMemberRelation.createRelation(member,
+                findWorkType);
+            workTypeMemberRelationRepository.save(relation);
+        }
+    }
 }

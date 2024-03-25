@@ -1,6 +1,7 @@
 package kr.kakaocloud.kakeulgae.service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import kr.kakaocloud.kakeulgae.domain.entity.JobDetail;
 import kr.kakaocloud.kakeulgae.domain.entity.member.PreferenceJob;
 import kr.kakaocloud.kakeulgae.domain.entity.member.Member;
@@ -18,6 +19,17 @@ public class JobDetailService {
 
     public void saveUserJobDetail(Member member, List<String> jobDetails) {
         List<JobDetail> findJobDetails = jobDetailRepository.findByTypeIn(jobDetails);
+
+        for (JobDetail findJobDetail : findJobDetails) {
+            PreferenceJob relation = PreferenceJob.createRelation(member, findJobDetail);
+            preferenceJobRepository.save(relation);
+        }
+    }
+
+    public void updateUserJobDetail(Member member, List<String> jobDetails) {
+        List<JobDetail> findJobDetails = jobDetailRepository.findByTypeIn(jobDetails);
+        List<PreferenceJob> preferenceJobs = preferenceJobRepository.findByMember(member);
+        preferenceJobRepository.deleteAll(preferenceJobs);
 
         for (JobDetail findJobDetail : findJobDetails) {
             PreferenceJob relation = PreferenceJob.createRelation(member, findJobDetail);
