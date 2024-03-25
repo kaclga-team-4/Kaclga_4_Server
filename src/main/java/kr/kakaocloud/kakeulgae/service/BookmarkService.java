@@ -34,7 +34,7 @@ public class BookmarkService {
     public void deleteBookmark(Long userId, Long postId) {
         Bookmark existingBookmark = bookmarkRepository.findByMemberIdAndJobPostingId(userId,
             postId);
-        if (bookmarkRepository.existsByMemberIdAndJobPostingId(userId, postId)) {
+        if (existingBookmark != null) {
             bookmarkRepository.delete(existingBookmark);
         }
     }
@@ -47,10 +47,8 @@ public class BookmarkService {
         return bookmarkListDtos;
     }
 
-    public Slice<BookmarkListDto> getSliceSearchBookmarkData(Long id, String keyword,
-        Pageable pageable) {
-        Slice<BookmarkListDto> bookmarkListSearchDtos = jobPostingRepository.findJobPostingIdsByUserIdToSlice(
-                id, pageable)
+    public Slice<BookmarkListDto> getSliceSearchBookmarkData(Long id, String keyword, Pageable pageable) {
+        Slice<BookmarkListDto> bookmarkListSearchDtos = jobPostingRepository.findBySearchBookmarkData(id, keyword, pageable)
             .map(BookmarkListDto::new);
         return bookmarkListSearchDtos;
     }
