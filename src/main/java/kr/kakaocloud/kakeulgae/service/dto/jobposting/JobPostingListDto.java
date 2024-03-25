@@ -2,6 +2,7 @@ package kr.kakaocloud.kakeulgae.service.dto.jobposting;
 
 import java.time.LocalDate;
 import java.util.List;
+import kr.kakaocloud.kakeulgae.domain.entity.Bookmark;
 import kr.kakaocloud.kakeulgae.domain.entity.JobPosting;
 import lombok.Data;
 
@@ -17,6 +18,7 @@ public class JobPostingListDto {
     private List<String> jobDetailTypes;
     private List<String> workTypes;
     private List<String> careers;
+    private boolean bookmark;
 
     public JobPostingListDto(JobPosting jobPosting) {
         companyName = jobPosting.getCompanyName();

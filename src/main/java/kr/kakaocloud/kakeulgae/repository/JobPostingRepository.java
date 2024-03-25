@@ -21,7 +21,8 @@ public interface JobPostingRepository extends JpaRepository<JobPosting, Long> {
         + " join jp.jobDetailPostingRelations jdpr"
         + " join jdpr.jobDetail jd"
         + " join jd.preferenceJobs pj"
-        + " join pj.member m"
-        + " where m.id=:memberId")
+        + " left join jp.bookmarks bk"
+        + " where pj.member.id=:memberId")
     Slice<JobPosting> findAllByMemberId(@Param("memberId")Long memberId, Pageable pageable);
+
 }

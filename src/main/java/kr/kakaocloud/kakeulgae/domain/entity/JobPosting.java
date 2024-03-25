@@ -49,6 +49,9 @@ public class JobPosting {
     @OneToMany(mappedBy = "jobPosting")
     private List<RegionPostingRelation> regionPostingRelations = new ArrayList<>();
 
+    @OneToMany(mappedBy = "jobPosting")
+    private List<Bookmark> bookmarks = new ArrayList<>();
+
     private String url;
 
     private LocalDate deadline;
