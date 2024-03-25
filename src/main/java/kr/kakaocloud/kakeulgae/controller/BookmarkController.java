@@ -1,14 +1,21 @@
 package kr.kakaocloud.kakeulgae.controller;
 
-import java.util.ArrayList;
-import kr.kakaocloud.kakeulgae.domain.dto.BookmarkDto;
+import kr.kakaocloud.kakeulgae.security.LoginUserId;
 import kr.kakaocloud.kakeulgae.service.BookmarkService;
+import kr.kakaocloud.kakeulgae.service.MemberService;
+import kr.kakaocloud.kakeulgae.service.dto.bookmark.BookmarkListDto;
+import kr.kakaocloud.kakeulgae.service.dto.member.MemberResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -46,10 +53,10 @@ public class BookmarkController {
         return bookmarkService.getSliceBookmarkData(id, pageable);
     }
 
-    @GetMapping("/searchs")
-    public Slice<BookmarkListDto> getSearchBookmark(@LoginUserId Long id,
-        @RequestParam(value = "keyword") String keyword, Pageable pageable) { // 검색 API -> 구현되지 않음
-        MemberResponse response = memberService.getInformation(id);
-        return bookmarkService.getSliceSearchBookmarkData(id, keyword, pageable);
-    }
+//    @GetMapping("/searchs")
+//    public Slice<BookmarkListDto> getSearchBookmark(@LoginUserId Long id,
+//        @RequestParam(value = "keyword") String keyword, Pageable pageable) { // 검색 API -> 구현되지 않음
+//        MemberResponse response = memberService.getInformation(id);
+//        return bookmarkService.getSliceSearchBookmarkData(id, keyword, pageable);
+//    }
 }
