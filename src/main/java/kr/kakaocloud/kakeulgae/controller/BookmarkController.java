@@ -26,7 +26,7 @@ public class BookmarkController {
         @PathVariable(value = "id") Long postId) { // 즐겨찾기 등록 API -> {id}는 공고 id
         try {
             bookmarkService.registerBookmark(userId, postId);
-            return ResponseEntity.status(HttpStatus.OK).body("Register Success");
+            return ResponseEntity.status(HttpStatus.CREATED).build();
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("존재하지 않는 공고입니다");
         }
@@ -37,7 +37,7 @@ public class BookmarkController {
         @PathVariable(value = "id") Long postId) { // 즐겨찾기 삭제 API -> {id}는 공고 id
         try {
             bookmarkService.deleteBookmark(userId, postId);
-            return ResponseEntity.status(HttpStatus.OK).body("Delete Success");
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("존재하지 않는 공고입니다");
         }

@@ -20,9 +20,7 @@ public class BookmarkService {
     private final MemberRepository memberRepository;
 
     public void registerBookmark(Long userId, Long postId) {
-        Bookmark existingBookmark = bookmarkRepository.findByMemberIdAndJobPostingId(userId,
-            postId);
-        if (existingBookmark == null) {
+        if (!bookmarkRepository.existsByMemberIdAndJobPostingId(userId, postId)) {
             Bookmark bookmark = Bookmark.builder()
                 .member(memberRepository.findById(userId).orElseThrow(() ->
                     new NoSuchElementException("해당 유저가 존재하지 않습니다")))
@@ -36,7 +34,7 @@ public class BookmarkService {
     public void deleteBookmark(Long userId, Long postId) {
         Bookmark existingBookmark = bookmarkRepository.findByMemberIdAndJobPostingId(userId,
             postId);
-        if (existingBookmark != null) {
+        if (bookmarkRepository.existsByMemberIdAndJobPostingId(userId, postId)) {
             bookmarkRepository.delete(existingBookmark);
         }
     }

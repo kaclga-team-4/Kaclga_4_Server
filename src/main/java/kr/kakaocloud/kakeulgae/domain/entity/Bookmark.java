@@ -5,14 +5,17 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import kr.kakaocloud.kakeulgae.domain.entity.member.Member;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 
 @Entity
+@Builder
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class Bookmark {
 
     @Id
@@ -28,10 +31,8 @@ public class Bookmark {
     @JoinColumn(name = "job_posting_id", foreignKey = @ForeignKey(name = "fk_bookmark_job_posting_id"))
     private JobPosting jobPosting;
 
-    @Builder
-    public Bookmark(Long id, LocalDateTime created_at, Member member, JobPosting jobPosting) {
-        this.id = id;
-        this.created_at = created_at;
+
+    public Bookmark(Member member, JobPosting jobPosting) {
         this.member = member;
         this.jobPosting = jobPosting;
     }
