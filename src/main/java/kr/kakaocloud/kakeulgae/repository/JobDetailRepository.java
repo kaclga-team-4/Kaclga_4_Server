@@ -1,6 +1,7 @@
 package kr.kakaocloud.kakeulgae.repository;
 
 import java.util.List;
+import java.util.Set;
 import kr.kakaocloud.kakeulgae.domain.entity.JobDetail;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -10,9 +11,9 @@ public interface JobDetailRepository extends JpaRepository<JobDetail, Long> {
 
     List<JobDetail> findByJobIdAndTypeIgnoreCase(Long num2, String type2);
 
-    @Query("select jd from JobDetail jd"
-        + " join fetch jd.preferenceJobs pj"
-        + " join fetch pj.member m"
+    @Query("select jd.id from JobDetail jd"
+        + " join jd.preferenceJobs pj"
+        + " join pj.member m"
         + " where m.id=:memberId")
-    List<JobDetail> findByMember(@Param("memberId") Long memberId);
+    Set<Long> findByMember(@Param("memberId") Long memberId);
 }

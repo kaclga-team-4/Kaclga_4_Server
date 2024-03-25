@@ -12,7 +12,9 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import lombok.Getter;
 
+@Getter
 @Entity
 @Table(
     name = "region_2nd"
