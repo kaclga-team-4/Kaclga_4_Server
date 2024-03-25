@@ -23,7 +23,7 @@ import lombok.NoArgsConstructor;
     uniqueConstraints = {
         @UniqueConstraint(
             name = "notification_member_id_job_posting_id_unique",
-            columnNames = {"member_id", "job_posting_id"}
+            columnNames = {"member_id", "join_posting_id"}
         )
     }
 )
