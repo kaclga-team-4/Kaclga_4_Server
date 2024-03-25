@@ -77,12 +77,12 @@ CREATE INDEX education_idx_type ON education (type);
 CREATE TABLE job_posting
 (
     id           BIGINT AUTO_INCREMENT NOT NULL,
-    created_at   datetime              NOT NULL,
     company_name VARCHAR(255)          NULL,
     post_name    VARCHAR(255)          NULL,
     education_id BIGINT                NULL,
     url          VARCHAR(255)          NULL,
-    deadline     date                  NULL,
+    deadline     DATE                  NULL,
+    created_at   DATE                  NULL,
     CONSTRAINT pk_jobposting PRIMARY KEY (id)
 );
 
@@ -245,7 +245,7 @@ CREATE TABLE notification
 );
 
 ALTER TABLE notification
-    ADD CONSTRAINT notification_member_id_job_posting_id_unique UNIQUE (member_id);
+    ADD CONSTRAINT notification_member_id_job_posting_id_unique UNIQUE (member_id, join_posting_id);
 
 ALTER TABLE notification
     ADD CONSTRAINT NOTIFICATION_JOB_POSTING_ID FOREIGN KEY (join_posting_id) REFERENCES job_posting (id);

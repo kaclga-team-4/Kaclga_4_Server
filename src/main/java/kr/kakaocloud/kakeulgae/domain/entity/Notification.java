@@ -10,6 +10,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
+import java.time.LocalDate;
 import kr.kakaocloud.kakeulgae.domain.entity.member.Member;
 import kr.kakaocloud.kakeulgae.support.domain.BaseTimeEntity;
 import lombok.AccessLevel;
@@ -23,7 +24,7 @@ import lombok.NoArgsConstructor;
     uniqueConstraints = {
         @UniqueConstraint(
             name = "notification_member_id_job_posting_id_unique",
-            columnNames = {"member_id", "job_posting_id"}
+            columnNames = {"member_id", "join_posting_id"}
         )
     }
 )
@@ -47,5 +48,9 @@ public class Notification extends BaseTimeEntity {
         this.contents = contents;
         this.member = member;
         this.jobPosting = jobPosting;
+    }
+
+    public LocalDate getCreateAt() {
+        return super.getCreatedAt();
     }
 }

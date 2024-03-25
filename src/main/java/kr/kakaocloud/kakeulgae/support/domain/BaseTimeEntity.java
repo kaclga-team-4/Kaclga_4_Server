@@ -17,7 +17,7 @@ public abstract class BaseTimeEntity {
     @Column(nullable = false, updatable = false)
     LocalDateTime createdAt;
 
-    protected LocalDate getCreatedAt() {
+    public LocalDate getCreatedAt() {
         return createdAt.toLocalDate();
     }
 }
