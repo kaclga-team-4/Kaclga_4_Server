@@ -35,12 +35,11 @@ public class PreferenceJob {
     private JobDetail jobDetail;
 
 
-    public PreferenceJob(Member member, JobDetail jobDetail) {
-        this.member = member;
-        this.jobDetail = jobDetail;
-    }
-
     public static PreferenceJob createRelation(Member member, JobDetail jobDetail) {
-        return new PreferenceJob(member, jobDetail);
+        PreferenceJob relation = new PreferenceJob();
+        relation.member = member;
+        relation.jobDetail = jobDetail;
+
+        return relation;
     }
 }

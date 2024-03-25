@@ -37,12 +37,11 @@ public class CareerMemberRelation {
         foreignKey = @ForeignKey(name = "fk_career_member_relation_career_id"))
     private Career career;
 
-    public CareerMemberRelation(Member member, Career career) {
-        this.member = member;
-        this.career = career;
-    }
-
     public static CareerMemberRelation createRelation(Member member, Career career) {
-        return new CareerMemberRelation(member, career);
+        CareerMemberRelation relation = new CareerMemberRelation();
+        relation.member = member;
+        relation.career = career;
+
+        return relation;
     }
 }
