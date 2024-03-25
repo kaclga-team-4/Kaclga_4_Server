@@ -9,7 +9,9 @@ import jakarta.persistence.Index;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.NotEmpty;
+import lombok.Getter;
 
+@Getter
 @Entity
 @Table(
     name = "job_category",
@@ -26,8 +28,9 @@ public class JobCategory {
     @NotEmpty
     private String type;
 
-    public JobCategory(String content) {
-        this.type = content;
+    public JobCategory(long id, String type) {
+        this.id = id;
+        this.type = type;
     }
 
     public JobCategory() {

@@ -1,16 +1,9 @@
 package kr.kakaocloud.kakeulgae.controller;
 
 import java.util.List;
-import kr.kakaocloud.kakeulgae.domain.entity.Career;
-import kr.kakaocloud.kakeulgae.domain.entity.Education;
-import kr.kakaocloud.kakeulgae.domain.entity.JobDetail;
-import kr.kakaocloud.kakeulgae.domain.entity.Region1st;
-import kr.kakaocloud.kakeulgae.domain.entity.WorkType;
-import kr.kakaocloud.kakeulgae.repository.CareerRepository;
-import kr.kakaocloud.kakeulgae.repository.EducationRepository;
-import kr.kakaocloud.kakeulgae.repository.JobDetailRepository;
-import kr.kakaocloud.kakeulgae.repository.Region1stRepository;
-import kr.kakaocloud.kakeulgae.repository.WorkTypeRepository;
+
+import kr.kakaocloud.kakeulgae.domain.entity.*;
+import kr.kakaocloud.kakeulgae.repository.*;
 import kr.kakaocloud.kakeulgae.service.dto.category.CategoryResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,6 +18,7 @@ public class CategoryController {
     private final CareerRepository careerRepository;
     private final WorkTypeRepository workTypeRepository;
     private final EducationRepository educationRepository;
+    private final JobCategoryRepository jobCategoryRepository;
 
     @GetMapping("/categories")
     public CategoryResponse getCategories() {
@@ -33,6 +27,7 @@ public class CategoryController {
         List<Region1st> region1stList = region1stRepository.findAll();
         List<WorkType> workTypeList = workTypeRepository.findAll();
         List<Education> educationList = educationRepository.findAll();
+        List<JobCategory> jobCategoryList = jobCategoryRepository.findAll();
 
         return CategoryResponse.builder()
             .jobDetails(jobDetailList)
@@ -40,6 +35,7 @@ public class CategoryController {
             .region(region1stList)
             .workTypes(workTypeList)
             .educations(educationList)
+            .jobCategories(jobCategoryList)
             .build();
     }
 }
