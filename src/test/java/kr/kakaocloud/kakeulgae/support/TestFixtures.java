@@ -6,7 +6,7 @@ import kr.kakaocloud.kakeulgae.service.dto.TestResponse;
 public class TestFixtures {
 
     public static final String TEST_NAME = "testName";
- 
+
     public static TestPostRequest createTestPostRequest() {
         return new TestPostRequest(TEST_NAME, null);
     }

@@ -5,7 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-    @Data
+
+@Data
 //getter, setter, hashcode, toString, equals 자동 재정의
 @Builder
 @NoArgsConstructor
