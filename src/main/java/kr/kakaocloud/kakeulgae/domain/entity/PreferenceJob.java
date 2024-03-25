@@ -10,8 +10,10 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import kr.kakaocloud.kakeulgae.domain.entity.member.Member;
+import lombok.Getter;
 
 @Entity
+@Getter
 @Table(
     name = "preference_job"
 )
