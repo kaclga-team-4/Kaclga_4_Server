@@ -15,7 +15,6 @@ import jakarta.persistence.UniqueConstraint;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import kr.kakaocloud.kakeulgae.support.domain.BaseTimeEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,14 +26,10 @@ import lombok.NoArgsConstructor;
     @UniqueConstraint(
         name = "job_posting_company_name_post_name_uk",
         columnNames = {"company_name", "post_name"}
-    ),
-    @UniqueConstraint(
-        name = "job_posting_url_uk",
-        columnNames = {"url"}
     )
 }
 )
-public class JobPosting extends BaseTimeEntity {
+public class JobPosting {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
