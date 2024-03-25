@@ -11,8 +11,8 @@ import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.NotEmpty;
 import java.util.ArrayList;
 import java.util.List;
-import lombok.Getter;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
@@ -31,6 +31,9 @@ public class Region1st {
 
     @NotEmpty
     private String type;
+
+    @OneToMany(mappedBy = "region1st")
+    private List<Region2nd> region2nds = new ArrayList<>();
 
     public Region1st(long l, String splt) {
         this.id = l;
