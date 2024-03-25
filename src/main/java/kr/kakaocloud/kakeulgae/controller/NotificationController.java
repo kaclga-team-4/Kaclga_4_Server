@@ -1,6 +1,10 @@
 package kr.kakaocloud.kakeulgae.controller;
 
+import kr.kakaocloud.kakeulgae.security.LoginUserId;
+import kr.kakaocloud.kakeulgae.service.dto.jobposting.JobPostingListDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,7 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class NotificationController {
 
     @GetMapping("list")
-    public void getNotificationList() {
+    public ResponseEntity<JobPostingListDto> getNotificationList(@LoginUserId Long memberId,
+        Pageable pageable) {
 
     }
 }

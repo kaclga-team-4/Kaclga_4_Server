@@ -2,7 +2,7 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.2.1'
     id 'io.spring.dependency-management' version '1.1.4'
-    id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
+    //  id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
 }
 
 group = 'kr.kakaocloud'
@@ -65,19 +65,11 @@ dependencies {
 //clean후 빌드시, STR.이라고 되어있는 부분 빌드 에러뜨면 여기서부터 주석처리
 def generated = 'src/main/generated'
 
-querydsl {
-    jpa = true
-    querydslSourcesDir = generated
-}
+
 sourceSets {
     main.java.srcDir generated
 }
 
-tasks.compileQuerydsl.dependsOn(clean);
-
-compileQuerydsl {
-    options.annotationProcessorPath = configurations.querydsl
-}
 
 configurations {
     compileOnly {
