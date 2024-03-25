@@ -1,6 +1,12 @@
 package kr.kakaocloud.kakeulgae.service;
 
+import java.util.List;
 import java.util.NoSuchElementException;
+import kr.kakaocloud.kakeulgae.domain.entity.Career;
+import kr.kakaocloud.kakeulgae.domain.entity.Education;
+import kr.kakaocloud.kakeulgae.domain.entity.JobDetail;
+import kr.kakaocloud.kakeulgae.domain.entity.Region2nd;
+import kr.kakaocloud.kakeulgae.domain.entity.WorkType;
 import kr.kakaocloud.kakeulgae.domain.entity.member.Member;
 import kr.kakaocloud.kakeulgae.repository.MemberRepository;
 import kr.kakaocloud.kakeulgae.service.dto.member.MemberResponse;
@@ -58,45 +64,53 @@ public class MemberService {
         memberRepository.save(findMember);
     }
 
-    public MemberInterestResponse createUserInterest(Long memberId, MemberInterestRequest request) {
-        Member findMember = findMember(memberId);
+    @Transactional
+    public MemberInterestResponse createUserInterest(Long id, MemberInterestRequest request) {
+        Member member = findMember(id);
 
-        jobDetailService.saveUserJobDetail(findMember, request.getJobDetails());
-        regionService.saveUserRegion(findMember, request.getRegion2nds());
-        careerService.saveUserCareer(findMember, request.getCareers());
-        educationService.saveUserEducation(findMember, request.getEducations());
-        workTypeService.saveUserWorkType(findMember, request.getWorkTypes());
+        List<JobDetail> jobDetails = jobDetailService.saveUserJobDetail(member,
+            request.getJobDetailIds());
+        List<Region2nd> region2nds = regionService.saveUserRegion(member,
+            request.getRegion2ndIds());
+        List<Career> careers = careerService.saveUserCareer(member, request.getCareerIds());
+        List<Education> educations = educationService.saveUserEducation(member,
+            request.getEducationIds());
+        List<WorkType> workTypes = workTypeService.saveUserWorkType(member,
+            request.getWorkTypeIds());
 
         return MemberInterestResponse.builder()
-            .jobDetails(request.getJobDetails())
-            .region2nds(request.getRegion2nds())
-            .careers(request.getCareers())
-            .educations(request.getEducations())
-            .workTypes(request.getWorkTypes())
+            .jobDetails(jobDetails)
+            .region2nds(region2nds)
+            .careers(careers)
+            .educations(educations)
+            .workTypes(workTypes)
             .build();
     }
 
     public MemberInterestResponse updateUserInterest(Long memberId, MemberInterestRequest request) {
         Member findMember = findMember(memberId);
 
-        jobDetailService.updateUserJobDetail(findMember, request.getJobDetails());
-        regionService.updateUserRegion(findMember, request.getRegion2nds());
-        careerService.updateUserCareer(findMember, request.getCareers());
-        educationService.updateUserEducation(findMember, request.getEducations());
-        workTypeService.updateUserWorkType(findMember, request.getWorkTypes());
+        List<JobDetail> jobDetails = jobDetailService.updateUserJobDetail(findMember,
+            request.getJobDetailIds());
+        List<Region2nd> region2nds = regionService.updateUserRegion(findMember,
+            request.getRegion2ndIds());
+        List<Career> careers = careerService.updateUserCareer(findMember, request.getCareerIds());
+        List<Education> educations = educationService.updateUserEducation(findMember,
+            request.getEducationIds());
+        List<WorkType> workTypes = workTypeService.updateUserWorkType(findMember,
+            request.getWorkTypeIds());
 
         return MemberInterestResponse.builder()
-            .jobDetails(request.getJobDetails())
-            .region2nds(request.getRegion2nds())
-            .careers(request.getCareers())
-            .educations(request.getEducations())
-            .workTypes(request.getWorkTypes())
+            .jobDetails(jobDetails)
+            .region2nds(region2nds)
+            .careers(careers)
+            .educations(educations)
+            .workTypes(workTypes)
             .build();
     }
 
     private Member findMember(Long userId) {
-        Member findMember = memberRepository.findById(userId).orElseThrow(() ->
+        return memberRepository.findById(userId).orElseThrow(() ->
             new NoSuchElementException("해당 유저가 존재하지 않습니다"));
-        return findMember;
     }
 }

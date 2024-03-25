@@ -1,10 +1,10 @@
 package kr.kakaocloud.kakeulgae.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import kr.kakaocloud.kakeulgae.domain.entity.JobDetail;
 import kr.kakaocloud.kakeulgae.domain.entity.Region2nd;
 import kr.kakaocloud.kakeulgae.domain.entity.member.Member;
-import kr.kakaocloud.kakeulgae.domain.entity.member.PreferenceJob;
 import kr.kakaocloud.kakeulgae.domain.entity.member.RegionMemberRelation;
 import kr.kakaocloud.kakeulgae.repository.Region2ndMemberRelationRepository;
 import kr.kakaocloud.kakeulgae.repository.Region2ndRepository;
@@ -18,24 +18,32 @@ public class RegionService {
     private final Region2ndRepository region2ndRepository;
     private final Region2ndMemberRelationRepository region2ndMemberRelationRepository;
 
-    public void saveUserRegion(Member member, List<String> region2nds) {
-        List<Region2nd> findRegion2nds = region2ndRepository.findByTypeIn(region2nds);
-        for (Region2nd findRegion2nd : findRegion2nds) {
-            RegionMemberRelation relation = RegionMemberRelation.createRelation(member, findRegion2nd);
-            region2ndMemberRelationRepository.save(relation);
+    public List<Region2nd> saveUserRegion(Member member, List<Long> region2ndIds) {
+        List<Region2nd> region2nds = region2ndRepository.findByIdIn(region2ndIds);
+        ArrayList<RegionMemberRelation> regionMemberRelations = new ArrayList<>();
+
+        for (Region2nd region2nd : region2nds) {
+            regionMemberRelations.add(RegionMemberRelation.createRelation(member, region2nd));
         }
+        region2ndMemberRelationRepository.saveAll(regionMemberRelations);
+
+        return region2nds;
     }
 
-    public void updateUserRegion(Member member, List<String> region2nds) {
-        List<Region2nd> findRegion2nds = region2ndRepository.findByTypeIn(region2nds);
+    public List<Region2nd> updateUserRegion(Member member, List<Long> region2ndIds) {
+        List<Region2nd> region2nds = region2ndRepository.findByIdIn(region2ndIds);
         List<RegionMemberRelation> regionMemberRelations = region2ndMemberRelationRepository.findByMember(
             member);
         region2ndMemberRelationRepository.deleteAll(regionMemberRelations);
 
-        for (Region2nd findRegion2nd : findRegion2nds) {
-            RegionMemberRelation relation = RegionMemberRelation.createRelation(member,
-                findRegion2nd);
-            region2ndMemberRelationRepository.save(relation);
+        List<RegionMemberRelation> newRegionMemberRelations = new ArrayList<>();
+
+        for (Region2nd region2nd : region2nds) {
+            newRegionMemberRelations.add(
+                RegionMemberRelation.createRelation(member, region2nd));
         }
+        region2ndMemberRelationRepository.saveAll(newRegionMemberRelations);
+
+        return region2nds;
     }
 }

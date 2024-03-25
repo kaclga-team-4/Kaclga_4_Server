@@ -7,4 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface WorkTypeRepository extends JpaRepository<WorkType, Long> {
 
     public List<WorkType> findByTypeIn(List<String> types);
+
+    List<WorkType> findByIdIn(List<Long> workTypeIds);
 }

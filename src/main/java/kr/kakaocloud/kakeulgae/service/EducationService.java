@@ -1,5 +1,6 @@
 package kr.kakaocloud.kakeulgae.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import kr.kakaocloud.kakeulgae.domain.entity.Education;
 import kr.kakaocloud.kakeulgae.domain.entity.member.EducationMemberRelation;
@@ -16,24 +17,32 @@ public class EducationService {
     private final EducationRepository educationRepository;
     private final EducationMemberRepository educationMemberRepository;
 
-    public void saveUserEducation(Member member, List<String> educations) {
-        List<Education> findEducations = educationRepository.findByTypeIn(educations);
-        for (Education findEducation : findEducations) {
-            EducationMemberRelation relation = EducationMemberRelation.createRelation(member,
-                findEducation);
-            educationMemberRepository.save(relation);
+    public List<Education> saveUserEducation(Member member, List<Long> educationIds) {
+        List<Education> educations = educationRepository.findByIdIn(educationIds);
+        ArrayList<EducationMemberRelation> educationMemberRelations = new ArrayList<>();
+
+        for (Education education : educations) {
+            educationMemberRelations.add(EducationMemberRelation.createRelation(member,
+                education));
         }
+        educationMemberRepository.saveAll(educationMemberRelations);
+
+        return educations;
     }
 
-    public void updateUserEducation(Member member, List<String> educations) {
-        List<Education> findEducations = educationRepository.findByTypeIn(educations);
+    public List<Education> updateUserEducation(Member member, List<Long> educationIds) {
+        List<Education> educations = educationRepository.findByIdIn(educationIds);
         List<EducationMemberRelation> educationMemberRelations = educationMemberRepository.findByMember(member);
         educationMemberRepository.deleteAll(educationMemberRelations);
 
-        for (Education findEducation : findEducations) {
-            EducationMemberRelation relation = EducationMemberRelation.createRelation(member,
-                findEducation);
-            educationMemberRepository.save(relation);
+        List<EducationMemberRelation> newEducationMemberRelations = new ArrayList<>();
+
+        for (Education education : educations) {
+            newEducationMemberRelations.add(EducationMemberRelation.createRelation(member,
+                education));
         }
+        educationMemberRepository.saveAll(newEducationMemberRelations);
+
+        return educations;
     }
 }

@@ -34,12 +34,12 @@ public class EducationMemberRelation {
     @JoinColumn(name = "education_id")
     private Education education;
 
-    public EducationMemberRelation(Member member, Education education) {
-        this.member = member;
-        this.education = education;
-    }
 
     public static EducationMemberRelation createRelation(Member member, Education education) {
-        return new EducationMemberRelation(member, education);
+        EducationMemberRelation relation = new EducationMemberRelation();
+        relation.member = member;
+        relation.education = education;
+
+        return relation;
     }
 }

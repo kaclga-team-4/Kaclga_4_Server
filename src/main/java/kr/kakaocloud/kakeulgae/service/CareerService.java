@@ -1,5 +1,6 @@
 package kr.kakaocloud.kakeulgae.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import kr.kakaocloud.kakeulgae.domain.entity.Career;
 import kr.kakaocloud.kakeulgae.domain.entity.member.CareerMemberRelation;
@@ -18,23 +19,29 @@ public class CareerService {
     private final CareerMemberRepository careerMemberRepository;
     private final MemberRepository memberRepository;
 
-    public void saveUserCareer(Member member, List<String> careers) {
-        List<Career> findCareers = careerRepository.findByTypeIn(careers);
-
-        for (Career findCareer : findCareers) {
-            CareerMemberRelation relation = CareerMemberRelation.createRelation(member, findCareer);
-            careerMemberRepository.save(relation);
+    public List<Career> saveUserCareer(Member member, List<Long> careerIds) {
+        List<Career> careers = careerRepository.findByIdIn(careerIds);
+        ArrayList<CareerMemberRelation> careerMemberRelations = new ArrayList<>();
+        for (Career career : careers) {
+            careerMemberRelations.add(CareerMemberRelation.createRelation(member, career));
         }
+        careerMemberRepository.saveAll(careerMemberRelations);
+
+        return careers;
     }
 
-    public void updateUserCareer(Member member, List<String> careers) {
-        List<Career> findCareers = careerRepository.findByTypeIn(careers);
+    public List<Career> updateUserCareer(Member member, List<Long> careerIds) {
+        List<Career> careers = careerRepository.findByIdIn(careerIds);
         List<CareerMemberRelation> careerMemberRelations = careerMemberRepository.findByMember(member);
         careerMemberRepository.deleteAll(careerMemberRelations);
 
-        for (Career findCareer : findCareers) {
-            CareerMemberRelation relation = CareerMemberRelation.createRelation(member, findCareer);
-            careerMemberRepository.save(relation);
+        List<CareerMemberRelation> newCareerMemberRelations = new ArrayList<>();
+
+        for (Career career : careers) {
+            careerMemberRelations.add(CareerMemberRelation.createRelation(member, career));
         }
+        careerMemberRepository.saveAll((careerMemberRelations));
+
+        return careers;
     }
 }

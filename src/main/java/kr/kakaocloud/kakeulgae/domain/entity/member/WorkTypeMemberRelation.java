@@ -37,12 +37,11 @@ public class WorkTypeMemberRelation {
         foreignKey = @ForeignKey(name = "fk_work_type_member_relation_work_type_id"))
     private WorkType workType;
 
-    public WorkTypeMemberRelation(Member member, WorkType workType) {
-        this.member = member;
-        this.workType = workType;
-    }
-
     public static WorkTypeMemberRelation createRelation(Member member, WorkType workType) {
-        return new WorkTypeMemberRelation(member, workType);
+        WorkTypeMemberRelation relation = new WorkTypeMemberRelation();
+        relation.member = member;
+        relation.workType = workType;
+
+        return relation;
     }
 }

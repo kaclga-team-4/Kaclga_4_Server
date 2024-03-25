@@ -36,12 +36,11 @@ public class RegionMemberRelation {
         foreignKey = @ForeignKey(name = "fk_region_member_relation_region_2nd_id"))
     private Region2nd region2nd;
 
-    public RegionMemberRelation(Member member, Region2nd region2nd) {
-        this.member = member;
-        this.region2nd = region2nd;
-    }
-
     public static RegionMemberRelation createRelation(Member member, Region2nd region2nd) {
-        return new RegionMemberRelation(member, region2nd);
+        RegionMemberRelation relation = new RegionMemberRelation();
+        relation.member = member;
+        relation.region2nd = region2nd;
+
+        return relation;
     }
 }
