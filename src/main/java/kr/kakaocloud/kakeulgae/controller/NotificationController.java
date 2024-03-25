@@ -19,6 +19,6 @@ public class NotificationController {
     @GetMapping("list")
     public ResponseEntity<JobPostingListDto> getNotificationList(@LoginUserId Long memberId,
         Pageable pageable) {
-
+        return ResponseEntity.ok().build();
     }
 }
