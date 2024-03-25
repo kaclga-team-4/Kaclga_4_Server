@@ -1,6 +1,12 @@
 package kr.kakaocloud.kakeulgae.service;
 
+import java.util.List;
 import java.util.NoSuchElementException;
+import kr.kakaocloud.kakeulgae.domain.entity.Career;
+import kr.kakaocloud.kakeulgae.domain.entity.Education;
+import kr.kakaocloud.kakeulgae.domain.entity.JobDetail;
+import kr.kakaocloud.kakeulgae.domain.entity.Region2nd;
+import kr.kakaocloud.kakeulgae.domain.entity.WorkType;
 import kr.kakaocloud.kakeulgae.domain.entity.member.Member;
 import kr.kakaocloud.kakeulgae.repository.MemberRepository;
 import kr.kakaocloud.kakeulgae.service.dto.member.MemberResponse;
@@ -62,30 +68,27 @@ public class MemberService {
         memberRepository.save(findMember);
     }
 
+    @Transactional
     public MemberInterestResponse createUserInterest(Long id, MemberInterestRequest request) {
-        /**
-         * List<String> jobDetails;
-         * List<String> region_2nds;
-         * List<String> careers;
-         * List<String> educations;
-         * List<String> workTypes;
-         */
         Member member = memberRepository.findById(id).orElseThrow(() ->
             new NoSuchElementException("해당 유저가 존재하지 않습니다"));
 
-        jobDetailService.saveUserJobDetail(member, request.getJobDetails());
-        regionService.saveUserRegion(member, request.getRegion2nds());
-        careerService.saveUserCareer(member, request.getCareers());
-        educationService.saveUserEducation(member, request.getEducations());
-        workTypeService.saveUserWorkType(member, request.getWorkTypes());
+        List<JobDetail> jobDetails = jobDetailService.saveUserJobDetail(member,
+            request.getJobDetailIds());
+        List<Region2nd> region2nds = regionService.saveUserRegion(member,
+            request.getRegion2ndIds());
+        List<Career> careers = careerService.saveUserCareer(member, request.getCareerIds());
+        List<Education> educations = educationService.saveUserEducation(member,
+            request.getEducationIds());
+        List<WorkType> workTypes = workTypeService.saveUserWorkType(member,
+            request.getWorkTypeIds());
 
-        MemberInterestResponse response = MemberInterestResponse.builder()
-            .jobDetails(request.getJobDetails())
-            .region2nds(request.getRegion2nds())
-            .careers(request.getCareers())
-            .educations(request.getEducations())
-            .workTypes(request.getWorkTypes())
+        return MemberInterestResponse.builder()
+            .jobDetails(jobDetails)
+            .region2nds(region2nds)
+            .careers(careers)
+            .educations(educations)
+            .workTypes(workTypes)
             .build();
-        return response;
     }
 }

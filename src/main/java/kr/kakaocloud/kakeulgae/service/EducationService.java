@@ -1,5 +1,6 @@
 package kr.kakaocloud.kakeulgae.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import kr.kakaocloud.kakeulgae.domain.entity.Education;
 import kr.kakaocloud.kakeulgae.domain.entity.member.EducationMemberRelation;
@@ -16,12 +17,16 @@ public class EducationService {
     private final EducationRepository educationRepository;
     private final EducationMemberRepository educationMemberRepository;
 
-    public void saveUserEducation(Member member, List<String> educations) {
-        List<Education> findEducations = educationRepository.findByTypeIn(educations);
-        for (Education findEducation : findEducations) {
-            EducationMemberRelation relation = EducationMemberRelation.createRelation(member,
-                findEducation);
-            educationMemberRepository.save(relation);
+    public List<Education> saveUserEducation(Member member, List<Long> educationIds) {
+        List<Education> educations = educationRepository.findByIdIn(educationIds);
+        ArrayList<EducationMemberRelation> educationMemberRelations = new ArrayList<>();
+
+        for (Education education : educations) {
+            educationMemberRelations.add(EducationMemberRelation.createRelation(member,
+                education));
         }
+        educationMemberRepository.saveAll(educationMemberRelations);
+
+        return educations;
     }
 }
