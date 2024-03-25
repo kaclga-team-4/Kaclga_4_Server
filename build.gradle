@@ -60,6 +60,7 @@ dependencies {
 
     testCompileOnly 'org.projectlombok:lombok:1.18.30'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.30'
+    runtimeOnly 'com.h2database:h2'
 }
 
 //clean후 빌드시, STR.이라고 되어있는 부분 빌드 에러뜨면 여기서부터 주석처리

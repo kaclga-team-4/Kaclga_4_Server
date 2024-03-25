@@ -27,8 +27,13 @@ class FirebaseConfig {
         FirebaseOptions options = FirebaseOptions.builder()
             .setCredentials(GoogleCredentials.fromStream(serviceAccount.getInputStream()))
             .build();//FirebaseOptions를 생성한다.(FirebaseOptions는 FirebaseApp을 초기화하는데 필요한 설정을 담고있음)
-        return FirebaseApp.initializeApp(
-            options);//FirebaseApp을 초기화한다. (FirebaseApp은 Firebase의 인증, 데이터베이스, 스토리지 등의 기능을 사용하기 위한 진입점)
+        if (FirebaseApp.getApps().isEmpty()) {
+            // 초기화되어 있지 않은 경우에만 초기화 수행
+            return FirebaseApp.initializeApp(options);
+        } else {
+            // 이미 초기화되어 있는 경우, 기존의 FirebaseApp 인스턴스를 반환
+            return FirebaseApp.getInstance();
+        }//FirebaseApp을 초기화한다. (FirebaseApp은 Firebase의 인증, 데이터베이스, 스토리지 등의 기능을 사용하기 위한 진입점)
     }
 
     @Bean

@@ -3,6 +3,7 @@ package kr.kakaocloud.kakeulgae.support.domain;
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -15,4 +16,8 @@ public abstract class BaseTimeEntity {
     @CreatedDate
     @Column(nullable = false, updatable = false)
     LocalDateTime createdAt;
+
+    protected LocalDate getCreatedAt() {
+        return createdAt.toLocalDate();
+    }
 }

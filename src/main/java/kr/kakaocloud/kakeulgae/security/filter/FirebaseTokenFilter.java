@@ -25,7 +25,8 @@ public class FirebaseTokenFilter extends
     OncePerRequestFilter { // OncePerRequestFilter는 요청당 한번만 실행되는 필터를 만들기 위한 추상 클래스 / FirebaseTokenFilter는 요청에 대한 토큰을 검증하는 필터
 
     public static List<String> FIREBASE_TOKEN_FILTER_PERMITTED_PATTERNS = List.of("/api/v1/auth/**",
-        "/ready", "/test/**"); //허용되는 패턴
+        "/ready", "/test/**", "swagger-ui/**", "swagger-ui**", "/v1/api-docs/**",
+        "/v1/api-docs**"); //허용되는 패턴
     private final String BEARER = "Bearer ";
 
     public FirebaseTokenFilter(UserCustomDetailsService userDetailsService,
