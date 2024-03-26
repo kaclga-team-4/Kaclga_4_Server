@@ -3,7 +3,8 @@ package kr.kakaocloud.kakeulgae.controller;
 import jakarta.validation.constraints.Positive;
 import kr.kakaocloud.kakeulgae.security.LoginUserId;
 import kr.kakaocloud.kakeulgae.service.NotificationService;
-import kr.kakaocloud.kakeulgae.service.dto.jobposting.JobPostingListDto;
+import kr.kakaocloud.kakeulgae.service.dto.SliceResponse.SliceResponse;
+import kr.kakaocloud.kakeulgae.service.dto.notification.NotificationListDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -21,7 +22,7 @@ public class NotificationController {
     private final NotificationService notificationService;
 
     @GetMapping("list")
-    public ResponseEntity<JobPostingListDto> getNotificationList(
+    public ResponseEntity<SliceResponse<NotificationListDto>> getNotificationList(
         @LoginUserId
         Long memberId,
         @RequestParam(name = "size", defaultValue = "10", required = false)
@@ -31,7 +32,6 @@ public class NotificationController {
         @RequestParam(name = "lastId", required = false)
         Long lastId
     ) {
-        notificationService.getNotificationList(memberId, size, lastId);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(notificationService.getNotificationList(memberId, size, lastId));
     }
 }
