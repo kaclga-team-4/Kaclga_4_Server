@@ -9,7 +9,6 @@ import kr.kakaocloud.kakeulgae.domain.entity.WorkType;
 import kr.kakaocloud.kakeulgae.repository.CareerRepository;
 import kr.kakaocloud.kakeulgae.repository.EducationRepository;
 import kr.kakaocloud.kakeulgae.repository.JobCategoryRepository;
-import kr.kakaocloud.kakeulgae.repository.JobDetailRepository;
 import kr.kakaocloud.kakeulgae.repository.Region1stRepository;
 import kr.kakaocloud.kakeulgae.repository.WorkTypeRepository;
 import kr.kakaocloud.kakeulgae.service.dto.category.CategoryResponse;
@@ -22,7 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class CategoryController {
 
     private final JobCategoryRepository jobCategoryRepository;
-    private final JobDetailRepository jobDetailRepository;
     private final Region1stRepository region1stRepository;
     private final CareerRepository careerRepository;
     private final WorkTypeRepository workTypeRepository;
