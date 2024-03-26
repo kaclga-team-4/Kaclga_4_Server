@@ -14,7 +14,6 @@ import lombok.Data;
 public class CategoryResponse {
 
     private List<CategoryJobCategory> jobCategories;
-    private List<CategoryJobDetailDto> job_detail;
     private List<CategoryRegionResponse> region;
     private List<CategoryCareerDto> career;
     private List<CategoryEducationDto> education;
@@ -25,7 +24,6 @@ public class CategoryResponse {
         List<Region1st> region,
         List<Career> careers, List<Education> educations, List<WorkType> workTypes) {
         this.jobCategories = jobCategories.stream().map(CategoryJobCategory::new).toList();
-        this.job_detail = jobDetails.stream().map(CategoryJobDetailDto::new).toList();
         this.region = region.stream()
             .map(CategoryRegionResponse::new)
             .toList();

@@ -1,10 +1,11 @@
 package kr.kakaocloud.kakeulgae.controller;
 
+import static java.util.Collections.sort;
+
 import java.util.List;
 import kr.kakaocloud.kakeulgae.domain.entity.Career;
 import kr.kakaocloud.kakeulgae.domain.entity.Education;
 import kr.kakaocloud.kakeulgae.domain.entity.JobCategory;
-import kr.kakaocloud.kakeulgae.domain.entity.JobDetail;
 import kr.kakaocloud.kakeulgae.domain.entity.Region1st;
 import kr.kakaocloud.kakeulgae.domain.entity.WorkType;
 import kr.kakaocloud.kakeulgae.repository.CareerRepository;
@@ -32,15 +33,17 @@ public class CategoryController {
     @GetMapping("/categories")
     public CategoryResponse getCategories() {
         List<JobCategory> categoryList = jobCategoryRepository.findAll();
-        List<JobDetail> jobDetailList = jobDetailRepository.findAll();
         List<Career> careerList = careerRepository.findAll();
         List<Region1st> region1stList = region1stRepository.findAll();
         List<WorkType> workTypeList = workTypeRepository.findAll();
         List<Education> educationList = educationRepository.findAll();
 
+        sort(careerList);
+        sort(region1stList);
+        sort(workTypeList);
+
         return CategoryResponse.builder()
             .jobCategories(categoryList)
-            .jobDetails(jobDetailList)
             .careers(careerList)
             .region(region1stList)
             .workTypes(workTypeList)
