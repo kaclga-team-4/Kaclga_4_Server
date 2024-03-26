@@ -3,11 +3,13 @@ package kr.kakaocloud.kakeulgae.controller;
 import java.util.List;
 import kr.kakaocloud.kakeulgae.domain.entity.Career;
 import kr.kakaocloud.kakeulgae.domain.entity.Education;
+import kr.kakaocloud.kakeulgae.domain.entity.JobCategory;
 import kr.kakaocloud.kakeulgae.domain.entity.JobDetail;
 import kr.kakaocloud.kakeulgae.domain.entity.Region1st;
 import kr.kakaocloud.kakeulgae.domain.entity.WorkType;
 import kr.kakaocloud.kakeulgae.repository.CareerRepository;
 import kr.kakaocloud.kakeulgae.repository.EducationRepository;
+import kr.kakaocloud.kakeulgae.repository.JobCategoryRepository;
 import kr.kakaocloud.kakeulgae.repository.JobDetailRepository;
 import kr.kakaocloud.kakeulgae.repository.Region1stRepository;
 import kr.kakaocloud.kakeulgae.repository.WorkTypeRepository;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class CategoryController {
 
+    private final JobCategoryRepository jobCategoryRepository;
     private final JobDetailRepository jobDetailRepository;
     private final Region1stRepository region1stRepository;
     private final CareerRepository careerRepository;
@@ -28,6 +31,7 @@ public class CategoryController {
 
     @GetMapping("/categories")
     public CategoryResponse getCategories() {
+        List<JobCategory> categoryList = jobCategoryRepository.findAll();
         List<JobDetail> jobDetailList = jobDetailRepository.findAll();
         List<Career> careerList = careerRepository.findAll();
         List<Region1st> region1stList = region1stRepository.findAll();
@@ -35,6 +39,7 @@ public class CategoryController {
         List<Education> educationList = educationRepository.findAll();
 
         return CategoryResponse.builder()
+            .jobCategories(categoryList)
             .jobDetails(jobDetailList)
             .careers(careerList)
             .region(region1stList)
