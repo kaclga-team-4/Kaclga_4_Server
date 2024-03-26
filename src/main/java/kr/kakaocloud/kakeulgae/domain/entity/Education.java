@@ -1,6 +1,5 @@
 package kr.kakaocloud.kakeulgae.domain.entity;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -10,7 +9,6 @@ import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -22,7 +20,7 @@ import lombok.NoArgsConstructor;
     uniqueConstraints = @UniqueConstraint(name = "education_uk", columnNames = "type"),
     indexes = @Index(name = "education_idx_type", columnList = "type")
 )
-public class Education implements Comparable {
+public class Education {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,10 +28,4 @@ public class Education implements Comparable {
 
     @NotEmpty
     private String type;
-
-    @Override
-    public int compareTo(Object o) {
-        Education education = (Education) o;
-        return this.getType().compareTo(education.getType());
-    }
 }

@@ -1,6 +1,5 @@
 package kr.kakaocloud.kakeulgae.domain.entity;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -18,7 +17,7 @@ import lombok.Getter;
     uniqueConstraints = @UniqueConstraint(name = "worktype_uk", columnNames = "type"),
     indexes = @Index(name = "idx_type", columnList = "type")
 )
-public class WorkType implements Comparable {
+public class WorkType {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,10 +25,4 @@ public class WorkType implements Comparable {
 
     @NotEmpty
     private String type;
-
-    @Override
-    public int compareTo(Object o) {
-        WorkType workType = (WorkType) o;
-        return this.getType().compareTo(workType.getType());
-    }
 }

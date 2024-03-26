@@ -20,7 +20,7 @@ import lombok.Getter;
     uniqueConstraints = @UniqueConstraint(name = "job_category_uk", columnNames = "type"),
     indexes = @Index(name = "job_category_idx_type", columnList = "type")
 )
-public class JobCategory implements Comparable {
+public class JobCategory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,9 +32,4 @@ public class JobCategory implements Comparable {
     @OneToMany(mappedBy = "jobCategory")
     private List<JobDetail> jobDetails = new ArrayList<>();
 
-    @Override
-    public int compareTo(Object o) {
-        JobCategory jobCategory = (JobCategory) o;
-        return this.getType().compareTo(jobCategory.getType());
-    }
 }

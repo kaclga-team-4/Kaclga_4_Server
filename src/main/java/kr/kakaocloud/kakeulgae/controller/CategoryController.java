@@ -1,7 +1,5 @@
 package kr.kakaocloud.kakeulgae.controller;
 
-import static java.util.Collections.sort;
-
 import java.util.List;
 import kr.kakaocloud.kakeulgae.domain.entity.Career;
 import kr.kakaocloud.kakeulgae.domain.entity.Education;
@@ -37,10 +35,6 @@ public class CategoryController {
         List<Region1st> region1stList = region1stRepository.findAll();
         List<WorkType> workTypeList = workTypeRepository.findAll();
         List<Education> educationList = educationRepository.findAll();
-
-        sort(careerList);
-        sort(region1stList);
-        sort(workTypeList);
 
         return CategoryResponse.builder()
             .jobCategories(categoryList)
