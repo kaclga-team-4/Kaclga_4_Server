@@ -64,10 +64,4 @@ public class MemberController {
         memberService.updateNotification(memberId, request);
         return ResponseEntity.noContent().build();
     }
-
-    @PostMapping("/interest/create")
-    public MemberInterestResponse createInterest(@LoginUserId Long id,
-        @ModelAttribute MemberInterestRequest request) {
-        return memberService.createUserInterest(id, request);
-    }
 }

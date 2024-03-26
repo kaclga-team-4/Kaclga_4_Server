@@ -11,15 +11,22 @@ import kr.kakaocloud.kakeulgae.repository.EducationRepository;
 import kr.kakaocloud.kakeulgae.repository.JobDetailRepository;
 import kr.kakaocloud.kakeulgae.repository.Region1stRepository;
 import kr.kakaocloud.kakeulgae.repository.WorkTypeRepository;
+import kr.kakaocloud.kakeulgae.security.LoginUserId;
+import kr.kakaocloud.kakeulgae.service.MemberService;
 import kr.kakaocloud.kakeulgae.service.dto.category.CategoryResponse;
+import kr.kakaocloud.kakeulgae.service.dto.member.interest.MemberInterestRequest;
+import kr.kakaocloud.kakeulgae.service.dto.member.interest.MemberInterestResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
 public class CategoryController {
 
+    private final MemberService memberService;
     private final JobDetailRepository jobDetailRepository;
     private final Region1stRepository region1stRepository;
     private final CareerRepository careerRepository;
@@ -41,5 +48,11 @@ public class CategoryController {
             .workTypes(workTypeList)
             .educations(educationList)
             .build();
+    }
+
+    @PostMapping("/interest/create")
+    public MemberInterestResponse createInterest(@LoginUserId Long id,
+        @ModelAttribute MemberInterestRequest request) {
+        return memberService.createUserInterest(id, request);
     }
 }
