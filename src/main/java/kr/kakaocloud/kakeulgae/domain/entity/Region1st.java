@@ -5,9 +5,12 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Index;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.NotEmpty;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,6 +31,9 @@ public class Region1st {
 
     @NotEmpty
     private String type;
+
+    @OneToMany(mappedBy = "region1st")
+    private List<Region2nd> region2nds = new ArrayList<>();
 
     public Region1st(long l, String splt) {
         this.id = l;
