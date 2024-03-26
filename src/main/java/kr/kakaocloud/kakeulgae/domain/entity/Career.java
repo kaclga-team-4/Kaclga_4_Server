@@ -22,7 +22,7 @@ import lombok.NoArgsConstructor;
     uniqueConstraints = @UniqueConstraint(name = "career_uk", columnNames = "type"),
     indexes = @Index(name = "career_idx_type", columnList = "type")
 )
-public class Career {
+public class Career implements Comparable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,8 +30,9 @@ public class Career {
     @NotEmpty
     private String type;
 
-    @Builder
-    public Career(String type) {
-        this.type = type;
+    @Override
+    public int compareTo(Object o) {
+        Career career = (Career) o;
+        return this.getType().compareTo(career.getType());
     }
 }

@@ -18,7 +18,7 @@ import lombok.Getter;
     uniqueConstraints = @UniqueConstraint(name = "worktype_uk", columnNames = "type"),
     indexes = @Index(name = "idx_type", columnList = "type")
 )
-public class WorkType {
+public class WorkType implements Comparable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,12 +27,9 @@ public class WorkType {
     @NotEmpty
     private String type;
 
-    public WorkType(long l, String splt) {
-        this.id = l;
-        this.type = splt;
-    }
-
-    public WorkType() {
-
+    @Override
+    public int compareTo(Object o) {
+        WorkType workType = (WorkType) o;
+        return this.getType().compareTo(workType.getType());
     }
 }

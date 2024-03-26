@@ -21,7 +21,7 @@ import lombok.Getter;
     uniqueConstraints = @UniqueConstraint(name = "region_1st_uk", columnNames = "type"),
     indexes = @Index(name = "region_1st_idx_type", columnList = "type")
 )
-public class Region1st {
+public class Region1st implements Comparable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,4 +32,10 @@ public class Region1st {
 
     @OneToMany(mappedBy = "region1st")
     private List<Region2nd> region2nds = new ArrayList<>();
+
+    @Override
+    public int compareTo(Object o) {
+        Region1st region1st = (Region1st) o;
+        return this.getType().compareTo(region1st.getType());
+    }
 }

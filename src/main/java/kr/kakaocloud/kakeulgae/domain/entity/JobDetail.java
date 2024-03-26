@@ -29,7 +29,7 @@ import lombok.Setter;
     indexes = @Index(name = "job_detail_idx_type", columnList = "type")
 )
 @Entity
-public class JobDetail {
+public class JobDetail implements Comparable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,4 +48,10 @@ public class JobDetail {
 
     @OneToMany(mappedBy = "jobDetail")
     private List<PreferenceJob> preferenceJobs = new ArrayList<>();
+
+    @Override
+    public int compareTo(Object o) {
+        JobDetail jobDetail = (JobDetail) o;
+        return this.getType().compareTo(jobDetail.getType());
+    }
 }
