@@ -21,7 +21,7 @@ public class NotificationController {
 
     private final NotificationService notificationService;
 
-    @GetMapping("list")
+    @GetMapping("/list")
     public ResponseEntity<SliceResponse<NotificationListDto>> getNotificationList(
         @LoginUserId
         Long memberId,
@@ -32,6 +32,8 @@ public class NotificationController {
         @RequestParam(name = "lastId", required = false)
         Long lastId
     ) {
-        return ResponseEntity.ok(notificationService.getNotificationList(memberId, size, lastId));
+        SliceResponse<NotificationListDto> response = notificationService.getNotificationList(
+            memberId, size, lastId);
+        return ResponseEntity.ok(response);
     }
 }

@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor//기본 생성자를 생성
 public class Profile extends BaseModifiableEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -28,6 +29,13 @@ public class Profile extends BaseModifiableEntity {
         this.profileName = profileName;
         this.originFileName = profileName;
     }
+
+    public Profile(Long id, String profileName) {
+        this.id = id;
+        this.profileName = profileName;
+        this.originFileName = profileName;
+    }
+
     public void changeProfile(
         String profileName,
         String originFileName) {

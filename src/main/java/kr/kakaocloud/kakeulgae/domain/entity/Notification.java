@@ -50,6 +50,13 @@ public class Notification extends BaseTimeEntity {
         this.jobPosting = jobPosting;
     }
 
+    public Notification(Long id, Member member, JobPosting jobPosting) {
+        this.id = id;
+        this.contents = jobPosting.getPostName();
+        this.member = member;
+        this.jobPosting = jobPosting;
+    }
+
     public LocalDate getCreateAt() {
         return super.getCreatedAt();
     }

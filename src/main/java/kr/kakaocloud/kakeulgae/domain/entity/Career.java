@@ -31,4 +31,9 @@ public class Career {
     public Career(String type) {
         this.type = type;
     }
+
+    public Career(Long careerId, String careerType) {
+        this.id = careerId;
+        this.type = careerType;
+    }
 }
