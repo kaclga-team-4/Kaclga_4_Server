@@ -11,13 +11,14 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(
     name = "region_2nd"
 )
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Region2nd {
 

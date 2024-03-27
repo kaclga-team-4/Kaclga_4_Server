@@ -60,6 +60,12 @@ dependencies {
     testCompileOnly 'org.projectlombok:lombok:1.18.30'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.30'
     runtimeOnly 'com.h2database:h2'
+
+    // querydsl
+    implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
+    annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jakarta"
+    annotationProcessor "jakarta.annotation:jakarta.annotation-api"
+    annotationProcessor "jakarta.persistence:jakarta.persistence-api"
 }
 
 def generated = 'src/main/generated'
@@ -79,4 +85,9 @@ configurations {
 
 tasks.withType(JavaCompile).configureEach {
     options.compilerArgs << '-parameters'
+}
+
+
+clean {
+    delete file('src/main/generated')
 }
