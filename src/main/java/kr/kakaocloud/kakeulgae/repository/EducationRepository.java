@@ -1,5 +1,7 @@
 package kr.kakaocloud.kakeulgae.repository;
 
+import java.util.List;
+import kr.kakaocloud.kakeulgae.domain.entity.Career;
 import kr.kakaocloud.kakeulgae.domain.entity.Education;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -7,4 +9,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface EducationRepository extends JpaRepository<Education, Long> {
 
+    public List<Education> findByTypeIn(List<String> types);
+
+    List<Education> findByIdIn(List<Long> educationIds);
 }
