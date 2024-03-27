@@ -9,12 +9,20 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 
 @Entity
 @Table(
-    name = "region_posting_relation"
+    name = "region_posting_relation",
+    uniqueConstraints = {
+        @UniqueConstraint(
+            name = "region_posting_relation_job_posting_id_region_2nd_id_unique",
+            columnNames = {"job_posting_id", "region_2nd_id"}
+        )
+    }
 )
 public class RegionPostingRelation {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
