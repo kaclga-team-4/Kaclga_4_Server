@@ -24,30 +24,21 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberService {
 
     private final MemberRepository memberRepository;
-    private final CareerService careerService;
-    private final JobDetailService jobDetailService;
-    private final RegionService regionService;
-    private final WorkTypeService workTypeService;
-    private final EducationService educationService;
-
 
     public MemberSimpleResponse getSimpleInformation(Long userId) {
-        Member findMember = memberRepository.findById(userId).orElseThrow(() ->
-            new NoSuchElementException("해당 유저가 존재하지 않습니다"));
+        Member findMember = findMember(userId);
         return new MemberSimpleResponse(findMember);
     }
 
     @Transactional(readOnly = true)
     public MemberResponse getInformation(Long userId) {
-        Member findMember = memberRepository.findById(userId).orElseThrow(() ->
-            new NoSuchElementException("해당 유저가 존재하지 않습니다"));
+        Member findMember = findMember(userId);
         return new MemberResponse(findMember);
     }
 
     @Transactional
     public void updateInformation(Long userId, MemberUpdateReqeust request) {
-        Member findMember = memberRepository.findById(userId).orElseThrow(() ->
-            new NoSuchElementException("해당 유저가 존재하지 않습니다"));
+        Member findMember = findMember(userId);
         if (request.getNickname() != null) {
             findMember.setNickname(request.getNickname());
         }
@@ -62,33 +53,13 @@ public class MemberService {
 
     @Transactional
     public void updateNotification(Long userId, MemberUpdateNotification request) {
-        Member findMember = memberRepository.findById(userId).orElseThrow(() ->
-            new NoSuchElementException("해당 유저가 존재하지 않습니다"));
+        Member findMember = findMember(userId);
         findMember.setNoticeCheck(request.getNoticeCheck());
         memberRepository.save(findMember);
     }
 
-    @Transactional
-    public MemberInterestResponse createUserInterest(Long id, MemberInterestRequest request) {
-        Member member = memberRepository.findById(id).orElseThrow(() ->
+    private Member findMember(Long userId) {
+        return memberRepository.findById(userId).orElseThrow(() ->
             new NoSuchElementException("해당 유저가 존재하지 않습니다"));
-
-        List<JobDetail> jobDetails = jobDetailService.saveUserJobDetail(member,
-            request.getJobDetailIds());
-        List<Region2nd> region2nds = regionService.saveUserRegion(member,
-            request.getRegion2ndIds());
-        List<Career> careers = careerService.saveUserCareer(member, request.getCareerIds());
-        List<Education> educations = educationService.saveUserEducation(member,
-            request.getEducationIds());
-        List<WorkType> workTypes = workTypeService.saveUserWorkType(member,
-            request.getWorkTypeIds());
-
-        return MemberInterestResponse.builder()
-            .jobDetails(jobDetails)
-            .region2nds(region2nds)
-            .careers(careers)
-            .educations(educations)
-            .workTypes(workTypes)
-            .build();
     }
 }

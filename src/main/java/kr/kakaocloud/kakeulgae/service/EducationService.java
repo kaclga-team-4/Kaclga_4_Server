@@ -29,4 +29,24 @@ public class EducationService {
 
         return educations;
     }
+
+    public List<Education> updateUserEducation(Member member, List<Long> educationIds) {
+        List<Education> educations = educationRepository.findByIdIn(educationIds);
+        List<EducationMemberRelation> educationMemberRelations = educationMemberRepository.findByMember(member);
+        educationMemberRepository.deleteAll(educationMemberRelations);
+
+        List<EducationMemberRelation> newEducationMemberRelations = new ArrayList<>();
+
+        for (Education education : educations) {
+            newEducationMemberRelations.add(EducationMemberRelation.createRelation(member,
+                education));
+        }
+        educationMemberRepository.saveAll(newEducationMemberRelations);
+
+        return educations;
+    }
+
+    public List<Education> findAllEducation() {
+        return educationRepository.findAll();
+    }
 }

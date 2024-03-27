@@ -29,4 +29,25 @@ public class WorkTypeService {
 
         return workTypes;
     }
+
+    public List<WorkType> updateUserWorkType(Member member, List<Long> workTypeIds) {
+        List<WorkType> workTypes = workTypeRepository.findByIdIn(workTypeIds);
+        List<WorkTypeMemberRelation> workTypeMemberRelations = workTypeMemberRelationRepository.findByMember(
+            member);
+        workTypeMemberRelationRepository.deleteAll(workTypeMemberRelations);
+
+        List<WorkTypeMemberRelation> newWorkTypeMemberRelations = new ArrayList<>();
+
+        for (WorkType workType : workTypes) {
+            newWorkTypeMemberRelations.add(WorkTypeMemberRelation.createRelation(member,
+                workType));
+        }
+        workTypeMemberRelationRepository.saveAll(newWorkTypeMemberRelations);
+
+        return workTypes;
+    }
+
+    public List<WorkType> findAllWorkType() {
+        return workTypeRepository.findAll();
+    }
 }
