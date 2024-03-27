@@ -5,10 +5,12 @@ import java.util.NoSuchElementException;
 import kr.kakaocloud.kakeulgae.domain.entity.Career;
 import kr.kakaocloud.kakeulgae.domain.entity.Education;
 import kr.kakaocloud.kakeulgae.domain.entity.JobDetail;
+import kr.kakaocloud.kakeulgae.domain.entity.Region1st;
 import kr.kakaocloud.kakeulgae.domain.entity.Region2nd;
 import kr.kakaocloud.kakeulgae.domain.entity.WorkType;
 import kr.kakaocloud.kakeulgae.domain.entity.member.Member;
 import kr.kakaocloud.kakeulgae.repository.MemberRepository;
+import kr.kakaocloud.kakeulgae.service.dto.category.CategoryResponse;
 import kr.kakaocloud.kakeulgae.service.dto.member.interest.MemberInterestRequest;
 import kr.kakaocloud.kakeulgae.service.dto.member.interest.MemberInterestResponse;
 import lombok.RequiredArgsConstructor;
@@ -74,5 +76,21 @@ public class CategoryService {
     private Member findMember(Long userId) {
         return memberRepository.findById(userId).orElseThrow(() ->
             new NoSuchElementException("해당 유저가 존재하지 않습니다"));
+    }
+
+    public CategoryResponse findAllCategories() {
+        List<JobDetail> jobDetailList = jobDetailRepository.findAll();
+        List<Career> careerList = careerRepository.findAll();
+        List<Region1st> region1stList = region1stRepository.findAll();
+        List<WorkType> workTypeList = workTypeRepository.findAll();
+        List<Education> educationList = educationRepository.findAll();
+
+        return CategoryResponse.builder()
+            .jobDetails(jobDetailList)
+            .careers(careerList)
+            .region(region1stList)
+            .workTypes(workTypeList)
+            .educations(educationList)
+            .build();
     }
 }
