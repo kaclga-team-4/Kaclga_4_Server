@@ -30,6 +30,7 @@ public class SecurityConfig {
     private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint; // 인증되지 않은 사용자가 보호된 리소스에 액세스하려고 할 때 호출됨
 
 
+
     CorsConfigurationSource corsConfigurationSource() {
         return request -> {
             CorsConfiguration config = new CorsConfiguration();

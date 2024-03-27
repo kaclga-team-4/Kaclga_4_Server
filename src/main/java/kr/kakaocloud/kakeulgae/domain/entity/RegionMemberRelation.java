@@ -1,4 +1,4 @@
-package kr.kakaocloud.kakeulgae.domain.entity.member;
+package kr.kakaocloud.kakeulgae.domain.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -9,15 +9,15 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import kr.kakaocloud.kakeulgae.domain.entity.Career;
+import kr.kakaocloud.kakeulgae.domain.entity.member.Member;
 import lombok.Getter;
 
 @Getter
 @Entity
 @Table(
-    name = "career_member_relation"
+    name = "region_member_relatoin"
 )
-public class CareerMemberRelation {
+public class RegionMemberRelation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,11 +25,11 @@ public class CareerMemberRelation {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id",
-        foreignKey = @ForeignKey(name = "fk_career_member_relation_member_id"))
+        foreignKey = @ForeignKey(name = "fk_region_member_relation_member_id"))
     private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "career_id",
-        foreignKey = @ForeignKey(name = "fk_career_member_relation_career_id"))
-    private Career career;
+    @JoinColumn(name = "region_2nd_id",
+        foreignKey = @ForeignKey(name = "fk_region_member_relation_region_2nd_id"))
+    private Region2nd region2nd;
 }

@@ -6,7 +6,9 @@ import kr.kakaocloud.kakeulgae.domain.entity.JobDetail;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface JobDetailRepository extends JpaRepository<JobDetail, Long> {
 
     List<JobDetail> findByJobIdAndTypeIgnoreCase(Long num2, String type2);
