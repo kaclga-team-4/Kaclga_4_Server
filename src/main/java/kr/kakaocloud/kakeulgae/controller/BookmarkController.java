@@ -53,10 +53,12 @@ public class BookmarkController {
         return bookmarkService.getSliceBookmarkData(id, pageable);
     }
 
-//    @GetMapping("/searchs")
-//    public Slice<BookmarkListDto> getSearchBookmark(@LoginUserId Long id,
-//        @RequestParam(value = "keyword") String keyword, Pageable pageable) { // 검색 API -> 구현되지 않음
-//        MemberResponse response = memberService.getInformation(id);
-//        return bookmarkService.getSliceSearchBookmarkData(id, keyword, pageable);
-//    }
+    @GetMapping("/search")
+    public Slice<BookmarkListDto> getSearchBookmark(@LoginUserId Long id,
+        @RequestParam(value = "keyword") String keyword, Pageable pageable) { // 검색 API -> 구현되지 않음
+        MemberResponse response = memberService.getInformation(id);
+        System.out.print("pageable Data in Controller: ");
+        System.out.println(pageable.toString());
+        return bookmarkService.getSliceSearchBookmarkData(id, keyword, pageable);
+    }
 }
