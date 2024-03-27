@@ -22,10 +22,12 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@ActiveProfiles("test")
 public class NotificationControllerTest {
 
     @Autowired
@@ -45,6 +47,8 @@ public class NotificationControllerTest {
             sliceResponse);
 
         mockMvc.perform(get("/api/v1/notifications/list")
+
+                .headers(NotificationFixture.createHeaders()
                 .param("size", String.valueOf(DEFAULT_SIZE))
                 .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())

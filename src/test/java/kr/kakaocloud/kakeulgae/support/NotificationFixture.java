@@ -1,6 +1,7 @@
 package kr.kakaocloud.kakeulgae.support;
 
 import com.google.firebase.database.annotations.Nullable;
+import java.time.LocalDateTime;
 import kr.kakaocloud.kakeulgae.domain.entity.JobPosting;
 import kr.kakaocloud.kakeulgae.domain.entity.Notification;
 import kr.kakaocloud.kakeulgae.domain.entity.member.Member;
@@ -16,7 +17,9 @@ public class NotificationFixture {
         member = member == null ? MemberFixture.createMember() : member;
         jobPosting =
             jobPosting == null ? JobPostingFixture.createJobPosting(null, null) : jobPosting;
-        return new Notification(id, member, jobPosting);
+        Notification notification = new Notification(id, member, jobPosting);
+        notification.setCreatedAt(LocalDateTime.now());
+        return notification;
     }
 
     public static NotificationListDto createNotificationListDto(Member member,
