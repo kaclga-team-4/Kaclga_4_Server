@@ -46,6 +46,9 @@ public class JobPosting {
     private Education education;
 
     @OneToMany(mappedBy = "jobPosting")
+    private List<Bookmark> bookmarks = new ArrayList<>();
+
+    @OneToMany(mappedBy = "jobPosting")
     private List<JobDetailPostingRelation> jobDetailPostingRelations = new ArrayList<>();
 
     @OneToMany(mappedBy = "jobPosting")
