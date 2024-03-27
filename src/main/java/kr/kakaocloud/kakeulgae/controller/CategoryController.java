@@ -18,6 +18,7 @@ public class CategoryController {
 
     private final CategoryService categoryService;
 
+
     @GetMapping("/categories")
     public CategoryResponse getCategories() {
         return categoryService.findAllCategories();
