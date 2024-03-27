@@ -27,5 +27,4 @@ public class Career {
     private Long id;
     @NotEmpty
     private String type;
-
 }

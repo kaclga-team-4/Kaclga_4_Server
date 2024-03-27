@@ -10,9 +10,12 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import kr.kakaocloud.kakeulgae.domain.entity.Region2nd;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(
     name = "region_member_relatoin"
@@ -32,4 +35,12 @@ public class RegionMemberRelation {
     @JoinColumn(name = "region_2nd_id",
         foreignKey = @ForeignKey(name = "fk_region_member_relation_region_2nd_id"))
     private Region2nd region2nd;
+
+    public static RegionMemberRelation createRelation(Member member, Region2nd region2nd) {
+        RegionMemberRelation relation = new RegionMemberRelation();
+        relation.member = member;
+        relation.region2nd = region2nd;
+
+        return relation;
+    }
 }

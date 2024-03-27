@@ -11,7 +11,9 @@ import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.NotEmpty;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 @Entity
@@ -20,6 +22,7 @@ import lombok.Getter;
     uniqueConstraints = @UniqueConstraint(name = "job_category_uk", columnNames = "type"),
     indexes = @Index(name = "job_category_idx_type", columnList = "type")
 )
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class JobCategory {
 
     @Id

@@ -8,7 +8,9 @@ import jakarta.persistence.Index;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.NotEmpty;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 @Entity
@@ -17,6 +19,7 @@ import lombok.Getter;
     uniqueConstraints = @UniqueConstraint(name = "worktype_uk", columnNames = "type"),
     indexes = @Index(name = "idx_type", columnList = "type")
 )
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class WorkType {
 
     @Id

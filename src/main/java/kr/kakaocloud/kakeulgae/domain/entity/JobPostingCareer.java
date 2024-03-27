@@ -9,6 +9,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,9 +18,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(
-    name = "job_posting_career"
+    name = "job_posting_career",
+    uniqueConstraints = {
+        @UniqueConstraint(
+            name = "job_posting_career_job_posting_id_career_id_unique",
+            columnNames = {"job_posting_id", "career_id"}
+        ),
+    }
 )
 public class JobPostingCareer {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
