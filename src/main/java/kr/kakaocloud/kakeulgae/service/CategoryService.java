@@ -79,11 +79,11 @@ public class CategoryService {
     }
 
     public CategoryResponse findAllCategories() {
-        List<JobDetail> jobDetailList = jobDetailRepository.findAll();
-        List<Career> careerList = careerRepository.findAll();
-        List<Region1st> region1stList = region1stRepository.findAll();
-        List<WorkType> workTypeList = workTypeRepository.findAll();
-        List<Education> educationList = educationRepository.findAll();
+        List<JobDetail> jobDetailList = jobDetailService.findAllJobDetails();
+        List<Career> careerList = careerService.findAllCareer();
+        List<Region1st> region1stList = regionService.findAllRegion1st();
+        List<WorkType> workTypeList = workTypeService.findAllWorkType();
+        List<Education> educationList = educationService.findAllEducation();
 
         return CategoryResponse.builder()
             .jobDetails(jobDetailList)

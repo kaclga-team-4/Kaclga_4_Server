@@ -44,4 +44,8 @@ public class JobDetailService {
 
         return jobDetails;
     }
+
+    public List<JobDetail> findAllJobDetails() {
+        return jobDetailRepository.findAll();
+    }
 }

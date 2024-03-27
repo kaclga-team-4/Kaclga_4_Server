@@ -19,6 +19,10 @@ public class CareerService {
     private final CareerMemberRepository careerMemberRepository;
     private final MemberRepository memberRepository;
 
+    public List<Career> findAllCareer() {
+        return careerRepository.findAll();
+    }
+
     public List<Career> saveUserCareer(Member member, List<Long> careerIds) {
         List<Career> careers = careerRepository.findByIdIn(careerIds);
         ArrayList<CareerMemberRelation> careerMemberRelations = new ArrayList<>();

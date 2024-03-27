@@ -46,4 +46,8 @@ public class WorkTypeService {
 
         return workTypes;
     }
+
+    public List<WorkType> findAllWorkType() {
+        return workTypeRepository.findAll();
+    }
 }

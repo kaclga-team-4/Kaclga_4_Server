@@ -45,4 +45,8 @@ public class EducationService {
 
         return educations;
     }
+
+    public List<Education> findAllEducation() {
+        return educationRepository.findAll();
+    }
 }
