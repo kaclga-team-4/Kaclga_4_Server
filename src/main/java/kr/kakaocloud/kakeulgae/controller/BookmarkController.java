@@ -52,11 +52,4 @@ public class BookmarkController {
     public Slice<BookmarkListDto> getMyBookmark(@LoginUserId Long id, Pageable pageable) {
         return bookmarkService.getSliceBookmarkData(id, pageable);
     }
-
-//    @GetMapping("/searchs")
-//    public Slice<BookmarkListDto> getSearchBookmark(@LoginUserId Long id,
-//        @RequestParam(value = "keyword") String keyword, Pageable pageable) { // 검색 API -> 구현되지 않음
-//        MemberResponse response = memberService.getInformation(id);
-//        return bookmarkService.getSliceSearchBookmarkData(id, keyword, pageable);
-//    }
 }
