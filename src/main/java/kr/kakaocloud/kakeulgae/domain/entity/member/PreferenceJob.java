@@ -9,6 +9,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import kr.kakaocloud.kakeulgae.domain.entity.JobDetail;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -18,7 +19,13 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(
-    name = "preference_job"
+    name = "preference_job",
+    uniqueConstraints = {
+        @UniqueConstraint(
+            name = "preference_job_member_id_job_detail_id_unique",
+            columnNames = {"member_id", "job_detail_id"}
+        ),
+    }
 )
 public class PreferenceJob {
 

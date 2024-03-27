@@ -24,12 +24,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberService {
 
     private final MemberRepository memberRepository;
-    private final CareerService careerService;
-    private final JobDetailService jobDetailService;
-    private final RegionService regionService;
-    private final WorkTypeService workTypeService;
-    private final EducationService educationService;
-
 
     public MemberSimpleResponse getSimpleInformation(Long userId) {
         Member findMember = findMember(userId);
@@ -62,51 +56,6 @@ public class MemberService {
         Member findMember = findMember(userId);
         findMember.setNoticeCheck(request.getNoticeCheck());
         memberRepository.save(findMember);
-    }
-
-    @Transactional
-    public MemberInterestResponse createUserInterest(Long id, MemberInterestRequest request) {
-        Member member = findMember(id);
-
-        List<JobDetail> jobDetails = jobDetailService.saveUserJobDetail(member,
-            request.getJobDetailIds());
-        List<Region2nd> region2nds = regionService.saveUserRegion(member,
-            request.getRegion2ndIds());
-        List<Career> careers = careerService.saveUserCareer(member, request.getCareerIds());
-        List<Education> educations = educationService.saveUserEducation(member,
-            request.getEducationIds());
-        List<WorkType> workTypes = workTypeService.saveUserWorkType(member,
-            request.getWorkTypeIds());
-
-        return MemberInterestResponse.builder()
-            .jobDetails(jobDetails)
-            .region2nds(region2nds)
-            .careers(careers)
-            .educations(educations)
-            .workTypes(workTypes)
-            .build();
-    }
-
-    public MemberInterestResponse updateUserInterest(Long memberId, MemberInterestRequest request) {
-        Member findMember = findMember(memberId);
-
-        List<JobDetail> jobDetails = jobDetailService.updateUserJobDetail(findMember,
-            request.getJobDetailIds());
-        List<Region2nd> region2nds = regionService.updateUserRegion(findMember,
-            request.getRegion2ndIds());
-        List<Career> careers = careerService.updateUserCareer(findMember, request.getCareerIds());
-        List<Education> educations = educationService.updateUserEducation(findMember,
-            request.getEducationIds());
-        List<WorkType> workTypes = workTypeService.updateUserWorkType(findMember,
-            request.getWorkTypeIds());
-
-        return MemberInterestResponse.builder()
-            .jobDetails(jobDetails)
-            .region2nds(region2nds)
-            .careers(careers)
-            .educations(educations)
-            .workTypes(workTypes)
-            .build();
     }
 
     private Member findMember(Long userId) {
