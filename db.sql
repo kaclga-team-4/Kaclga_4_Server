@@ -1,10 +1,9 @@
 CREATE TABLE profile
 (
-    id               BIGINT AUTO_INCREMENT          NOT NULL,
-    updated_at       datetime                       NOT NULL,
-    created_at       datetime                       NOT NULL,
-    profile_name     VARCHAR(30)  default 'default' NOT NULL,
-    origin_file_name VARCHAR(255) default 'default' NOT NULL,
+    id         BIGINT AUTO_INCREMENT NOT NULL,
+    updated_at datetime              NOT NULL,
+    created_at datetime              NOT NULL,
+    url        VARCHAR(255)          NOT NULL,
     CONSTRAINT pk_profile PRIMARY KEY (id)
 );
 

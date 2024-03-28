@@ -2,12 +2,12 @@ package kr.kakaocloud.kakeulgae.service;
 
 import java.io.InputStream;
 import java.net.URL;
-import javax.annotation.Nullable;
 import kr.kakaocloud.kakeulgae.domain.entity.member.Member;
 import kr.kakaocloud.kakeulgae.domain.entity.member.Profile;
 import kr.kakaocloud.kakeulgae.repository.MemberRepository;
 import kr.kakaocloud.kakeulgae.security.FirebaseTokenHelper;
 import kr.kakaocloud.kakeulgae.service.dto.auth.GoogleInformation;
+import kr.kakaocloud.kakeulgae.service.dto.auth.GoogleRegisterRequest;
 import kr.kakaocloud.kakeulgae.service.dto.auth.RegisterRequest;
 import kr.kakaocloud.kakeulgae.service.dto.member.MemberSimpleResponse;
 import kr.kakaocloud.kakeulgae.support.exception.KakeulgaeException.ExistResourceException;
@@ -27,18 +27,23 @@ public class AuthenticationService {
     final FileService fileService; //fileService는 파일을 저장하는 클래스
 
 
-    public void googleLoginProcess(String googleMemberName) {
-        if (!memberRepository.existsAllByMemberName(googleMemberName)) {
+    public MemberSimpleResponse googleLoginProcess(Long memberId) {
+        /*if (!memberRepository.existsAllByMemberName(googleMemberName)) {
             throw new UnRegisteredMemberException("$googleMemberName: 존재하지 않는 회원입니다");
-        }
+        }*/
+        Member findMember = memberRepository.findById(memberId).orElseThrow(() ->
+            new UnRegisteredMemberException("해당 유저가 존재하지 않습니다"));
+        return new MemberSimpleResponse(findMember);
     }
 
     @Transactional
-    public MemberSimpleResponse register(RegisterRequest registerRequest,
-        @Nullable String profileUrl) {
+    public MemberSimpleResponse register(GoogleRegisterRequest registerRequest) {
+        GoogleInformation googleInformation = getGoogleinfomation(
+            registerRequest.getIdToken());//구글 정보를 업데이트
+        registerRequest.updateMemberImpomation(googleInformation);
         validateRegisterInformation(registerRequest);
-
-        Member member = memberRepository.save(createMember(registerRequest, profileUrl));
+        Member member = memberRepository.save(
+            createMember(registerRequest, googleInformation.profileUrl));
         return new MemberSimpleResponse(member);
     }
 
@@ -98,13 +103,6 @@ public class AuthenticationService {
 
     private Member createMember(
         RegisterRequest registerRequest, String profileUrl) {
-        String profileName = saveProfile(profileUrl);
-        Profile profile;
-        if (profileName != null) {
-            profile = new Profile(profileName);
-        } else {
-            profile = new Profile("default.webp");
-        }
         return Member.builder()
             .email(registerRequest.email)
             .memberName(registerRequest.memberName)
@@ -114,7 +112,7 @@ public class AuthenticationService {
             .birthday(registerRequest.birthday)
             .socialType(registerRequest.socialType)
             .memberRole(registerRequest.memberRole)
-            .profile(profile)
+            .profile(new Profile(profileUrl))
             .build();
     }
 }

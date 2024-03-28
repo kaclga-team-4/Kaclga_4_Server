@@ -1,9 +1,8 @@
 package kr.kakaocloud.kakeulgae.controller;
 
 import jakarta.validation.Valid;
+import kr.kakaocloud.kakeulgae.security.LoginUserId;
 import kr.kakaocloud.kakeulgae.service.AuthenticationService;
-import kr.kakaocloud.kakeulgae.service.dto.auth.GoogleInformation;
-import kr.kakaocloud.kakeulgae.service.dto.auth.GoogleLoginRequest;
 import kr.kakaocloud.kakeulgae.service.dto.auth.GoogleRegisterRequest;
 import kr.kakaocloud.kakeulgae.service.dto.member.MemberSimpleResponse;
 import lombok.RequiredArgsConstructor;
@@ -30,24 +29,18 @@ public class AuthController {
         @Valid
         GoogleRegisterRequest googleRegisterRequest
     ) {
-        GoogleInformation googleInformation = authenticationService.getGoogleinfomation(
-            googleRegisterRequest.getIdToken());
-        googleRegisterRequest.updateMemberImpomation(googleInformation);//구글 정보를 업데이트
         MemberSimpleResponse memberSimpleResponse = authenticationService.register(
-            googleRegisterRequest,
-            googleInformation.profileUrl);
+            googleRegisterRequest);
         return ResponseEntity.ok(memberSimpleResponse);//200 반환
     }
 
-    @PostMapping("/login/google")
-    public ResponseEntity<Void> googleLogin(
-        @RequestBody @Valid GoogleLoginRequest googleLoginRequest
+    @GetMapping("/login/google")
+    public ResponseEntity<MemberSimpleResponse> googleLogin(
+        @LoginUserId Long memberId
     ) {
-        String googleMemberName = authenticationService.getMemberNameByIdToken(
-            googleLoginRequest.idToken);
-        authenticationService.googleLoginProcess(googleMemberName);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(authenticationService.googleLoginProcess(memberId));
     }
+    
 
     @GetMapping("/validate/nickname")
     public ResponseEntity<Void> validateNickname(@RequestParam("nickName") String value) {

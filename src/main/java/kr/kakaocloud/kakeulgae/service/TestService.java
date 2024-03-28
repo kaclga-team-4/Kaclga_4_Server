@@ -20,7 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RequiredArgsConstructor
 public class TestService {
 
-    private static final String bucketName = "kaclgae-s3";
+    static final String bucketName = "kaclgae-s3";
     private final TestRepository testRepository;
     private final AmazonS3Client amazonS3Client;
 
