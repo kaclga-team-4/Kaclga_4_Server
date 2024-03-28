@@ -1,4 +1,4 @@
-package kr.kakaocloud.kakeulgae.service.impl;
+package kr.kakaocloud.kakeulgae.repository.impl;
 
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Predicate;
@@ -9,6 +9,7 @@ import java.time.LocalDate;
 import java.util.List;
 import kr.kakaocloud.kakeulgae.domain.entity.JobPosting;
 import kr.kakaocloud.kakeulgae.domain.entity.QBookmark;
+import kr.kakaocloud.kakeulgae.domain.entity.QJob;
 import kr.kakaocloud.kakeulgae.domain.entity.QJobDetail;
 import kr.kakaocloud.kakeulgae.domain.entity.QJobDetailPostingRelation;
 import kr.kakaocloud.kakeulgae.domain.entity.QJobPosting;
@@ -20,7 +21,6 @@ import org.springframework.data.domain.SliceImpl;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 import org.springframework.data.repository.query.Param;
 import org.springframework.util.StringUtils;
-
 
 public class JobPostingRepositoryImpl extends QuerydslRepositorySupport implements
     JobPostingRepositorySearch {
@@ -61,7 +61,7 @@ public class JobPostingRepositoryImpl extends QuerydslRepositorySupport implemen
             orderSpecifier = QJobPosting.jobPosting.deadline.asc();
         }
 
-        JPQLQuery<JobPosting> query = queryFactory
+        List<JobPosting> content = queryFactory
             .selectFrom(QJobPosting.jobPosting)
             .innerJoin(QJobPosting.jobPosting.bookmarks, QBookmark.bookmark)
             .leftJoin(QJobPosting.jobPosting.jobDetailPostingRelations, QJobDetailPostingRelation.jobDetailPostingRelation)
@@ -72,14 +72,15 @@ public class JobPostingRepositoryImpl extends QuerydslRepositorySupport implemen
             )
             .orderBy(orderSpecifier)
             .offset(pageable.getOffset())
-            .limit(pageable.getPageSize() + 1);
+            .limit(pageable.getPageSize()+1)
+            .fetch();
 
-        List<JobPosting> content = query.fetch();
 
-
-        boolean hasNext = content.size() > pageable.getPageSize();
-        if (hasNext) {
-            content.remove(content.size() - 1);
+        boolean hasNext = false;
+        int pageSize = pageable.getPageSize();
+        if (content.size() > pageSize) {
+            content.remove(pageSize);
+            hasNext = true;
         }
 
         return new SliceImpl<>(content, pageable, hasNext);
