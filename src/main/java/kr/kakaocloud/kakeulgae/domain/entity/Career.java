@@ -27,8 +27,4 @@ public class Career {
     private Long id;
     @NotEmpty
     private String type;
-
-    public Career(String type) {
-        this.type = type;
-    }
 }

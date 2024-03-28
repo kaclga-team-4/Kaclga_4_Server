@@ -28,8 +28,4 @@ public class Education {
 
     @NotEmpty
     private String type;
-
-    public Education(String type) {
-        this.type = type;
-    }
 }
