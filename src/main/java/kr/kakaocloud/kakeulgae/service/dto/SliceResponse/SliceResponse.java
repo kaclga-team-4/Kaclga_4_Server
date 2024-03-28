@@ -1,8 +1,12 @@
 package kr.kakaocloud.kakeulgae.service.dto.SliceResponse;
 
 import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.domain.Pageable;
 
+@Getter
+@Setter
 public class SliceResponse<T> {
 
     Boolean hasNext;

@@ -3,9 +3,11 @@ package kr.kakaocloud.kakeulgae.service.dto.notification;
 import java.time.LocalDate;
 import kr.kakaocloud.kakeulgae.domain.entity.Notification;
 import kr.kakaocloud.kakeulgae.service.dto.jobposting.JobPostingSimpleResponse;
+import lombok.Getter;
 import lombok.Setter;
 
 @Setter
+@Getter
 public class NotificationListDto {
 
     private Long id;
