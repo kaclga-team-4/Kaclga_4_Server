@@ -28,4 +28,13 @@ public class Education {
 
     @NotEmpty
     private String type;
+
+    public Education(String type) {
+        this.type = type;
+    }
+
+    public Education(Long id, String type) {
+        this.id = id;
+        this.type = type;
+    }
 }

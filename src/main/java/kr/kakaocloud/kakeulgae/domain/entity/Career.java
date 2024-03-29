@@ -27,4 +27,13 @@ public class Career {
     private Long id;
     @NotEmpty
     private String type;
+
+    public Career(String type) {
+        this.type = type;
+    }
+
+    public Career(Long careerId, String careerType) {
+        this.id = careerId;
+        this.type = careerType;
+    }
 }
