@@ -1,7 +1,5 @@
 package kr.kakaocloud.kakeulgae.service;
 
-import java.io.InputStream;
-import java.net.URL;
 import kr.kakaocloud.kakeulgae.domain.entity.member.Member;
 import kr.kakaocloud.kakeulgae.domain.entity.member.Profile;
 import kr.kakaocloud.kakeulgae.repository.MemberRepository;
@@ -81,24 +79,6 @@ public class AuthenticationService {
     public GoogleInformation getGoogleinfomation(String idToken) {
         return new GoogleInformation(firebaseTokenHelper.getProfileurl(idToken),
             getMemberNameByIdToken(idToken));
-    }
-
-    private String saveProfile(String profileUrl) {
-        InputStream inputStream = null; //InputStream은 바이트 단위로 읽어들이는 클래스
-        try {
-            URL url = new URL(profileUrl);
-            inputStream = url.openStream(); //url.openStream()은 url을 통해 읽어들인 스트림을 반환
-            return fileService.saveProfile(inputStream);
-        } catch (Exception e) {
-        } finally {
-            if (inputStream != null) {
-                try {
-                    inputStream.close(); //inputStream을 닫음
-                } catch (Exception e) {
-                }
-            }
-        }
-        return null;
     }
 
     private Member createMember(
