@@ -89,9 +89,6 @@ ALTER TABLE job_posting
     ADD CONSTRAINT job_posting_company_name_post_name_uk UNIQUE (company_name, post_name);
 
 ALTER TABLE job_posting
-    ADD CONSTRAINT job_posting_url_uk UNIQUE (url);
-
-ALTER TABLE job_posting
     ADD CONSTRAINT FK_JOB_POSTING_EDUCATION_ID FOREIGN KEY (education_id) REFERENCES education (id);
 
 CREATE TABLE bookmark
