@@ -9,7 +9,6 @@ import kr.kakaocloud.kakeulgae.service.dto.auth.GoogleRegisterRequest;
 import kr.kakaocloud.kakeulgae.service.dto.auth.RegisterRequest;
 import kr.kakaocloud.kakeulgae.service.dto.member.MemberSimpleResponse;
 import kr.kakaocloud.kakeulgae.support.exception.KakeulgaeException.ExistResourceException;
-import kr.kakaocloud.kakeulgae.support.exception.KakeulgaeException.UnRegisteredMemberException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,16 +22,6 @@ public class AuthenticationService {
     final MemberRepository memberRepository;
     final FirebaseTokenHelper firebaseTokenHelper; //firebaseTokenHelper는 구글 토큰을 파싱하는 클래스
     final FileService fileService; //fileService는 파일을 저장하는 클래스
-
-
-    public MemberSimpleResponse googleLoginProcess(Long memberId) {
-        /*if (!memberRepository.existsAllByMemberName(googleMemberName)) {
-            throw new UnRegisteredMemberException("$googleMemberName: 존재하지 않는 회원입니다");
-        }*/
-        Member findMember = memberRepository.findById(memberId).orElseThrow(() ->
-            new UnRegisteredMemberException("해당 유저가 존재하지 않습니다"));
-        return new MemberSimpleResponse(findMember);
-    }
 
     @Transactional
     public MemberSimpleResponse register(GoogleRegisterRequest registerRequest) {

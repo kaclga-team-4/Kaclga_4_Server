@@ -1,7 +1,6 @@
 package kr.kakaocloud.kakeulgae.controller;
 
 import jakarta.validation.Valid;
-import kr.kakaocloud.kakeulgae.security.LoginUserId;
 import kr.kakaocloud.kakeulgae.service.AuthenticationService;
 import kr.kakaocloud.kakeulgae.service.dto.auth.GoogleRegisterRequest;
 import kr.kakaocloud.kakeulgae.service.dto.member.MemberSimpleResponse;
@@ -33,14 +32,6 @@ public class AuthController {
             googleRegisterRequest);
         return ResponseEntity.ok(memberSimpleResponse);//200 반환
     }
-
-    @GetMapping("/login/google")
-    public ResponseEntity<MemberSimpleResponse> googleLogin(
-        @LoginUserId Long memberId
-    ) {
-        return ResponseEntity.ok(authenticationService.googleLoginProcess(memberId));
-    }
-    
 
     @GetMapping("/validate/nickname")
     public ResponseEntity<Void> validateNickname(@RequestParam("nickName") String value) {
