@@ -1,59 +1,106 @@
-/*
 package kr.kakaocloud.kakeulgae.controller;
 
-import static kr.kakaocloud.kakeulgae.support.JobPostingFixture.createJobPosting;
-import static kr.kakaocloud.kakeulgae.support.MemberFixture.MEMBER_ID;
 import static kr.kakaocloud.kakeulgae.support.MemberFixture.createMember;
-import static kr.kakaocloud.kakeulgae.support.NotificationFixture.DEFAULT_LAST_ID;
-import static kr.kakaocloud.kakeulgae.support.NotificationFixture.DEFAULT_SIZE;
-import static org.hamcrest.Matchers.is;
-import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.util.Collections;
+import kr.kakaocloud.kakeulgae.domain.entity.member.CareerMemberRelation;
+import kr.kakaocloud.kakeulgae.domain.entity.member.EducationMemberRelation;
+import kr.kakaocloud.kakeulgae.domain.entity.member.Member;
+import kr.kakaocloud.kakeulgae.domain.entity.member.PreferenceJob;
+import kr.kakaocloud.kakeulgae.domain.entity.member.RegionMemberRelation;
+import kr.kakaocloud.kakeulgae.domain.entity.member.WorkTypeMemberRelation;
+import kr.kakaocloud.kakeulgae.repository.CareerMemberRepository;
+import kr.kakaocloud.kakeulgae.repository.CareerRepository;
+import kr.kakaocloud.kakeulgae.repository.EducationMemberRepository;
+import kr.kakaocloud.kakeulgae.repository.EducationRepository;
+import kr.kakaocloud.kakeulgae.repository.JobDetailPostingRelation;
+import kr.kakaocloud.kakeulgae.repository.JobDetailRepository;
+import kr.kakaocloud.kakeulgae.repository.JobPostingRepository;
+import kr.kakaocloud.kakeulgae.repository.MemberRepository;
+import kr.kakaocloud.kakeulgae.repository.Notification.NotificationRepository;
+import kr.kakaocloud.kakeulgae.repository.PreferenceJob.PreferenceJobRepository;
+import kr.kakaocloud.kakeulgae.repository.Region2ndMemberRelationRepository;
+import kr.kakaocloud.kakeulgae.repository.Region2ndRepository;
+import kr.kakaocloud.kakeulgae.repository.WorkTypeMemberRelationRepository;
+import kr.kakaocloud.kakeulgae.repository.WorkTypeRepository;
 import kr.kakaocloud.kakeulgae.service.NotificationService;
-import kr.kakaocloud.kakeulgae.service.dto.SliceResponse.SliceResponse;
-import kr.kakaocloud.kakeulgae.service.dto.notification.NotificationListDto;
-import kr.kakaocloud.kakeulgae.support.NotificationFixture;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@Transactional
 @ActiveProfiles("test")
 public class NotificationControllerTest {
 
     @Autowired
-    private MockMvc mockMvc;
+    protected MockMvc mockMvc;
+    @Autowired
+    MemberRepository memberRepository;
+    @Autowired
+    NotificationRepository notificationRepository;
+    @Autowired
+    CareerRepository careerRepository;
+    @Autowired
+    CareerMemberRepository careerMemberRepository;
+    @Autowired
+    EducationRepository educationRepository;
+    @Autowired
+    EducationMemberRepository educationMemberRepository;
+    @Autowired
+    JobDetailRepository jobDetailRepository;
+    @Autowired
+    JobDetailPostingRelation jobDetailPostingRelation;
+    @Autowired
+    JobPostingRepository jobPostingRepository;
+    @Autowired
+    Region2ndRepository region2ndRepository;
+    @Autowired
+    Region2ndMemberRelationRepository region2ndMemberRelationRepository;
+    @Autowired
+    WorkTypeRepository workTypeRepository;
+    @Autowired
+    WorkTypeMemberRelationRepository workTypeMemberRelationRepository;
+    @Autowired
+    PreferenceJobRepository preferenceJobRepository;
 
-    @MockBean
-    private NotificationService notificationService;
+    @Autowired
+    NotificationService sut;
+
+    @BeforeEach
+    public void setUp() {
+        Member member = createMember();
+        memberRepository.save(member);
+        CareerMemberRelation careerMemberRelation = CareerMemberRelation.createRelation(member,
+            careerRepository.findById(1L).get());
+        careerMemberRepository.save(careerMemberRelation);
+        EducationMemberRelation educationMemberRelation = EducationMemberRelation.createRelation(
+            member, educationRepository.findById(1L).get());
+        educationMemberRepository.save(educationMemberRelation);
+        PreferenceJob preferenceJob = PreferenceJob.createRelation(member,
+            jobDetailRepository.findById(1L).get());
+        preferenceJobRepository.save(preferenceJob);
+        RegionMemberRelation regionMemberRelation = RegionMemberRelation.createRelation(member,
+            region2ndRepository.findById(1L).get());
+        region2ndMemberRelationRepository.save(regionMemberRelation);
+        WorkTypeMemberRelation workTypeMemberRelation = WorkTypeMemberRelation.createRelation(
+            member, workTypeRepository.findById(1L).get());
+        workTypeMemberRelationRepository.save(workTypeMemberRelation);
+    }
 
     @Test
-    public void getNotificationListTest() throws Exception {
-        NotificationListDto notificationListDto = NotificationFixture.createNotificationListDto(
-            createMember(), createJobPosting(null, null));// replace with actual data
-        SliceResponse<NotificationListDto> sliceResponse = new SliceResponse<>(DEFAULT_SIZE,
-            Collections.singletonList(notificationListDto));
-        given(notificationService.getNotificationList(MEMBER_ID, DEFAULT_SIZE,
-            DEFAULT_LAST_ID)).willReturn(
-            sliceResponse);
-
-        mockMvc.perform(get("/api/v1/notifications/list")
-
-                .headers(NotificationFixture.createHeaders()
-                .param("size", String.valueOf(DEFAULT_SIZE))
-                .contentType(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$.content[0]", is(notificationListDto)));
+    public void createNotification() {
+        // given
+        assertEquals(0, notificationRepository.findAll().size());
+        // when
+        sut.createNotification();
+        // then
+        assertEquals(1, notificationRepository.findAll().size());
     }
 }
-*/

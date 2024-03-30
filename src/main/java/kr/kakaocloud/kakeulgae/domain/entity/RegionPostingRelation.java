@@ -10,6 +10,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
+import lombok.Getter;
 
 @Entity
 @Table(
@@ -21,6 +22,7 @@ import jakarta.persistence.UniqueConstraint;
         )
     }
 )
+@Getter
 public class RegionPostingRelation {
 
     @Id
@@ -35,5 +37,5 @@ public class RegionPostingRelation {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "region_2nd_id",
         foreignKey = @ForeignKey(name = "fk_region_posting_relation_region_2nd_id"))
-    private Region1st region2nd;
+    private Region2nd region2nd;
 }

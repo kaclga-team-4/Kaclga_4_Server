@@ -307,7 +307,7 @@ ALTER TABLE region_posting_relation
     ADD CONSTRAINT FK_REGION_POSTING_RELATION_JOB_POSTING_ID FOREIGN KEY (job_posting_id) REFERENCES job_posting (id);
 
 ALTER TABLE region_posting_relation
-    ADD CONSTRAINT FK_REGION_POSTING_RELATION_REGION_2ND_ID FOREIGN KEY (region_2nd_id) REFERENCES region_1st (id);
+    ADD CONSTRAINT FK_REGION_POSTING_RELATION_REGION_2ND_ID FOREIGN KEY (region_2nd_id) REFERENCES region_2nd (id);
 
 CREATE TABLE career_member_relation
 (
@@ -364,3 +364,10 @@ ALTER TABLE work_type_member_relation
 
 ALTER TABLE work_type_member_relation
     ADD CONSTRAINT FK_WORK_TYPE_MEMBER_RELATION_WORK_TYPE_ID FOREIGN KEY (work_type_id) REFERENCES work_type (id);
+
+CREATE TABLE last_job_posting_id
+(
+    id                  BIGINT AUTO_INCREMENT NOT NULL,
+    last_job_posting_id BIGINT                NOT NULL,
+    CONSTRAINT pk_last_job_posting_id PRIMARY KEY (id)
+);
