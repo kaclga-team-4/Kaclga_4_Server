@@ -30,7 +30,7 @@ public class NotificationService {
         Long lastId) {
         List<NotificationListDto> notifications = notificationRepository.findListByMemberId(
             memberId, size, lastId).stream().map(NotificationListDto::new).toList();
-        return new SliceResponse(size, notifications);
+        return new SliceResponse<>(size, notifications);
     }
 
     @Transactional
