@@ -10,6 +10,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import kr.kakaocloud.kakeulgae.domain.entity.member.Member;
 import kr.kakaocloud.kakeulgae.support.domain.BaseTimeEntity;
 import lombok.AccessLevel;
@@ -47,5 +49,17 @@ public class Notification extends BaseTimeEntity {
         this.contents = contents;
         this.member = member;
         this.jobPosting = jobPosting;
+    }
+
+    public Notification(Long id, Member member, JobPosting jobPosting) {
+        this.id = id;
+        this.contents = jobPosting.getPostName();
+        this.member = member;
+        this.jobPosting = jobPosting;
+        this.setCreatedAt(LocalDateTime.now());
+    }
+
+    public LocalDate getCreateAt() {
+        return super.getCreatedAt();
     }
 }

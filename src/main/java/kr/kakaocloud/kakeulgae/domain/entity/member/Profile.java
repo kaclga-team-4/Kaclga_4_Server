@@ -24,6 +24,11 @@ public class Profile extends BaseModifiableEntity {
         this.url = url;
     }
 
+    public Profile(Long id, String url) {
+        this.id = id;
+        this.url = url;
+    }
+
     public void changeProfile(
         String url) {
         this.url = url;
