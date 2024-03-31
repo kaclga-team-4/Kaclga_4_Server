@@ -32,7 +32,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.util.StringUtils;
 
 
-public class JobPostingRepositoryImpl extends QuerydslRepositorySupport implements JobPostingRepositoryCustom {
+public class JobPostingRepositoryImpl extends QuerydslRepositorySupport implements
+    JobPostingRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
 
@@ -54,9 +55,6 @@ public class JobPostingRepositoryImpl extends QuerydslRepositorySupport implemen
         }
         if (condition.getWorkTypes() != null) {
             builder.or(jobPostingWorkType.workType.id.in(condition.getWorkTypes()));
-        }
-        if (condition.getRegion2nds() != null) {
-            builder.or(regionPostingRelation.region2nd.id.in(condition.getRegion2nds()));
         }
         if (condition.getEducation() != null) {
             builder.or(jobPosting.education.id.eq(condition.getEducation()));
@@ -100,20 +98,23 @@ public class JobPostingRepositoryImpl extends QuerydslRepositorySupport implemen
     }
 
     @Override
-    public Slice<JobPosting> findBySearchBookmarkData(Long id, @Param("keyword") String keyword, Pageable pageable) {
+    public Slice<JobPosting> findBySearchBookmarkData(Long id, @Param("keyword") String keyword,
+        Pageable pageable) {
 
         String orderString = pageable.getSort().iterator().next().getProperty();
         OrderSpecifier<LocalDate> orderSpecifier = QJobPosting.jobPosting.createdAt.asc();
 
-        if(orderString.equals("deadline")) {
+        if (orderString.equals("deadline")) {
             orderSpecifier = QJobPosting.jobPosting.deadline.asc();
         }
 
         List<JobPosting> content = queryFactory
             .selectFrom(QJobPosting.jobPosting)
             .innerJoin(QJobPosting.jobPosting.bookmarks, QBookmark.bookmark)
-            .leftJoin(QJobPosting.jobPosting.jobDetailPostingRelations, QJobDetailPostingRelation.jobDetailPostingRelation)
-            .leftJoin(QJobDetailPostingRelation.jobDetailPostingRelation.jobDetail, QJobDetail.jobDetail)
+            .leftJoin(QJobPosting.jobPosting.jobDetailPostingRelations,
+                QJobDetailPostingRelation.jobDetailPostingRelation)
+            .leftJoin(QJobDetailPostingRelation.jobDetailPostingRelation.jobDetail,
+                QJobDetail.jobDetail)
             .where(
                 QBookmark.bookmark.member.id.eq(id),
                 eqKeyword(keyword)
