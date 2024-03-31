@@ -5,8 +5,6 @@ import java.util.NoSuchElementException;
 import kr.kakaocloud.kakeulgae.domain.entity.Career;
 import kr.kakaocloud.kakeulgae.domain.entity.Education;
 import kr.kakaocloud.kakeulgae.domain.entity.JobDetail;
-import kr.kakaocloud.kakeulgae.domain.entity.Region1st;
-import kr.kakaocloud.kakeulgae.domain.entity.Region2nd;
 import kr.kakaocloud.kakeulgae.domain.entity.WorkType;
 import kr.kakaocloud.kakeulgae.domain.entity.member.Member;
 import kr.kakaocloud.kakeulgae.repository.MemberRepository;
@@ -24,7 +22,6 @@ public class CategoryService {
     private final MemberRepository memberRepository;
     private final CareerService careerService;
     private final JobDetailService jobDetailService;
-    private final RegionService regionService;
     private final WorkTypeService workTypeService;
     private final EducationService educationService;
 
@@ -33,18 +30,15 @@ public class CategoryService {
         Member member = findMember(id);
 
         List<JobDetail> jobDetails = jobDetailService.saveUserJobDetail(member,
-            request.getJobDetailIds());
-        List<Region2nd> region2nds = regionService.saveUserRegion(member,
-            request.getRegion2ndIds());
-        List<Career> careers = careerService.saveUserCareer(member, request.getCareerIds());
+            request.getJobDetail());
+        List<Career> careers = careerService.saveUserCareer(member, request.getCareer());
         List<Education> educations = educationService.saveUserEducation(member,
-            request.getEducationIds());
+            request.getEducation());
         List<WorkType> workTypes = workTypeService.saveUserWorkType(member,
-            request.getWorkTypeIds());
+            request.getWorkType());
 
         return MemberInterestResponse.builder()
             .jobDetails(jobDetails)
-            .region2nds(region2nds)
             .careers(careers)
             .educations(educations)
             .workTypes(workTypes)
@@ -55,18 +49,15 @@ public class CategoryService {
         Member findMember = findMember(memberId);
 
         List<JobDetail> jobDetails = jobDetailService.updateUserJobDetail(findMember,
-            request.getJobDetailIds());
-        List<Region2nd> region2nds = regionService.updateUserRegion(findMember,
-            request.getRegion2ndIds());
-        List<Career> careers = careerService.updateUserCareer(findMember, request.getCareerIds());
+            request.getJobDetail());
+        List<Career> careers = careerService.updateUserCareer(findMember, request.getCareer());
         List<Education> educations = educationService.updateUserEducation(findMember,
-            request.getEducationIds());
+            request.getEducation());
         List<WorkType> workTypes = workTypeService.updateUserWorkType(findMember,
-            request.getWorkTypeIds());
+            request.getWorkType());
 
         return MemberInterestResponse.builder()
             .jobDetails(jobDetails)
-            .region2nds(region2nds)
             .careers(careers)
             .educations(educations)
             .workTypes(workTypes)
@@ -76,14 +67,12 @@ public class CategoryService {
     public CategoryResponse findAllCategories() {
         List<JobDetail> jobDetailList = jobDetailService.findAllJobDetails();
         List<Career> careerList = careerService.findAllCareer();
-        List<Region1st> region1stList = regionService.findAllRegion1st();
         List<WorkType> workTypeList = workTypeService.findAllWorkType();
         List<Education> educationList = educationService.findAllEducation();
 
         return CategoryResponse.builder()
             .jobDetails(jobDetailList)
             .careers(careerList)
-            .region(region1stList)
             .workTypes(workTypeList)
             .educations(educationList)
             .build();

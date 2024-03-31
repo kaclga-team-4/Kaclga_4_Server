@@ -1,11 +1,11 @@
 package kr.kakaocloud.kakeulgae.service.dto.member.interest;
 
 import kr.kakaocloud.kakeulgae.domain.entity.Education;
-import kr.kakaocloud.kakeulgae.domain.entity.Region2nd;
 import lombok.Data;
 
 @Data
 public class EducationInterestDto {
+
     private Long id;
     private String type;
 
