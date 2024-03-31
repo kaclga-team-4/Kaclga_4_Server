@@ -1,5 +1,6 @@
 package kr.kakaocloud.kakeulgae.controller;
 
+import java.util.List;
 import kr.kakaocloud.kakeulgae.security.LoginUserId;
 import kr.kakaocloud.kakeulgae.service.JobPostingService;
 import kr.kakaocloud.kakeulgae.service.dto.jobposting.JobPostingListDto;
@@ -35,7 +36,7 @@ public class JobPostingController {
 
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/jobs/search")
-    public Slice<JobPostingListDto> searchJobsAndJobDetails(@LoginUserId Long memberId,
+    public List<JobPostingListDto> searchJobsAndJobDetails(@LoginUserId Long memberId,
         @ModelAttribute JobPostingSearchCondition condition, Pageable pageable) {
         return jobPostingService.searchJobPosting(memberId, condition, pageable);
     }

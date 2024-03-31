@@ -31,11 +31,9 @@ public class JobPostingRepositoryImpl implements JobPostingRepositoryCustom {
     }
 
     @Override
-    public Slice<JobPosting> search(Long memberId, JobPostingSearchCondition condition,
+    public List<JobPosting> search(Long memberId, JobPostingSearchCondition condition,
         Pageable pageable) {
         BooleanBuilder builder = new BooleanBuilder();
-
-        System.out.println("condition = " + condition);
 
         if (condition.getCareers() != null) {
             builder.or(jobPostingCareer.career.type.in(condition.getCareers()));
@@ -53,7 +51,7 @@ public class JobPostingRepositoryImpl implements JobPostingRepositoryCustom {
             builder.or(jobPosting.education.type.eq(condition.getEducation()));
         }
 
-        List<JobPosting> content = queryFactory
+        return  queryFactory
             .selectFrom(jobPosting)
             .leftJoin(jobPosting.jobDetailPostingRelations, jobDetailPostingRelation)
             .leftJoin(jobDetailPostingRelation.jobDetail, jobDetail)
@@ -68,17 +66,15 @@ public class JobPostingRepositoryImpl implements JobPostingRepositoryCustom {
                 member.id.eq(memberId),
                 builder
             )
-            .offset(pageable.getOffset())
-            .limit(pageable.getPageSize() + 1)
             .fetch();
 
-        boolean hasNext = false;
-        int pageSize = pageable.getPageSize();
-        if (content.size() > pageSize) {
-            content.remove(pageSize);
-            hasNext = true;
-        }
-
-        return new SliceImpl<>(content, pageable, hasNext);
+//        boolean hasNext = false;
+//        int pageSize = pageable.getPageSize();
+//        if (content.size() > pageSize) {
+//            content.remove(pageSize);
+//            hasNext = true;
+//        }
+//
+//        return new SliceImpl<>(content, pageable, hasNext);
     }
 }

@@ -1,5 +1,6 @@
 package kr.kakaocloud.kakeulgae.service;
 
+import java.util.List;
 import kr.kakaocloud.kakeulgae.domain.entity.JobPosting;
 import kr.kakaocloud.kakeulgae.repository.JobPostingRepository;
 import kr.kakaocloud.kakeulgae.service.dto.jobposting.JobPostingListDto;
@@ -25,9 +26,9 @@ public class JobPostingService {
             .map(JobPostingListDto::new);
     }
 
-    public Slice<JobPostingListDto> searchJobPosting(Long memberId,
+    public List<JobPostingListDto> searchJobPosting(Long memberId,
         JobPostingSearchCondition condition, Pageable pageable) {
-        Slice<JobPosting> results = jobPostingRepository.search(memberId, condition, pageable);
-        return results.map(JobPostingListDto::new);
+        List<JobPosting> results = jobPostingRepository.search(memberId, condition, pageable);
+        return results.stream().map(JobPostingListDto::new).toList();
     }
 }
