@@ -47,19 +47,19 @@ public class JobPostingRepositoryImpl extends QuerydslRepositorySupport implemen
         BooleanBuilder builder = new BooleanBuilder();
 
         if (condition.getCareers() != null) {
-            builder.or(jobPostingCareer.career.type.in(condition.getCareers()));
+            builder.or(jobPostingCareer.career.id.in(condition.getCareers()));
         }
         if (condition.getJobDetails() != null) {
-            builder.or(jobDetailPostingRelation.jobDetail.type.in(condition.getJobDetails()));
+            builder.or(jobDetailPostingRelation.jobDetail.id.in(condition.getJobDetails()));
         }
         if (condition.getWorkTypes() != null) {
-            builder.or(jobPostingWorkType.workType.type.in(condition.getWorkTypes()));
+            builder.or(jobPostingWorkType.workType.id.in(condition.getWorkTypes()));
         }
         if (condition.getRegion2nds() != null) {
-            builder.or(regionPostingRelation.region2nd.type.in(condition.getRegion2nds()));
+            builder.or(regionPostingRelation.region2nd.id.in(condition.getRegion2nds()));
         }
         if (condition.getEducation() != null) {
-            builder.or(jobPosting.education.type.eq(condition.getEducation()));
+            builder.or(jobPosting.education.id.eq(condition.getEducation()));
         }
 
         return queryFactory

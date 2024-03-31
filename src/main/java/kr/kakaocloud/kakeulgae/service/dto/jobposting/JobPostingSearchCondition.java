@@ -8,9 +8,9 @@ import lombok.NoArgsConstructor;
 @Data
 public class JobPostingSearchCondition {
 
-    private List<String> region2nds;
-    private List<String> workTypes;
-    private String education;
-    private List<String> careers;
-    private List<String> jobDetails;
+    private List<Long> region2nds;
+    private List<Long> workTypes;
+    private Long education;
+    private List<Long> careers;
+    private List<Long> jobDetails;
 }
