@@ -1,17 +1,14 @@
 package kr.kakaocloud.kakeulgae.service;
 
-import java.io.InputStream;
-import java.net.URL;
-import javax.annotation.Nullable;
 import kr.kakaocloud.kakeulgae.domain.entity.member.Member;
 import kr.kakaocloud.kakeulgae.domain.entity.member.Profile;
 import kr.kakaocloud.kakeulgae.repository.MemberRepository;
 import kr.kakaocloud.kakeulgae.security.FirebaseTokenHelper;
 import kr.kakaocloud.kakeulgae.service.dto.auth.GoogleInformation;
+import kr.kakaocloud.kakeulgae.service.dto.auth.GoogleRegisterRequest;
 import kr.kakaocloud.kakeulgae.service.dto.auth.RegisterRequest;
 import kr.kakaocloud.kakeulgae.service.dto.member.MemberSimpleResponse;
 import kr.kakaocloud.kakeulgae.support.exception.KakeulgaeException.ExistResourceException;
-import kr.kakaocloud.kakeulgae.support.exception.KakeulgaeException.UnRegisteredMemberException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,19 +23,14 @@ public class AuthenticationService {
     final FirebaseTokenHelper firebaseTokenHelper; //firebaseTokenHelper는 구글 토큰을 파싱하는 클래스
     final FileService fileService; //fileService는 파일을 저장하는 클래스
 
-
-    public void googleLoginProcess(String googleMemberName) {
-        if (!memberRepository.existsAllByMemberName(googleMemberName)) {
-            throw new UnRegisteredMemberException("$googleMemberName: 존재하지 않는 회원입니다");
-        }
-    }
-
     @Transactional
-    public MemberSimpleResponse register(RegisterRequest registerRequest,
-        @Nullable String profileUrl) {
+    public MemberSimpleResponse register(GoogleRegisterRequest registerRequest) {
+        GoogleInformation googleInformation = getGoogleinfomation(
+            registerRequest.getIdToken());//구글 정보를 업데이트
+        registerRequest.updateMemberImpomation(googleInformation);
         validateRegisterInformation(registerRequest);
-
-        Member member = memberRepository.save(createMember(registerRequest, profileUrl));
+        Member member = memberRepository.save(
+            createMember(registerRequest, googleInformation.profileUrl));
         return new MemberSimpleResponse(member);
     }
 
@@ -78,33 +70,8 @@ public class AuthenticationService {
             getMemberNameByIdToken(idToken));
     }
 
-    private String saveProfile(String profileUrl) {
-        InputStream inputStream = null; //InputStream은 바이트 단위로 읽어들이는 클래스
-        try {
-            URL url = new URL(profileUrl);
-            inputStream = url.openStream(); //url.openStream()은 url을 통해 읽어들인 스트림을 반환
-            return fileService.saveProfile(inputStream);
-        } catch (Exception e) {
-        } finally {
-            if (inputStream != null) {
-                try {
-                    inputStream.close(); //inputStream을 닫음
-                } catch (Exception e) {
-                }
-            }
-        }
-        return null;
-    }
-
     private Member createMember(
         RegisterRequest registerRequest, String profileUrl) {
-        String profileName = saveProfile(profileUrl);
-        Profile profile;
-        if (profileName != null) {
-            profile = new Profile(profileName);
-        } else {
-            profile = new Profile("default.webp");
-        }
         return Member.builder()
             .email(registerRequest.email)
             .memberName(registerRequest.memberName)
@@ -114,7 +81,7 @@ public class AuthenticationService {
             .birthday(registerRequest.birthday)
             .socialType(registerRequest.socialType)
             .memberRole(registerRequest.memberRole)
-            .profile(profile)
+            .profile(new Profile(profileUrl))
             .build();
     }
 }

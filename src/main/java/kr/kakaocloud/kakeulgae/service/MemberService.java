@@ -18,6 +18,7 @@ import kr.kakaocloud.kakeulgae.service.dto.member.interest.MemberInterestRespons
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @RequiredArgsConstructor
@@ -29,6 +30,7 @@ public class MemberService {
     private final RegionService regionService;
     private final WorkTypeService workTypeService;
     private final EducationService educationService;
+    private final FileService fileService;
 
 
     public MemberSimpleResponse getSimpleInformation(Long userId) {
@@ -90,5 +92,14 @@ public class MemberService {
             .educations(educations)
             .workTypes(workTypes)
             .build();
+    }
+
+    @Transactional
+    public String updateProfile(Long userId, MultipartFile profileImage) {
+        Member findMember = memberRepository.findById(userId).orElseThrow(() ->
+            new NoSuchElementException("해당 유저가 존재하지 않습니다"));
+        findMember.getProfile().changeProfile(fileService.saveProfile(profileImage));
+        memberRepository.save(findMember);
+        return findMember.getProfile().getUrl();
     }
 }
