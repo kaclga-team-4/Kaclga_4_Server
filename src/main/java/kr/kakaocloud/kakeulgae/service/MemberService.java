@@ -17,10 +17,6 @@ import org.springframework.web.multipart.MultipartFile;
 public class MemberService {
 
     private final MemberRepository memberRepository;
-    private final CareerService careerService;
-    private final JobDetailService jobDetailService;
-    private final WorkTypeService workTypeService;
-    private final EducationService educationService;
     private final FileService fileService;
 
 
