@@ -6,7 +6,7 @@ import kr.kakaocloud.kakeulgae.domain.entity.JobDetail;
 import kr.kakaocloud.kakeulgae.domain.entity.member.Member;
 import kr.kakaocloud.kakeulgae.domain.entity.member.PreferenceJob;
 import kr.kakaocloud.kakeulgae.repository.JobDetailRepository;
-import kr.kakaocloud.kakeulgae.repository.PreferenceJobRepository;
+import kr.kakaocloud.kakeulgae.repository.PreferenceJob.PreferenceJobRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
