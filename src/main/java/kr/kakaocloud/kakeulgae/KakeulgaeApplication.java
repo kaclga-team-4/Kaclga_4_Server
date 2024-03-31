@@ -9,7 +9,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @SpringBootApplication
 @EnableScheduling
 public class KakeulgaeApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(KakeulgaeApplication.class, args);
     }
