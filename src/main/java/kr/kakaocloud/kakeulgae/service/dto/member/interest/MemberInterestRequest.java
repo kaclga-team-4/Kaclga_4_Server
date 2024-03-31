@@ -6,8 +6,8 @@ import lombok.Data;
 @Data
 public class MemberInterestRequest {
 
-    private List<Long> jobDetail;
+    private List<Long> jobDetails;
     private List<Long> career;
     private List<Long> education;
-    private List<Long> workType;
+    private List<Long> work_type;
 }
