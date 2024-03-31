@@ -45,7 +45,7 @@ public class NotificationService {
                 List<Member> members = preferenceJobRepository.findMemberByJobPosting(jobPosting);
                 for (Member member : members) {
                     notifications.add(new Notification(
-                        STR."[\{jobPosting.getCompanyName()}]\{jobPosting.getPostName()}", member,
+                        STR."[\{jobPosting.getCompanyName()}] \{jobPosting.getPostName()}", member,
                         jobPosting));
                 }
             }
