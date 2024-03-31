@@ -1,5 +1,6 @@
 package kr.kakaocloud.kakeulgae.repository;
 
+import java.util.List;
 import kr.kakaocloud.kakeulgae.domain.entity.JobPosting;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -29,4 +30,6 @@ public interface JobPostingRepository extends JpaRepository<JobPosting, Long>,
         + " where bmk.member.id=:memberId")
     Slice<JobPosting> findJobPostingIdsByUserIdToSlice(@Param("memberId") Long memberId,
         Pageable pageable);
+
+    List<JobPosting> findByIdGreaterThan(Long id);
 }
