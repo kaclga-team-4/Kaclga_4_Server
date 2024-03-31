@@ -16,4 +16,8 @@ public class TestPostRequest {
     private String name;
 
     private List<MultipartFile> images = new ArrayList<>();
+
+    public TestPostRequest(String testName) {
+        this.name = testName;
+    }
 }

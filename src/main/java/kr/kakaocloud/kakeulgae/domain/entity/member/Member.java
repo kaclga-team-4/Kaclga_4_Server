@@ -72,4 +72,17 @@ public class Member extends BaseModifiableEntity {
     @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE,
         CascadeType.REMOVE}) // member가 삭제되면 profile도 삭제
     private Profile profile;
+
+    public Member(Long memberId, String memberName, String memberEmail, String memberPhone,
+        String nickname, Profile memberProfile) {
+        this.id = memberId;
+        this.memberName = memberName;
+        this.email = memberEmail;
+        this.nickname = nickname;
+        this.phoneNumber = memberPhone;
+        this.profile = memberProfile;
+        this.socialType = SocialType.GOOGLE;
+        this.memberRole = MemberRole.ROLE_USER;
+        this.noticeCheck = NoticeCheck.CHECKED;
+    }
 }

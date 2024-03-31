@@ -28,9 +28,4 @@ public class WorkType {
 
     @NotEmpty
     private String type;
-
-    public WorkType(long l, String splt) {
-        this.id = l;
-        this.type = splt;
-    }
 }

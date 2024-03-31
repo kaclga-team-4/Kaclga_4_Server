@@ -12,11 +12,20 @@ java {
 }
 
 compileJava {
-    options.compilerArgs += ['--enable-preview']
+    options.compilerArgs += '--enable-preview'
+    sourceCompatibility = '21'
+    targetCompatibility = '21'
+}
+
+test {
+    useJUnitPlatform()
+    jvmArgs '--enable-preview'
 }
 
 compileTestJava {
-    options.compilerArgs += ['--enable-preview']
+    options.compilerArgs += '--enable-preview'
+    sourceCompatibility = '21'
+    targetCompatibility = '21'
 }
 
 configurations {
@@ -43,9 +52,14 @@ dependencies {
     implementation 'com.google.firebase:firebase-admin:9.1.1'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'com.google.auth:google-auth-library-oauth2-http:1.12.1'
+    implementation "com.querydsl:querydsl-jpa:5.0.0:jakarta"
+    annotationProcessor "com.querydsl:querydsl-apt:5.0.0:jakarta"
+    annotationProcessor "jakarta.annotation:jakarta.annotation-api"
+    annotationProcessor "jakarta.persistence:jakarta.persistence-api"
 
     testCompileOnly 'org.projectlombok:lombok:1.18.30'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.30'
+    runtimeOnly 'com.h2database:h2'
 
     // querydsl
     implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
@@ -54,9 +68,19 @@ dependencies {
     annotationProcessor "jakarta.persistence:jakarta.persistence-api"
 }
 
-tasks.named('test') {
-    useJUnitPlatform()
-    jvmArgs(['--enable-preview'])
+def generated = 'src/main/generated'
+
+
+sourceSets {
+    main.java.srcDir generated // for generated files
+}
+
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+    querydsl.extendsFrom compileClasspath
 }
 
 tasks.withType(JavaCompile).configureEach {

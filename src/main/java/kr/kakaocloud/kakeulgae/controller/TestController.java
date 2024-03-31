@@ -10,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -41,7 +40,7 @@ public class TestController {
 
     @PostMapping("/image")
     @ResponseStatus(HttpStatus.OK)
-    public List<String> saveImage(@ModelAttribute TestPostRequest imageSaveDto) {
+    public List<String> saveImage(@RequestBody TestPostRequest imageSaveDto) {
         return imageService.saveImages(imageSaveDto);
     }
 }

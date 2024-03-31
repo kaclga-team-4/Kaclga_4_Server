@@ -21,12 +21,12 @@ public class JobPostingController {
 
     private final JobPostingService jobPostingService;
 
-    @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/jobs/details")
-    public Slice<JobPostingListDto> jobsAndjobDetails(@LoginUserId Long memberId,
-        Pageable pageable) {
-        return jobPostingService.findJobPostingsByDetails(memberId, pageable);
-    }
+//    @ResponseStatus(HttpStatus.OK)
+//    @GetMapping("/jobs/details")
+//    public Slice<JobPostingListDto> jobsAndJobDetails(@LoginUserId Long memberId,
+//        Pageable pageable) {
+//        return jobPostingService.findJobPostingsByDetails(memberId, pageable);
+//    }
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/jobs")

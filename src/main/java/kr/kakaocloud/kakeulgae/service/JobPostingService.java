@@ -21,10 +21,10 @@ public class JobPostingService {
             .map(JobPostingListDto::new);
     }
 
-    public Slice<JobPostingListDto> findJobPostingsByDetails(Long memberId, Pageable pageable) {
-        return jobPostingRepository.findAllByMemberId(memberId, pageable)
-            .map(JobPostingListDto::new);
-    }
+//    public Slice<JobPostingListDto> findJobPostingsByDetails(Long memberId, Pageable pageable) {
+//        return jobPostingRepository.findAllByMemberId(memberId, pageable)
+//            .map(JobPostingListDto::new);
+//    }
 
     public List<JobPostingListDto> searchJobPosting(Long memberId,
         JobPostingSearchCondition condition, Pageable pageable) {
