@@ -8,6 +8,7 @@ import lombok.Data;
 @Data
 public class JobPostingListDto {
 
+    private Long id;
     private String companyName;
     private String postName;
     private String url;
@@ -19,6 +20,7 @@ public class JobPostingListDto {
     private List<String> careers;
 
     public JobPostingListDto(JobPosting jobPosting) {
+        id = jobPosting.getId();
         companyName = jobPosting.getCompanyName();
         postName = jobPosting.getPostName();
         url = jobPosting.getUrl();
