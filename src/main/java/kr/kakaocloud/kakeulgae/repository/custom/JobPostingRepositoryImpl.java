@@ -32,7 +32,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.util.StringUtils;
 
 
-public class JobPostingRepositoryImpl extends QuerydslRepositorySupport implements JobPostingRepositoryCustom {
+public class JobPostingRepositoryImpl extends QuerydslRepositorySupport implements
+    JobPostingRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
 
@@ -47,19 +48,16 @@ public class JobPostingRepositoryImpl extends QuerydslRepositorySupport implemen
         BooleanBuilder builder = new BooleanBuilder();
 
         if (condition.getCareers() != null) {
-            builder.or(jobPostingCareer.career.type.in(condition.getCareers()));
+            builder.or(jobPostingCareer.career.id.in(condition.getCareers()));
         }
         if (condition.getJobDetails() != null) {
-            builder.or(jobDetailPostingRelation.jobDetail.type.in(condition.getJobDetails()));
+            builder.or(jobDetailPostingRelation.jobDetail.id.in(condition.getJobDetails()));
         }
         if (condition.getWorkTypes() != null) {
-            builder.or(jobPostingWorkType.workType.type.in(condition.getWorkTypes()));
-        }
-        if (condition.getRegion2nds() != null) {
-            builder.or(regionPostingRelation.region2nd.type.in(condition.getRegion2nds()));
+            builder.or(jobPostingWorkType.workType.id.in(condition.getWorkTypes()));
         }
         if (condition.getEducation() != null) {
-            builder.or(jobPosting.education.type.eq(condition.getEducation()));
+            builder.or(jobPosting.education.id.eq(condition.getEducation()));
         }
 
         return queryFactory
@@ -100,20 +98,23 @@ public class JobPostingRepositoryImpl extends QuerydslRepositorySupport implemen
     }
 
     @Override
-    public Slice<JobPosting> findBySearchBookmarkData(Long id, @Param("keyword") String keyword, Pageable pageable) {
+    public Slice<JobPosting> findBySearchBookmarkData(Long id, @Param("keyword") String keyword,
+        Pageable pageable) {
 
         String orderString = pageable.getSort().iterator().next().getProperty();
         OrderSpecifier<LocalDate> orderSpecifier = QJobPosting.jobPosting.createdAt.asc();
 
-        if(orderString.equals("deadline")) {
+        if (orderString.equals("deadline")) {
             orderSpecifier = QJobPosting.jobPosting.deadline.asc();
         }
 
         List<JobPosting> content = queryFactory
             .selectFrom(QJobPosting.jobPosting)
             .innerJoin(QJobPosting.jobPosting.bookmarks, QBookmark.bookmark)
-            .leftJoin(QJobPosting.jobPosting.jobDetailPostingRelations, QJobDetailPostingRelation.jobDetailPostingRelation)
-            .leftJoin(QJobDetailPostingRelation.jobDetailPostingRelation.jobDetail, QJobDetail.jobDetail)
+            .leftJoin(QJobPosting.jobPosting.jobDetailPostingRelations,
+                QJobDetailPostingRelation.jobDetailPostingRelation)
+            .leftJoin(QJobDetailPostingRelation.jobDetailPostingRelation.jobDetail,
+                QJobDetail.jobDetail)
             .where(
                 QBookmark.bookmark.member.id.eq(id),
                 eqKeyword(keyword)
