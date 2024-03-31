@@ -27,6 +27,6 @@ public class NotificationRepositoryImpl implements NotificationRepositoryCustom 
     }
 
     private BooleanExpression dynamicPredicateByLastId(Long lastId) {
-        return lastId != null ? QNotification.notification.id.lt(lastId) : null;
+        return lastId != 0 ? QNotification.notification.id.lt(lastId) : null;
     }
 }

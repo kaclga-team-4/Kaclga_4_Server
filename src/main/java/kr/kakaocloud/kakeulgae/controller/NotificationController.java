@@ -28,8 +28,7 @@ public class NotificationController {
         @RequestParam(name = "size", defaultValue = "10", required = false)
         @Positive(message = "size는 0보다 커야 합니다.")
         int size,
-        @Positive(message = "lastId는 0보다 커야 합니다.")
-        @RequestParam(name = "lastId", required = false)
+        @RequestParam(name = "lastId", required = false, defaultValue = "0")
         Long lastId
     ) {
         SliceResponse<NotificationListDto> response = notificationService.getNotificationList(
