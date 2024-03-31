@@ -1,14 +1,13 @@
 package kr.kakaocloud.kakeulgae.service;
 
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
+import java.util.List;
 import java.util.Set;
-import kr.kakaocloud.kakeulgae.repository.JobDetailRepository;
+import kr.kakaocloud.kakeulgae.domain.entity.JobPosting;
 import kr.kakaocloud.kakeulgae.repository.JobPostingRepository;
 import kr.kakaocloud.kakeulgae.service.dto.jobposting.JobPostingListDto;
+import kr.kakaocloud.kakeulgae.service.dto.jobposting.JobPostingSearchCondition;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
@@ -29,17 +28,23 @@ public class JobPostingService {
             .map(JobPostingListDto::new);
     }
 
+    public List<JobPostingListDto> searchJobPosting(Long memberId,
+        JobPostingSearchCondition condition, Pageable pageable) {
+        List<JobPosting> results = jobPostingRepository.search(memberId, condition, pageable);
+        return results.stream().map(JobPostingListDto::new).toList();
+    }
+
     public Set<String> getPreferenceData(Long memberId, Pageable pageable) {
         Set<String> arr = new HashSet<>();
         Slice<JobPostingListDto> jobPostingListDtos = findJobPostingsByDetails(memberId, pageable);
-        for(JobPostingListDto ele : jobPostingListDtos){
-            for(String elel : ele.getWorkTypes()){
+        for (JobPostingListDto ele : jobPostingListDtos) {
+            for (String elel : ele.getWorkTypes()) {
                 arr.add(elel);
             }
-            for(String elel : ele.getJobDetailTypes()){
+            for (String elel : ele.getJobDetailTypes()) {
                 arr.add(elel);
             }
-            for(String elel : ele.getCareers()){
+            for (String elel : ele.getCareers()) {
                 arr.add(elel);
             }
         }
