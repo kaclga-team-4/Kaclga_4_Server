@@ -15,9 +15,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import jakarta.persistence.UniqueConstraint;
 import kr.kakaocloud.kakeulgae.domain.entity.member.Member;
+import lombok.Getter;
 
-@Getter
 @Entity
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(
     name = "preference_job",
