@@ -1,19 +1,12 @@
 package kr.kakaocloud.kakeulgae.service;
 
-import java.util.List;
 import java.util.NoSuchElementException;
-import kr.kakaocloud.kakeulgae.domain.entity.Career;
-import kr.kakaocloud.kakeulgae.domain.entity.Education;
-import kr.kakaocloud.kakeulgae.domain.entity.JobDetail;
-import kr.kakaocloud.kakeulgae.domain.entity.WorkType;
 import kr.kakaocloud.kakeulgae.domain.entity.member.Member;
 import kr.kakaocloud.kakeulgae.repository.MemberRepository;
 import kr.kakaocloud.kakeulgae.service.dto.member.MemberResponse;
 import kr.kakaocloud.kakeulgae.service.dto.member.MemberSimpleResponse;
 import kr.kakaocloud.kakeulgae.service.dto.member.MemberUpdateNotification;
 import kr.kakaocloud.kakeulgae.service.dto.member.MemberUpdateReqeust;
-import kr.kakaocloud.kakeulgae.service.dto.member.interest.MemberInterestRequest;
-import kr.kakaocloud.kakeulgae.service.dto.member.interest.MemberInterestResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,10 +17,6 @@ import org.springframework.web.multipart.MultipartFile;
 public class MemberService {
 
     private final MemberRepository memberRepository;
-    private final CareerService careerService;
-    private final JobDetailService jobDetailService;
-    private final WorkTypeService workTypeService;
-    private final EducationService educationService;
     private final FileService fileService;
 
 
@@ -66,27 +55,6 @@ public class MemberService {
             new NoSuchElementException("해당 유저가 존재하지 않습니다"));
         findMember.setNoticeCheck(request.getNoticeCheck());
         memberRepository.save(findMember);
-    }
-
-    @Transactional
-    public MemberInterestResponse createUserInterest(Long id, MemberInterestRequest request) {
-        Member member = memberRepository.findById(id).orElseThrow(() ->
-            new NoSuchElementException("해당 유저가 존재하지 않습니다"));
-
-        List<JobDetail> jobDetails = jobDetailService.saveUserJobDetail(member,
-            request.getJobDetail());
-        List<Career> careers = careerService.saveUserCareer(member, request.getCareer());
-        List<Education> educations = educationService.saveUserEducation(member,
-            request.getEducation());
-        List<WorkType> workTypes = workTypeService.saveUserWorkType(member,
-            request.getWorkType());
-
-        return MemberInterestResponse.builder()
-            .jobDetails(jobDetails)
-            .careers(careers)
-            .educations(educations)
-            .workTypes(workTypes)
-            .build();
     }
 
     @Transactional
