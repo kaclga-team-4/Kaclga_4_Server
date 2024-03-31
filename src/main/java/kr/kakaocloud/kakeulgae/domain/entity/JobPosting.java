@@ -67,7 +67,7 @@ public class JobPosting {
     @Column(name = "created_at")
     private LocalDate createdAt;
 
-    public JobPosting(String companyName, String postName, Education education, Career career,
+    public JobPosting(String companyName, String postName, Education education,
         String url, LocalDate deadline, LocalDate createdAt) {
         this.companyName = companyName;
         this.postName = postName;

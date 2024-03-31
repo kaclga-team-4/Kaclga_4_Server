@@ -81,5 +81,8 @@ public class Member extends BaseModifiableEntity {
         this.nickname = nickname;
         this.phoneNumber = memberPhone;
         this.profile = memberProfile;
+        this.socialType = SocialType.GOOGLE;
+        this.memberRole = MemberRole.ROLE_USER;
+        this.noticeCheck = NoticeCheck.CHECKED;
     }
 }

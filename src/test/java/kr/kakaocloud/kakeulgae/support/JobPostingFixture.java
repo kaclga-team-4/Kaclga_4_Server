@@ -17,8 +17,8 @@ public class JobPostingFixture {
         @Nullable String postName) {
         companyName = companyName == null ? COMPANYNAME : companyName;
         postName = postName == null ? POSTNAME : postName;
-        return new JobPosting(companyName, postName, EducationFixture.createEducation(),
-            CareerFixture.createCareer(), URL, DEADLINE, CREATEDAT);
+        return new JobPosting(companyName, postName, EducationFixture.createEducation(), URL,
+            DEADLINE, CREATEDAT);
     }
 
     public JobPostingSimpleResponse createJobPostingSimpleResponse(@Nullable JobPosting job) {
