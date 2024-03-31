@@ -12,12 +12,14 @@ public class NotificationListDto {
 
     private Long id;
     private long memberId;
+    private String contents;
     private JobPostingSimpleResponse jobPosting;
     private LocalDate createdAt;
 
     public NotificationListDto(Notification notification) {
         this.id = notification.getId();
         this.memberId = notification.getMember().getId();
+        this.contents = notification.getContents();
         this.jobPosting = new JobPostingSimpleResponse(notification.getJobPosting());
         this.createdAt = notification.getCreatedAt();
     }

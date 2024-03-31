@@ -9,12 +9,10 @@ import lombok.Setter;
 public class JobPostingSimpleResponse {
 
     private Long id;
-    private String title;
     private String url;
 
     public JobPostingSimpleResponse(JobPosting jobPosting) {
         this.id = jobPosting.getId();
-        this.title = jobPosting.getPostName();
         this.url = jobPosting.getUrl();
     }
 }
