@@ -52,12 +52,12 @@ public class JobPostingRepositoryImpl extends QuerydslRepositorySupport implemen
     }
 
     @Override
-    public Slice<JobPosting> findBySearchBookmarkData(Long id, @Param("keyword") String keyword, Pageable pageable){
+    public Slice<JobPosting> findBySearchBookmarkData(Long id, @Param("keyword") String keyword, Pageable pageable) {
 
         String orderString = pageable.getSort().iterator().next().getProperty();
         OrderSpecifier<LocalDate> orderSpecifier = QJobPosting.jobPosting.createdAt.asc();
 
-        if(orderString.equals("deadline")){
+        if(orderString.equals("deadline")) {
             orderSpecifier = QJobPosting.jobPosting.deadline.asc();
         }
 
@@ -72,14 +72,12 @@ public class JobPostingRepositoryImpl extends QuerydslRepositorySupport implemen
             )
             .orderBy(orderSpecifier)
             .offset(pageable.getOffset())
-            .limit(pageable.getPageSize()+1)
+            .limit(pageable.getPageSize() + 1)
             .fetch();
 
-
         boolean hasNext = false;
-        int pageSize = pageable.getPageSize();
-        if (content.size() > pageSize) {
-            content.remove(pageSize);
+        if (content.size() > pageable.getPageSize()) {
+            content.remove(pageable.getPageSize());
             hasNext = true;
         }
 
