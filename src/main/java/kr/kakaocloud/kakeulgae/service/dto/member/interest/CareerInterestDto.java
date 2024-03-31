@@ -1,7 +1,6 @@
 package kr.kakaocloud.kakeulgae.service.dto.member.interest;
 
 import kr.kakaocloud.kakeulgae.domain.entity.Career;
-import kr.kakaocloud.kakeulgae.domain.entity.Region2nd;
 import lombok.Data;
 
 @Data
