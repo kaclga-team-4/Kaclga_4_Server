@@ -30,12 +30,12 @@ public class CategoryService {
         Member member = findMember(id);
 
         List<JobDetail> jobDetails = jobDetailService.saveUserJobDetail(member,
-            request.getJobDetail());
+            request.getJobDetails());
         List<Career> careers = careerService.saveUserCareer(member, request.getCareer());
         List<Education> educations = educationService.saveUserEducation(member,
             request.getEducation());
         List<WorkType> workTypes = workTypeService.saveUserWorkType(member,
-            request.getWorkType());
+            request.getWork_type());
 
         return MemberInterestResponse.builder()
             .jobDetails(jobDetails)
@@ -49,12 +49,12 @@ public class CategoryService {
         Member findMember = findMember(memberId);
 
         List<JobDetail> jobDetails = jobDetailService.updateUserJobDetail(findMember,
-            request.getJobDetail());
+            request.getJobDetails());
         List<Career> careers = careerService.updateUserCareer(findMember, request.getCareer());
         List<Education> educations = educationService.updateUserEducation(findMember,
             request.getEducation());
         List<WorkType> workTypes = workTypeService.updateUserWorkType(findMember,
-            request.getWorkType());
+            request.getWork_type());
 
         return MemberInterestResponse.builder()
             .jobDetails(jobDetails)

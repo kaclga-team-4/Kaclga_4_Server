@@ -39,7 +39,7 @@ public class JobPostingController {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @PostMapping("/jobs/search")
+    @GetMapping("/jobs/search")
     public List<JobPostingListDto> searchJobsAndJobDetails(@LoginUserId Long memberId,
         @RequestBody JobPostingSearchCondition condition, Pageable pageable) {
         return jobPostingService.searchJobPosting(memberId, condition, pageable);
