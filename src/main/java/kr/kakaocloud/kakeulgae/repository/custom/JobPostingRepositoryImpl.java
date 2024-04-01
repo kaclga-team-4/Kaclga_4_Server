@@ -132,4 +132,36 @@ public class JobPostingRepositoryImpl extends QuerydslRepositorySupport implemen
 
         return new SliceImpl<>(content, pageable, hasNext);
     }
+
+    @Override
+    public Slice<JobPosting> findBySearchJobData(@Param("keyword") String keyword, Pageable pageable){
+
+        String orderStrings = pageable.getSort().iterator().next().getProperty();
+        OrderSpecifier<LocalDate> orderSpecifier = QJobPosting.jobPosting.createdAt.asc();
+
+        if(orderStrings.equals("deadline")) {
+            orderSpecifier = QJobPosting.jobPosting.deadline.asc();
+        }
+
+        List<JobPosting> content = queryFactory
+            .selectFrom(QJobPosting.jobPosting)
+            .leftJoin(QJobPosting.jobPosting.jobDetailPostingRelations, QJobDetailPostingRelation.jobDetailPostingRelation)
+            .leftJoin(QJobDetailPostingRelation.jobDetailPostingRelation.jobDetail, QJobDetail.jobDetail)
+            .where(
+                eqKeyword(keyword)
+            )
+            .orderBy(orderSpecifier)
+            .offset(pageable.getOffset())
+            .limit(pageable.getPageSize() + 1)
+            .fetch();
+
+        boolean hasNext = false;
+        if (content.size() > pageable.getPageSize()) {
+            content.remove(pageable.getPageSize());
+            hasNext = true;
+        }
+
+        return new SliceImpl<>(content, pageable, hasNext);
+    }
+
 }

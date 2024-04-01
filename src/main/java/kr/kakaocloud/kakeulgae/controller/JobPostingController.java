@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Set;
 import kr.kakaocloud.kakeulgae.security.LoginUserId;
 import kr.kakaocloud.kakeulgae.service.JobPostingService;
+import kr.kakaocloud.kakeulgae.service.dto.bookmark.BookmarkListDto;
 import kr.kakaocloud.kakeulgae.service.dto.jobposting.JobPostingListDto;
 import kr.kakaocloud.kakeulgae.service.dto.jobposting.JobPostingSearchCondition;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -43,6 +45,11 @@ public class JobPostingController {
     public List<JobPostingListDto> searchJobsAndJobDetails(@LoginUserId Long memberId,
         @RequestBody JobPostingSearchCondition condition, Pageable pageable) {
         return jobPostingService.searchJobPosting(memberId, condition, pageable);
+    }
+
+    @GetMapping("/searchJob")
+    public Slice<BookmarkListDto> getSearchJob(@RequestParam(value = "keyword") String keyword, Pageable pageable){
+        return jobPostingService.getSliceSearchJobData(keyword, pageable);
     }
 
     @GetMapping("jobs/preference")
