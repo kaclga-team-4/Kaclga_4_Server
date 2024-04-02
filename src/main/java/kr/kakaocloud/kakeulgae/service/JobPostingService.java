@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Set;
 import kr.kakaocloud.kakeulgae.domain.entity.JobPosting;
 import kr.kakaocloud.kakeulgae.repository.JobPostingRepository;
-import kr.kakaocloud.kakeulgae.service.dto.bookmark.BookmarkListDto;
 import kr.kakaocloud.kakeulgae.service.dto.jobposting.JobPostingListDto;
 import kr.kakaocloud.kakeulgae.service.dto.jobposting.JobPostingSearchCondition;
 import lombok.RequiredArgsConstructor;
@@ -51,10 +50,5 @@ public class JobPostingService {
         }
 
         return arr;
-    }
-
-    public Slice<BookmarkListDto> getSliceSearchJobData(String keyword, Pageable pageable){
-        Slice<BookmarkListDto> bookmarkListDtosToJobData = jobPostingRepository.findBySearchJobData(keyword, pageable).map(BookmarkListDto::new);
-        return bookmarkListDtosToJobData;
     }
 }

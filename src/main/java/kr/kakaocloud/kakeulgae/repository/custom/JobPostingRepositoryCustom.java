@@ -11,6 +11,4 @@ public interface JobPostingRepositoryCustom {
 
     List<JobPosting> search(Long memberId, JobPostingSearchCondition condition, Pageable pageable);
     Slice<JobPosting> findBySearchBookmarkData(Long id, @Param("keyword") String keyword, Pageable pageable);
-
-    Slice<JobPosting> findBySearchJobData(@Param("keyword") String keyword, Pageable pageable);
 }
